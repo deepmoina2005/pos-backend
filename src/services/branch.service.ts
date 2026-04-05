@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
 import { createBranchSchema, updateBranchSchema } from "../schemas/store.schema.js";
 import { ResourceNotFoundError } from "../exceptions/AppError.js";
 import { z } from "zod";
@@ -9,7 +10,7 @@ type UpdateBranchInput = z.infer<typeof updateBranchSchema>;
 export class BranchService {
   static async createBranch(data: CreateBranchInput) {
     const storeId = data.storeId || 0;
-    const store = await prisma.store.findUnique({ where: { id: storeId } });
+    const store = await withDbRetry(() => prisma.store.findUnique({ where: { id: storeId } }));
     if (!store) throw new ResourceNotFoundError("Store", storeId);
 
     return await prisma.branch.create({
@@ -38,26 +39,26 @@ export class BranchService {
   }
 
   static async getBranchById(id: number) {
-    const branch = await prisma.branch.findUnique({
+    const branch = await withDbRetry(() => prisma.branch.findUnique({
       where: { id },
       include: {
         store: true,
         manager: { select: { id: true, email: true, fullName: true } },
       },
-    });
+    }));
 
     if (!branch) throw new ResourceNotFoundError("Branch", id);
     return branch;
   }
 
   static async getBranchesByStore(storeId: number) {
-    return await prisma.branch.findMany({
+    return await withDbRetry(() => prisma.branch.findMany({
       where: { storeId },
       include: {
         manager: { select: { id: true, email: true, fullName: true } },
         _count: { select: { employees: true, inventories: true } }
       }
-    });
+    }));
   }
 
   static async updateBranch(id: number, data: UpdateBranchInput) {

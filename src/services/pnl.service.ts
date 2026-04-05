@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
+import { AnalyticsService } from "./analytics.service.js";
 
 export class PnlService {
   static async getBranchPnl(branchId: number, startDate?: Date, endDate?: Date) {
@@ -14,26 +16,26 @@ export class PnlService {
       whereExpense.date = dateFilter;
     }
 
-    const orders = await prisma.order.findMany({
+    const orders = await withDbRetry(() => prisma.order.findMany({
       where: whereOrder,
       include: { orderItems: true }
-    });
+    }));
 
-    const refunds = await prisma.refund.aggregate({
+    const refunds = await withDbRetry(() => prisma.refund.aggregate({
       where: whereRefund,
       _sum: { amount: true }
-    });
+    }));
 
-    const expenses = await prisma.expense.aggregate({
+    const expenses = await withDbRetry(() => prisma.expense.aggregate({
       where: whereExpense,
       _sum: { amount: true }
-    });
+    }));
     
-    const expensesByCategory = await prisma.expense.groupBy({
+    const expensesByCategory = await withDbRetry(() => prisma.expense.groupBy({
       by: ['category'],
       where: whereExpense,
       _sum: { amount: true }
-    });
+    }));
 
     let totalSales = 0; // pre-refund, pre-tax net sales
     let cogs = 0;
@@ -65,11 +67,9 @@ export class PnlService {
   }
 
   static async getStorePnl(storeAdminId: number, startDate?: Date, endDate?: Date) {
-    const store = await prisma.store.findFirst({ where: { storeAdminId } });
-    if (!store) throw new Error("Store not found");
-
-    const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-    const branchIds = branches.map(b => b.id);
+    const metadata = await AnalyticsService.getStoreMetadata(storeAdminId);
+    if (!metadata) throw new Error("Store not found");
+    const { branchIds, branches } = metadata;
 
     const dateFilter = startDate && endDate ? { gte: startDate, lte: endDate } : undefined;
     
@@ -83,20 +83,20 @@ export class PnlService {
       whereExpense.date = dateFilter;
     }
 
-    const orders = await prisma.order.findMany({
+    const orders = await withDbRetry(() => prisma.order.findMany({
       where: whereOrder,
       include: { orderItems: true }
-    });
+    }));
 
-    const refunds = await prisma.refund.aggregate({
+    const refunds = await withDbRetry(() => prisma.refund.aggregate({
       where: whereRefund,
       _sum: { amount: true }
-    });
+    }));
 
-    const expenses = await prisma.expense.aggregate({
+    const expenses = await withDbRetry(() => prisma.expense.aggregate({
       where: whereExpense,
       _sum: { amount: true }
-    });
+    }));
 
     let totalSales = 0;
     let cogs = 0;
@@ -152,10 +152,9 @@ export class PnlService {
   static async getProductProfitability(branchId?: number, storeAdminId?: number, startDate?: Date, endDate?: Date) {
     let branchIds: number[] = [];
     if (storeAdminId) {
-      const store = await prisma.store.findFirst({ where: { storeAdminId } });
-      if (store) {
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        branchIds = branches.map(b => b.id);
+      const metadata = await AnalyticsService.getStoreMetadata(storeAdminId);
+      if (metadata) {
+        branchIds = metadata.branchIds;
       }
     } else if (branchId) {
       branchIds = [branchId];
@@ -200,10 +199,9 @@ export class PnlService {
   static async getProfitTrend(period: "daily" | "weekly" | "monthly", branchId?: number, storeAdminId?: number, startDate?: Date, endDate?: Date) {
     let branchIds: number[] = [];
     if (storeAdminId) {
-      const store = await prisma.store.findFirst({ where: { storeAdminId } });
-      if (store) {
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        branchIds = branches.map(b => b.id);
+      const metadata = await AnalyticsService.getStoreMetadata(storeAdminId);
+      if (metadata) {
+        branchIds = metadata.branchIds;
       }
     } else if (branchId) {
       branchIds = [branchId];
@@ -285,14 +283,11 @@ export class PnlService {
 
   static async getBusinessInsights(branchId?: number, storeAdminId?: number, startDate?: Date, endDate?: Date) {
     let branchIds: number[] = [];
-    let storeId: number | null = null;
     
     if (storeAdminId) {
-      const store = await prisma.store.findFirst({ where: { storeAdminId } });
-      if (store) {
-        storeId = store.id;
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        branchIds = branches.map(b => b.id);
+      const metadata = await AnalyticsService.getStoreMetadata(storeAdminId);
+      if (metadata) {
+        branchIds = metadata.branchIds;
       }
     } else if (branchId) {
       branchIds = [branchId];

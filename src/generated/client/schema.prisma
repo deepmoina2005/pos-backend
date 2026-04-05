@@ -164,6 +164,8 @@ model Branch {
   taxSettings      Json?
   paymentSettings  Json?
   discountSettings Json?
+
+  inventoryBatches InventoryBatch[]
 }
 
 model Expense {
@@ -198,7 +200,10 @@ model Product {
   image       String?
   description String? @db.Text
 
+  trackBatchExpiry Boolean @default(false)
+
   inventories   Inventory[]
+  batches       InventoryBatch[]
   orderItems    OrderItem[]
   purchaseItems PurchaseItem[]
 }
@@ -272,6 +277,20 @@ model OrderItem {
 
   orderId Int
   order   Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  batchNo String?
+  batches OrderItemBatch[]
+}
+
+model OrderItemBatch {
+  id          Int       @id @default(autoincrement())
+  orderItemId Int
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+
+  batchId Int
+  batch   InventoryBatch @relation(fields: [batchId], references: [id])
+
+  quantity Int
 }
 
 model Customer {
@@ -456,4 +475,34 @@ model PurchaseItem {
   quantity  Int
   unitPrice Float
   subtotal  Float
+
+  batchNo       String?
+  expiryDate    DateTime?
+  purchasePrice Float?
+}
+
+model InventoryBatch {
+  id       Int    @id @default(autoincrement())
+  storeId  Int
+  branchId Int
+  branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  batchNo       String
+  expiryDate    DateTime?
+  quantity      Int       @default(0)
+  purchasePrice Float     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItemBatches OrderItemBatch[]
+
+  @@unique([branchId, productId, batchNo])
+  @@index([storeId])
+  @@index([branchId])
+  @@index([productId])
+  @@index([expiryDate])
 }

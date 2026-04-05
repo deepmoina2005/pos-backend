@@ -198,7 +198,9 @@ exports.Prisma.ProductScalarFieldEnum = {
   categoryId: 'categoryId',
   storeId: 'storeId',
   image: 'image',
-  description: 'description'
+  description: 'description',
+  trackBatchNumber: 'trackBatchNumber',
+  trackExpiryDate: 'trackExpiryDate'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -244,7 +246,15 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   gstAmount: 'gstAmount',
   taxableAmount: 'taxableAmount',
   subtotal: 'subtotal',
-  orderId: 'orderId'
+  orderId: 'orderId',
+  batchNo: 'batchNo'
+};
+
+exports.Prisma.OrderItemBatchScalarFieldEnum = {
+  id: 'id',
+  orderItemId: 'orderItemId',
+  batchId: 'batchId',
+  quantity: 'quantity'
 };
 
 exports.Prisma.CustomerScalarFieldEnum = {
@@ -377,7 +387,23 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   productId: 'productId',
   quantity: 'quantity',
   unitPrice: 'unitPrice',
-  subtotal: 'subtotal'
+  subtotal: 'subtotal',
+  batchNo: 'batchNo',
+  expiryDate: 'expiryDate',
+  purchasePrice: 'purchasePrice'
+};
+
+exports.Prisma.InventoryBatchScalarFieldEnum = {
+  id: 'id',
+  storeId: 'storeId',
+  branchId: 'branchId',
+  productId: 'productId',
+  batchNo: 'batchNo',
+  expiryDate: 'expiryDate',
+  quantity: 'quantity',
+  purchasePrice: 'purchasePrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -459,6 +485,10 @@ exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   orderNumber: 'orderNumber'
 };
 
+exports.Prisma.OrderItemOrderByRelevanceFieldEnum = {
+  batchNo: 'batchNo'
+};
+
 exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
   name: 'name',
   email: 'email',
@@ -509,6 +539,14 @@ exports.Prisma.SupplierOrderByRelevanceFieldEnum = {
 
 exports.Prisma.PurchaseOrderByRelevanceFieldEnum = {
   purchaseNumber: 'purchaseNumber'
+};
+
+exports.Prisma.PurchaseItemOrderByRelevanceFieldEnum = {
+  batchNo: 'batchNo'
+};
+
+exports.Prisma.InventoryBatchOrderByRelevanceFieldEnum = {
+  batchNo: 'batchNo'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
@@ -579,6 +617,7 @@ exports.Prisma.ModelName = {
   Inventory: 'Inventory',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  OrderItemBatch: 'OrderItemBatch',
   Customer: 'Customer',
   ShiftReport: 'ShiftReport',
   Refund: 'Refund',
@@ -590,7 +629,8 @@ exports.Prisma.ModelName = {
   DeletedStore: 'DeletedStore',
   Supplier: 'Supplier',
   Purchase: 'Purchase',
-  PurchaseItem: 'PurchaseItem'
+  PurchaseItem: 'PurchaseItem',
+  InventoryBatch: 'InventoryBatch'
 };
 
 /**

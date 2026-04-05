@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
 
 export class NotificationService {
   static async createNotification(data: {
@@ -18,11 +19,11 @@ export class NotificationService {
   }
 
   static async getNotifications(userId?: number) {
-    return await prisma.notification.findMany({
+    return await withDbRetry(() => prisma.notification.findMany({
       where: userId ? { userId } : { userId: null },
       orderBy: { createdAt: "desc" },
       take: 20,
-    });
+    }));
   }
 
   static async markAsRead(id: number) {

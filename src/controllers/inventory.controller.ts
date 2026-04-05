@@ -48,4 +48,31 @@ export class InventoryController {
       next(error);
     }
   }
+  static async getBranchBatches(req: Request, res: Response, next: NextFunction) {
+    try {
+      const batches = await InventoryService.getInventoryBatchesByBranch(Number(req.params.branchId));
+      res.status(200).json(batches);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getProductBatches(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { branchId, productId } = req.params;
+      const batches = await InventoryService.getInventoryBatchesByProduct(Number(branchId), Number(productId));
+      res.status(200).json(batches);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getExpiryAlerts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const alerts = await InventoryService.getExpiryAlertsByBranch(Number(req.params.branchId));
+      res.status(200).json(alerts);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -14,4 +14,9 @@ router.post("/import", authorizeRoles("ADMIN", "STORE_ADMIN", "STORE_MANAGER", "
 router.get("/branch/:branchId", InventoryController.getBranchInventory);
 router.get("/product/:productId", InventoryController.getProductInventory);
 
+// New Batch & Expiry Routes
+router.get("/batches/branch/:branchId", InventoryController.getBranchBatches);
+router.get("/batches/branch/:branchId/product/:productId", InventoryController.getProductBatches);
+router.get("/alerts/expiry/:branchId", InventoryController.getExpiryAlerts);
+
 export default router;

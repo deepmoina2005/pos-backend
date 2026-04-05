@@ -64,6 +64,11 @@ export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
  */
 export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
 /**
+ * Model OrderItemBatch
+ * 
+ */
+export type OrderItemBatch = $Result.DefaultSelection<Prisma.$OrderItemBatchPayload>
+/**
  * Model Customer
  * 
  */
@@ -123,6 +128,11 @@ export type Purchase = $Result.DefaultSelection<Prisma.$PurchasePayload>
  * 
  */
 export type PurchaseItem = $Result.DefaultSelection<Prisma.$PurchaseItemPayload>
+/**
+ * Model InventoryBatch
+ * 
+ */
+export type InventoryBatch = $Result.DefaultSelection<Prisma.$InventoryBatchPayload>
 
 /**
  * Enums
@@ -469,6 +479,16 @@ export class PrismaClient<
   get orderItem(): Prisma.OrderItemDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.orderItemBatch`: Exposes CRUD operations for the **OrderItemBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OrderItemBatches
+    * const orderItemBatches = await prisma.orderItemBatch.findMany()
+    * ```
+    */
+  get orderItemBatch(): Prisma.OrderItemBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.customer`: Exposes CRUD operations for the **Customer** model.
     * Example usage:
     * ```ts
@@ -587,6 +607,16 @@ export class PrismaClient<
     * ```
     */
   get purchaseItem(): Prisma.PurchaseItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inventoryBatch`: Exposes CRUD operations for the **InventoryBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InventoryBatches
+    * const inventoryBatches = await prisma.inventoryBatch.findMany()
+    * ```
+    */
+  get inventoryBatch(): Prisma.InventoryBatchDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1038,6 +1068,7 @@ export namespace Prisma {
     Inventory: 'Inventory',
     Order: 'Order',
     OrderItem: 'OrderItem',
+    OrderItemBatch: 'OrderItemBatch',
     Customer: 'Customer',
     ShiftReport: 'ShiftReport',
     Refund: 'Refund',
@@ -1049,7 +1080,8 @@ export namespace Prisma {
     DeletedStore: 'DeletedStore',
     Supplier: 'Supplier',
     Purchase: 'Purchase',
-    PurchaseItem: 'PurchaseItem'
+    PurchaseItem: 'PurchaseItem',
+    InventoryBatch: 'InventoryBatch'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1068,7 +1100,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "passwordResetToken" | "store" | "branch" | "expense" | "product" | "category" | "inventory" | "order" | "orderItem" | "customer" | "shiftReport" | "refund" | "subscriptionPlan" | "subscription" | "paymentOrder" | "notification" | "emailVerification" | "deletedStore" | "supplier" | "purchase" | "purchaseItem"
+      modelProps: "user" | "passwordResetToken" | "store" | "branch" | "expense" | "product" | "category" | "inventory" | "order" | "orderItem" | "orderItemBatch" | "customer" | "shiftReport" | "refund" | "subscriptionPlan" | "subscription" | "paymentOrder" | "notification" | "emailVerification" | "deletedStore" | "supplier" | "purchase" | "purchaseItem" | "inventoryBatch"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1729,6 +1761,72 @@ export namespace Prisma {
           count: {
             args: Prisma.OrderItemCountArgs<ExtArgs>
             result: $Utils.Optional<OrderItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      OrderItemBatch: {
+        payload: Prisma.$OrderItemBatchPayload<ExtArgs>
+        fields: Prisma.OrderItemBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OrderItemBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OrderItemBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.OrderItemBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OrderItemBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          findMany: {
+            args: Prisma.OrderItemBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>[]
+          }
+          create: {
+            args: Prisma.OrderItemBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          createMany: {
+            args: Prisma.OrderItemBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.OrderItemBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          update: {
+            args: Prisma.OrderItemBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.OrderItemBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OrderItemBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.OrderItemBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderItemBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.OrderItemBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrderItemBatch>
+          }
+          groupBy: {
+            args: Prisma.OrderItemBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrderItemBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OrderItemBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<OrderItemBatchCountAggregateOutputType> | number
           }
         }
       }
@@ -2524,6 +2622,72 @@ export namespace Prisma {
           }
         }
       }
+      InventoryBatch: {
+        payload: Prisma.$InventoryBatchPayload<ExtArgs>
+        fields: Prisma.InventoryBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InventoryBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InventoryBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.InventoryBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InventoryBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          findMany: {
+            args: Prisma.InventoryBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>[]
+          }
+          create: {
+            args: Prisma.InventoryBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          createMany: {
+            args: Prisma.InventoryBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.InventoryBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          update: {
+            args: Prisma.InventoryBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.InventoryBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InventoryBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InventoryBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.InventoryBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInventoryBatch>
+          }
+          groupBy: {
+            args: Prisma.InventoryBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InventoryBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InventoryBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<InventoryBatchCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2630,6 +2794,7 @@ export namespace Prisma {
     inventory?: InventoryOmit
     order?: OrderOmit
     orderItem?: OrderItemOmit
+    orderItemBatch?: OrderItemBatchOmit
     customer?: CustomerOmit
     shiftReport?: ShiftReportOmit
     refund?: RefundOmit
@@ -2642,6 +2807,7 @@ export namespace Prisma {
     supplier?: SupplierOmit
     purchase?: PurchaseOmit
     purchaseItem?: PurchaseItemOmit
+    inventoryBatch?: InventoryBatchOmit
   }
 
   /* Types for Logging */
@@ -2890,6 +3056,7 @@ export namespace Prisma {
     refunds: number
     expenses: number
     purchases: number
+    inventoryBatches: number
   }
 
   export type BranchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2900,6 +3067,7 @@ export namespace Prisma {
     refunds?: boolean | BranchCountOutputTypeCountRefundsArgs
     expenses?: boolean | BranchCountOutputTypeCountExpensesArgs
     purchases?: boolean | BranchCountOutputTypeCountPurchasesArgs
+    inventoryBatches?: boolean | BranchCountOutputTypeCountInventoryBatchesArgs
   }
 
   // Custom InputTypes
@@ -2962,6 +3130,13 @@ export namespace Prisma {
     where?: PurchaseWhereInput
   }
 
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountInventoryBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryBatchWhereInput
+  }
+
 
   /**
    * Count Type ProductCountOutputType
@@ -2969,12 +3144,14 @@ export namespace Prisma {
 
   export type ProductCountOutputType = {
     inventories: number
+    batches: number
     orderItems: number
     purchaseItems: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     inventories?: boolean | ProductCountOutputTypeCountInventoriesArgs
+    batches?: boolean | ProductCountOutputTypeCountBatchesArgs
     orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
     purchaseItems?: boolean | ProductCountOutputTypeCountPurchaseItemsArgs
   }
@@ -2995,6 +3172,13 @@ export namespace Prisma {
    */
   export type ProductCountOutputTypeCountInventoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InventoryWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryBatchWhereInput
   }
 
   /**
@@ -3080,6 +3264,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RefundWhereInput
+  }
+
+
+  /**
+   * Count Type OrderItemCountOutputType
+   */
+
+  export type OrderItemCountOutputType = {
+    batches: number
+  }
+
+  export type OrderItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batches?: boolean | OrderItemCountOutputTypeCountBatchesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OrderItemCountOutputType without action
+   */
+  export type OrderItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemCountOutputType
+     */
+    select?: OrderItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OrderItemCountOutputType without action
+   */
+  export type OrderItemCountOutputTypeCountBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderItemBatchWhereInput
   }
 
 
@@ -3235,6 +3450,37 @@ export namespace Prisma {
    */
   export type PurchaseCountOutputTypeCountPurchaseItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PurchaseItemWhereInput
+  }
+
+
+  /**
+   * Count Type InventoryBatchCountOutputType
+   */
+
+  export type InventoryBatchCountOutputType = {
+    orderItemBatches: number
+  }
+
+  export type InventoryBatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderItemBatches?: boolean | InventoryBatchCountOutputTypeCountOrderItemBatchesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InventoryBatchCountOutputType without action
+   */
+  export type InventoryBatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatchCountOutputType
+     */
+    select?: InventoryBatchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InventoryBatchCountOutputType without action
+   */
+  export type InventoryBatchCountOutputTypeCountOrderItemBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderItemBatchWhereInput
   }
 
 
@@ -7060,6 +7306,7 @@ export namespace Prisma {
     refunds?: boolean | Branch$refundsArgs<ExtArgs>
     expenses?: boolean | Branch$expensesArgs<ExtArgs>
     purchases?: boolean | Branch$purchasesArgs<ExtArgs>
+    inventoryBatches?: boolean | Branch$inventoryBatchesArgs<ExtArgs>
     _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["branch"]>
 
@@ -7095,6 +7342,7 @@ export namespace Prisma {
     refunds?: boolean | Branch$refundsArgs<ExtArgs>
     expenses?: boolean | Branch$expensesArgs<ExtArgs>
     purchases?: boolean | Branch$purchasesArgs<ExtArgs>
+    inventoryBatches?: boolean | Branch$inventoryBatchesArgs<ExtArgs>
     _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7110,6 +7358,7 @@ export namespace Prisma {
       refunds: Prisma.$RefundPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
       purchases: Prisma.$PurchasePayload<ExtArgs>[]
+      inventoryBatches: Prisma.$InventoryBatchPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7477,6 +7726,7 @@ export namespace Prisma {
     refunds<T extends Branch$refundsArgs<ExtArgs> = {}>(args?: Subset<T, Branch$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Branch$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     purchases<T extends Branch$purchasesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inventoryBatches<T extends Branch$inventoryBatchesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$inventoryBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8049,6 +8299,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PurchaseScalarFieldEnum | PurchaseScalarFieldEnum[]
+  }
+
+  /**
+   * Branch.inventoryBatches
+   */
+  export type Branch$inventoryBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    where?: InventoryBatchWhereInput
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    cursor?: InventoryBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InventoryBatchScalarFieldEnum | InventoryBatchScalarFieldEnum[]
   }
 
   /**
@@ -9118,6 +9392,8 @@ export namespace Prisma {
     storeId: number | null
     image: string | null
     description: string | null
+    trackBatchNumber: boolean | null
+    trackExpiryDate: boolean | null
   }
 
   export type ProductMaxAggregateOutputType = {
@@ -9132,6 +9408,8 @@ export namespace Prisma {
     storeId: number | null
     image: string | null
     description: string | null
+    trackBatchNumber: boolean | null
+    trackExpiryDate: boolean | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -9146,6 +9424,8 @@ export namespace Prisma {
     storeId: number
     image: number
     description: number
+    trackBatchNumber: number
+    trackExpiryDate: number
     _all: number
   }
 
@@ -9182,6 +9462,8 @@ export namespace Prisma {
     storeId?: true
     image?: true
     description?: true
+    trackBatchNumber?: true
+    trackExpiryDate?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -9196,6 +9478,8 @@ export namespace Prisma {
     storeId?: true
     image?: true
     description?: true
+    trackBatchNumber?: true
+    trackExpiryDate?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -9210,6 +9494,8 @@ export namespace Prisma {
     storeId?: true
     image?: true
     description?: true
+    trackBatchNumber?: true
+    trackExpiryDate?: true
     _all?: true
   }
 
@@ -9311,6 +9597,8 @@ export namespace Prisma {
     storeId: number
     image: string | null
     description: string | null
+    trackBatchNumber: boolean
+    trackExpiryDate: boolean
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -9344,9 +9632,12 @@ export namespace Prisma {
     storeId?: boolean
     image?: boolean
     description?: boolean
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: boolean | Product$categoryArgs<ExtArgs>
     store?: boolean | StoreDefaultArgs<ExtArgs>
     inventories?: boolean | Product$inventoriesArgs<ExtArgs>
+    batches?: boolean | Product$batchesArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     purchaseItems?: boolean | Product$purchaseItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -9366,13 +9657,16 @@ export namespace Prisma {
     storeId?: boolean
     image?: boolean
     description?: boolean
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "sellingPrice" | "mrp" | "costPrice" | "gst" | "categoryId" | "storeId" | "image" | "description", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "sellingPrice" | "mrp" | "costPrice" | "gst" | "categoryId" | "storeId" | "image" | "description" | "trackBatchNumber" | "trackExpiryDate", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Product$categoryArgs<ExtArgs>
     store?: boolean | StoreDefaultArgs<ExtArgs>
     inventories?: boolean | Product$inventoriesArgs<ExtArgs>
+    batches?: boolean | Product$batchesArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     purchaseItems?: boolean | Product$purchaseItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -9384,6 +9678,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs> | null
       store: Prisma.$StorePayload<ExtArgs>
       inventories: Prisma.$InventoryPayload<ExtArgs>[]
+      batches: Prisma.$InventoryBatchPayload<ExtArgs>[]
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
       purchaseItems: Prisma.$PurchaseItemPayload<ExtArgs>[]
     }
@@ -9399,6 +9694,8 @@ export namespace Prisma {
       storeId: number
       image: string | null
       description: string | null
+      trackBatchNumber: boolean
+      trackExpiryDate: boolean
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -9742,6 +10039,7 @@ export namespace Prisma {
     category<T extends Product$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Product$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     store<T extends StoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoreDefaultArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     inventories<T extends Product$inventoriesArgs<ExtArgs> = {}>(args?: Subset<T, Product$inventoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    batches<T extends Product$batchesArgs<ExtArgs> = {}>(args?: Subset<T, Product$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     purchaseItems<T extends Product$purchaseItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$purchaseItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -9784,6 +10082,8 @@ export namespace Prisma {
     readonly storeId: FieldRef<"Product", 'Int'>
     readonly image: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
+    readonly trackBatchNumber: FieldRef<"Product", 'Boolean'>
+    readonly trackExpiryDate: FieldRef<"Product", 'Boolean'>
   }
     
 
@@ -10167,6 +10467,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InventoryScalarFieldEnum | InventoryScalarFieldEnum[]
+  }
+
+  /**
+   * Product.batches
+   */
+  export type Product$batchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    where?: InventoryBatchWhereInput
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    cursor?: InventoryBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InventoryBatchScalarFieldEnum | InventoryBatchScalarFieldEnum[]
   }
 
   /**
@@ -13428,6 +13752,7 @@ export namespace Prisma {
     taxableAmount: number | null
     subtotal: number | null
     orderId: number | null
+    batchNo: string | null
   }
 
   export type OrderItemMaxAggregateOutputType = {
@@ -13443,6 +13768,7 @@ export namespace Prisma {
     taxableAmount: number | null
     subtotal: number | null
     orderId: number | null
+    batchNo: string | null
   }
 
   export type OrderItemCountAggregateOutputType = {
@@ -13458,6 +13784,7 @@ export namespace Prisma {
     taxableAmount: number
     subtotal: number
     orderId: number
+    batchNo: number
     _all: number
   }
 
@@ -13505,6 +13832,7 @@ export namespace Prisma {
     taxableAmount?: true
     subtotal?: true
     orderId?: true
+    batchNo?: true
   }
 
   export type OrderItemMaxAggregateInputType = {
@@ -13520,6 +13848,7 @@ export namespace Prisma {
     taxableAmount?: true
     subtotal?: true
     orderId?: true
+    batchNo?: true
   }
 
   export type OrderItemCountAggregateInputType = {
@@ -13535,6 +13864,7 @@ export namespace Prisma {
     taxableAmount?: true
     subtotal?: true
     orderId?: true
+    batchNo?: true
     _all?: true
   }
 
@@ -13637,6 +13967,7 @@ export namespace Prisma {
     taxableAmount: number
     subtotal: number
     orderId: number
+    batchNo: string | null
     _count: OrderItemCountAggregateOutputType | null
     _avg: OrderItemAvgAggregateOutputType | null
     _sum: OrderItemSumAggregateOutputType | null
@@ -13671,8 +14002,11 @@ export namespace Prisma {
     taxableAmount?: boolean
     subtotal?: boolean
     orderId?: boolean
+    batchNo?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    batches?: boolean | OrderItem$batchesArgs<ExtArgs>
+    _count?: boolean | OrderItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItem"]>
 
 
@@ -13690,12 +14024,15 @@ export namespace Prisma {
     taxableAmount?: boolean
     subtotal?: boolean
     orderId?: boolean
+    batchNo?: boolean
   }
 
-  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "quantity" | "unitPrice" | "mrp" | "costPriceSnapshot" | "discount" | "gstRate" | "gstAmount" | "taxableAmount" | "subtotal" | "orderId", ExtArgs["result"]["orderItem"]>
+  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "quantity" | "unitPrice" | "mrp" | "costPriceSnapshot" | "discount" | "gstRate" | "gstAmount" | "taxableAmount" | "subtotal" | "orderId" | "batchNo", ExtArgs["result"]["orderItem"]>
   export type OrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    batches?: boolean | OrderItem$batchesArgs<ExtArgs>
+    _count?: boolean | OrderItemCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $OrderItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13703,6 +14040,7 @@ export namespace Prisma {
     objects: {
       product: Prisma.$ProductPayload<ExtArgs>
       order: Prisma.$OrderPayload<ExtArgs>
+      batches: Prisma.$OrderItemBatchPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -13717,6 +14055,7 @@ export namespace Prisma {
       taxableAmount: number
       subtotal: number
       orderId: number
+      batchNo: string | null
     }, ExtArgs["result"]["orderItem"]>
     composites: {}
   }
@@ -14059,6 +14398,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    batches<T extends OrderItem$batchesArgs<ExtArgs> = {}>(args?: Subset<T, OrderItem$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14100,6 +14440,7 @@ export namespace Prisma {
     readonly taxableAmount: FieldRef<"OrderItem", 'Float'>
     readonly subtotal: FieldRef<"OrderItem", 'Float'>
     readonly orderId: FieldRef<"OrderItem", 'Int'>
+    readonly batchNo: FieldRef<"OrderItem", 'String'>
   }
     
 
@@ -14443,6 +14784,30 @@ export namespace Prisma {
   }
 
   /**
+   * OrderItem.batches
+   */
+  export type OrderItem$batchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    where?: OrderItemBatchWhereInput
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    cursor?: OrderItemBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderItemBatchScalarFieldEnum | OrderItemBatchScalarFieldEnum[]
+  }
+
+  /**
    * OrderItem without action
    */
   export type OrderItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14458,6 +14823,974 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OrderItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OrderItemBatch
+   */
+
+  export type AggregateOrderItemBatch = {
+    _count: OrderItemBatchCountAggregateOutputType | null
+    _avg: OrderItemBatchAvgAggregateOutputType | null
+    _sum: OrderItemBatchSumAggregateOutputType | null
+    _min: OrderItemBatchMinAggregateOutputType | null
+    _max: OrderItemBatchMaxAggregateOutputType | null
+  }
+
+  export type OrderItemBatchAvgAggregateOutputType = {
+    id: number | null
+    orderItemId: number | null
+    batchId: number | null
+    quantity: number | null
+  }
+
+  export type OrderItemBatchSumAggregateOutputType = {
+    id: number | null
+    orderItemId: number | null
+    batchId: number | null
+    quantity: number | null
+  }
+
+  export type OrderItemBatchMinAggregateOutputType = {
+    id: number | null
+    orderItemId: number | null
+    batchId: number | null
+    quantity: number | null
+  }
+
+  export type OrderItemBatchMaxAggregateOutputType = {
+    id: number | null
+    orderItemId: number | null
+    batchId: number | null
+    quantity: number | null
+  }
+
+  export type OrderItemBatchCountAggregateOutputType = {
+    id: number
+    orderItemId: number
+    batchId: number
+    quantity: number
+    _all: number
+  }
+
+
+  export type OrderItemBatchAvgAggregateInputType = {
+    id?: true
+    orderItemId?: true
+    batchId?: true
+    quantity?: true
+  }
+
+  export type OrderItemBatchSumAggregateInputType = {
+    id?: true
+    orderItemId?: true
+    batchId?: true
+    quantity?: true
+  }
+
+  export type OrderItemBatchMinAggregateInputType = {
+    id?: true
+    orderItemId?: true
+    batchId?: true
+    quantity?: true
+  }
+
+  export type OrderItemBatchMaxAggregateInputType = {
+    id?: true
+    orderItemId?: true
+    batchId?: true
+    quantity?: true
+  }
+
+  export type OrderItemBatchCountAggregateInputType = {
+    id?: true
+    orderItemId?: true
+    batchId?: true
+    quantity?: true
+    _all?: true
+  }
+
+  export type OrderItemBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrderItemBatch to aggregate.
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderItemBatches to fetch.
+     */
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OrderItemBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderItemBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderItemBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OrderItemBatches
+    **/
+    _count?: true | OrderItemBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OrderItemBatchAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrderItemBatchSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OrderItemBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OrderItemBatchMaxAggregateInputType
+  }
+
+  export type GetOrderItemBatchAggregateType<T extends OrderItemBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrderItemBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrderItemBatch[P]>
+      : GetScalarType<T[P], AggregateOrderItemBatch[P]>
+  }
+
+
+
+
+  export type OrderItemBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderItemBatchWhereInput
+    orderBy?: OrderItemBatchOrderByWithAggregationInput | OrderItemBatchOrderByWithAggregationInput[]
+    by: OrderItemBatchScalarFieldEnum[] | OrderItemBatchScalarFieldEnum
+    having?: OrderItemBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OrderItemBatchCountAggregateInputType | true
+    _avg?: OrderItemBatchAvgAggregateInputType
+    _sum?: OrderItemBatchSumAggregateInputType
+    _min?: OrderItemBatchMinAggregateInputType
+    _max?: OrderItemBatchMaxAggregateInputType
+  }
+
+  export type OrderItemBatchGroupByOutputType = {
+    id: number
+    orderItemId: number
+    batchId: number
+    quantity: number
+    _count: OrderItemBatchCountAggregateOutputType | null
+    _avg: OrderItemBatchAvgAggregateOutputType | null
+    _sum: OrderItemBatchSumAggregateOutputType | null
+    _min: OrderItemBatchMinAggregateOutputType | null
+    _max: OrderItemBatchMaxAggregateOutputType | null
+  }
+
+  type GetOrderItemBatchGroupByPayload<T extends OrderItemBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OrderItemBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OrderItemBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OrderItemBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], OrderItemBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OrderItemBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderItemId?: boolean
+    batchId?: boolean
+    quantity?: boolean
+    orderItem?: boolean | OrderItemDefaultArgs<ExtArgs>
+    batch?: boolean | InventoryBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["orderItemBatch"]>
+
+
+
+  export type OrderItemBatchSelectScalar = {
+    id?: boolean
+    orderItemId?: boolean
+    batchId?: boolean
+    quantity?: boolean
+  }
+
+  export type OrderItemBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderItemId" | "batchId" | "quantity", ExtArgs["result"]["orderItemBatch"]>
+  export type OrderItemBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orderItem?: boolean | OrderItemDefaultArgs<ExtArgs>
+    batch?: boolean | InventoryBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $OrderItemBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OrderItemBatch"
+    objects: {
+      orderItem: Prisma.$OrderItemPayload<ExtArgs>
+      batch: Prisma.$InventoryBatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      orderItemId: number
+      batchId: number
+      quantity: number
+    }, ExtArgs["result"]["orderItemBatch"]>
+    composites: {}
+  }
+
+  type OrderItemBatchGetPayload<S extends boolean | null | undefined | OrderItemBatchDefaultArgs> = $Result.GetResult<Prisma.$OrderItemBatchPayload, S>
+
+  type OrderItemBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrderItemBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrderItemBatchCountAggregateInputType | true
+    }
+
+  export interface OrderItemBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OrderItemBatch'], meta: { name: 'OrderItemBatch' } }
+    /**
+     * Find zero or one OrderItemBatch that matches the filter.
+     * @param {OrderItemBatchFindUniqueArgs} args - Arguments to find a OrderItemBatch
+     * @example
+     * // Get one OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OrderItemBatchFindUniqueArgs>(args: SelectSubset<T, OrderItemBatchFindUniqueArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OrderItemBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OrderItemBatchFindUniqueOrThrowArgs} args - Arguments to find a OrderItemBatch
+     * @example
+     * // Get one OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OrderItemBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, OrderItemBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrderItemBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchFindFirstArgs} args - Arguments to find a OrderItemBatch
+     * @example
+     * // Get one OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OrderItemBatchFindFirstArgs>(args?: SelectSubset<T, OrderItemBatchFindFirstArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrderItemBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchFindFirstOrThrowArgs} args - Arguments to find a OrderItemBatch
+     * @example
+     * // Get one OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OrderItemBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, OrderItemBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OrderItemBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OrderItemBatches
+     * const orderItemBatches = await prisma.orderItemBatch.findMany()
+     * 
+     * // Get first 10 OrderItemBatches
+     * const orderItemBatches = await prisma.orderItemBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const orderItemBatchWithIdOnly = await prisma.orderItemBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OrderItemBatchFindManyArgs>(args?: SelectSubset<T, OrderItemBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OrderItemBatch.
+     * @param {OrderItemBatchCreateArgs} args - Arguments to create a OrderItemBatch.
+     * @example
+     * // Create one OrderItemBatch
+     * const OrderItemBatch = await prisma.orderItemBatch.create({
+     *   data: {
+     *     // ... data to create a OrderItemBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends OrderItemBatchCreateArgs>(args: SelectSubset<T, OrderItemBatchCreateArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OrderItemBatches.
+     * @param {OrderItemBatchCreateManyArgs} args - Arguments to create many OrderItemBatches.
+     * @example
+     * // Create many OrderItemBatches
+     * const orderItemBatch = await prisma.orderItemBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OrderItemBatchCreateManyArgs>(args?: SelectSubset<T, OrderItemBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a OrderItemBatch.
+     * @param {OrderItemBatchDeleteArgs} args - Arguments to delete one OrderItemBatch.
+     * @example
+     * // Delete one OrderItemBatch
+     * const OrderItemBatch = await prisma.orderItemBatch.delete({
+     *   where: {
+     *     // ... filter to delete one OrderItemBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OrderItemBatchDeleteArgs>(args: SelectSubset<T, OrderItemBatchDeleteArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OrderItemBatch.
+     * @param {OrderItemBatchUpdateArgs} args - Arguments to update one OrderItemBatch.
+     * @example
+     * // Update one OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OrderItemBatchUpdateArgs>(args: SelectSubset<T, OrderItemBatchUpdateArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OrderItemBatches.
+     * @param {OrderItemBatchDeleteManyArgs} args - Arguments to filter OrderItemBatches to delete.
+     * @example
+     * // Delete a few OrderItemBatches
+     * const { count } = await prisma.orderItemBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OrderItemBatchDeleteManyArgs>(args?: SelectSubset<T, OrderItemBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OrderItemBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OrderItemBatches
+     * const orderItemBatch = await prisma.orderItemBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OrderItemBatchUpdateManyArgs>(args: SelectSubset<T, OrderItemBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one OrderItemBatch.
+     * @param {OrderItemBatchUpsertArgs} args - Arguments to update or create a OrderItemBatch.
+     * @example
+     * // Update or create a OrderItemBatch
+     * const orderItemBatch = await prisma.orderItemBatch.upsert({
+     *   create: {
+     *     // ... data to create a OrderItemBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OrderItemBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OrderItemBatchUpsertArgs>(args: SelectSubset<T, OrderItemBatchUpsertArgs<ExtArgs>>): Prisma__OrderItemBatchClient<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OrderItemBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchCountArgs} args - Arguments to filter OrderItemBatches to count.
+     * @example
+     * // Count the number of OrderItemBatches
+     * const count = await prisma.orderItemBatch.count({
+     *   where: {
+     *     // ... the filter for the OrderItemBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends OrderItemBatchCountArgs>(
+      args?: Subset<T, OrderItemBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OrderItemBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OrderItemBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OrderItemBatchAggregateArgs>(args: Subset<T, OrderItemBatchAggregateArgs>): Prisma.PrismaPromise<GetOrderItemBatchAggregateType<T>>
+
+    /**
+     * Group by OrderItemBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderItemBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OrderItemBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OrderItemBatchGroupByArgs['orderBy'] }
+        : { orderBy?: OrderItemBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OrderItemBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrderItemBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OrderItemBatch model
+   */
+  readonly fields: OrderItemBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OrderItemBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OrderItemBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    orderItem<T extends OrderItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderItemDefaultArgs<ExtArgs>>): Prisma__OrderItemClient<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    batch<T extends InventoryBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InventoryBatchDefaultArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OrderItemBatch model
+   */
+  interface OrderItemBatchFieldRefs {
+    readonly id: FieldRef<"OrderItemBatch", 'Int'>
+    readonly orderItemId: FieldRef<"OrderItemBatch", 'Int'>
+    readonly batchId: FieldRef<"OrderItemBatch", 'Int'>
+    readonly quantity: FieldRef<"OrderItemBatch", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OrderItemBatch findUnique
+   */
+  export type OrderItemBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderItemBatch to fetch.
+     */
+    where: OrderItemBatchWhereUniqueInput
+  }
+
+  /**
+   * OrderItemBatch findUniqueOrThrow
+   */
+  export type OrderItemBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderItemBatch to fetch.
+     */
+    where: OrderItemBatchWhereUniqueInput
+  }
+
+  /**
+   * OrderItemBatch findFirst
+   */
+  export type OrderItemBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderItemBatch to fetch.
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderItemBatches to fetch.
+     */
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrderItemBatches.
+     */
+    cursor?: OrderItemBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderItemBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderItemBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderItemBatches.
+     */
+    distinct?: OrderItemBatchScalarFieldEnum | OrderItemBatchScalarFieldEnum[]
+  }
+
+  /**
+   * OrderItemBatch findFirstOrThrow
+   */
+  export type OrderItemBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderItemBatch to fetch.
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderItemBatches to fetch.
+     */
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrderItemBatches.
+     */
+    cursor?: OrderItemBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderItemBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderItemBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderItemBatches.
+     */
+    distinct?: OrderItemBatchScalarFieldEnum | OrderItemBatchScalarFieldEnum[]
+  }
+
+  /**
+   * OrderItemBatch findMany
+   */
+  export type OrderItemBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderItemBatches to fetch.
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderItemBatches to fetch.
+     */
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OrderItemBatches.
+     */
+    cursor?: OrderItemBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderItemBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderItemBatches.
+     */
+    skip?: number
+    distinct?: OrderItemBatchScalarFieldEnum | OrderItemBatchScalarFieldEnum[]
+  }
+
+  /**
+   * OrderItemBatch create
+   */
+  export type OrderItemBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OrderItemBatch.
+     */
+    data: XOR<OrderItemBatchCreateInput, OrderItemBatchUncheckedCreateInput>
+  }
+
+  /**
+   * OrderItemBatch createMany
+   */
+  export type OrderItemBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OrderItemBatches.
+     */
+    data: OrderItemBatchCreateManyInput | OrderItemBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OrderItemBatch update
+   */
+  export type OrderItemBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OrderItemBatch.
+     */
+    data: XOR<OrderItemBatchUpdateInput, OrderItemBatchUncheckedUpdateInput>
+    /**
+     * Choose, which OrderItemBatch to update.
+     */
+    where: OrderItemBatchWhereUniqueInput
+  }
+
+  /**
+   * OrderItemBatch updateMany
+   */
+  export type OrderItemBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OrderItemBatches.
+     */
+    data: XOR<OrderItemBatchUpdateManyMutationInput, OrderItemBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which OrderItemBatches to update
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * Limit how many OrderItemBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrderItemBatch upsert
+   */
+  export type OrderItemBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OrderItemBatch to update in case it exists.
+     */
+    where: OrderItemBatchWhereUniqueInput
+    /**
+     * In case the OrderItemBatch found by the `where` argument doesn't exist, create a new OrderItemBatch with this data.
+     */
+    create: XOR<OrderItemBatchCreateInput, OrderItemBatchUncheckedCreateInput>
+    /**
+     * In case the OrderItemBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrderItemBatchUpdateInput, OrderItemBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * OrderItemBatch delete
+   */
+  export type OrderItemBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    /**
+     * Filter which OrderItemBatch to delete.
+     */
+    where: OrderItemBatchWhereUniqueInput
+  }
+
+  /**
+   * OrderItemBatch deleteMany
+   */
+  export type OrderItemBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrderItemBatches to delete
+     */
+    where?: OrderItemBatchWhereInput
+    /**
+     * Limit how many OrderItemBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrderItemBatch without action
+   */
+  export type OrderItemBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
   }
 
 
@@ -25734,6 +27067,7 @@ export namespace Prisma {
     quantity: number | null
     unitPrice: number | null
     subtotal: number | null
+    purchasePrice: number | null
   }
 
   export type PurchaseItemSumAggregateOutputType = {
@@ -25743,6 +27077,7 @@ export namespace Prisma {
     quantity: number | null
     unitPrice: number | null
     subtotal: number | null
+    purchasePrice: number | null
   }
 
   export type PurchaseItemMinAggregateOutputType = {
@@ -25752,6 +27087,9 @@ export namespace Prisma {
     quantity: number | null
     unitPrice: number | null
     subtotal: number | null
+    batchNo: string | null
+    expiryDate: Date | null
+    purchasePrice: number | null
   }
 
   export type PurchaseItemMaxAggregateOutputType = {
@@ -25761,6 +27099,9 @@ export namespace Prisma {
     quantity: number | null
     unitPrice: number | null
     subtotal: number | null
+    batchNo: string | null
+    expiryDate: Date | null
+    purchasePrice: number | null
   }
 
   export type PurchaseItemCountAggregateOutputType = {
@@ -25770,6 +27111,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo: number
+    expiryDate: number
+    purchasePrice: number
     _all: number
   }
 
@@ -25781,6 +27125,7 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     subtotal?: true
+    purchasePrice?: true
   }
 
   export type PurchaseItemSumAggregateInputType = {
@@ -25790,6 +27135,7 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     subtotal?: true
+    purchasePrice?: true
   }
 
   export type PurchaseItemMinAggregateInputType = {
@@ -25799,6 +27145,9 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     subtotal?: true
+    batchNo?: true
+    expiryDate?: true
+    purchasePrice?: true
   }
 
   export type PurchaseItemMaxAggregateInputType = {
@@ -25808,6 +27157,9 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     subtotal?: true
+    batchNo?: true
+    expiryDate?: true
+    purchasePrice?: true
   }
 
   export type PurchaseItemCountAggregateInputType = {
@@ -25817,6 +27169,9 @@ export namespace Prisma {
     quantity?: true
     unitPrice?: true
     subtotal?: true
+    batchNo?: true
+    expiryDate?: true
+    purchasePrice?: true
     _all?: true
   }
 
@@ -25913,6 +27268,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo: string | null
+    expiryDate: Date | null
+    purchasePrice: number | null
     _count: PurchaseItemCountAggregateOutputType | null
     _avg: PurchaseItemAvgAggregateOutputType | null
     _sum: PurchaseItemSumAggregateOutputType | null
@@ -25941,6 +27299,9 @@ export namespace Prisma {
     quantity?: boolean
     unitPrice?: boolean
     subtotal?: boolean
+    batchNo?: boolean
+    expiryDate?: boolean
+    purchasePrice?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseItem"]>
@@ -25954,9 +27315,12 @@ export namespace Prisma {
     quantity?: boolean
     unitPrice?: boolean
     subtotal?: boolean
+    batchNo?: boolean
+    expiryDate?: boolean
+    purchasePrice?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "productId" | "quantity" | "unitPrice" | "subtotal", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "productId" | "quantity" | "unitPrice" | "subtotal" | "batchNo" | "expiryDate" | "purchasePrice", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
@@ -25975,6 +27339,9 @@ export namespace Prisma {
       quantity: number
       unitPrice: number
       subtotal: number
+      batchNo: string | null
+      expiryDate: Date | null
+      purchasePrice: number | null
     }, ExtArgs["result"]["purchaseItem"]>
     composites: {}
   }
@@ -26352,6 +27719,9 @@ export namespace Prisma {
     readonly quantity: FieldRef<"PurchaseItem", 'Int'>
     readonly unitPrice: FieldRef<"PurchaseItem", 'Float'>
     readonly subtotal: FieldRef<"PurchaseItem", 'Float'>
+    readonly batchNo: FieldRef<"PurchaseItem", 'String'>
+    readonly expiryDate: FieldRef<"PurchaseItem", 'DateTime'>
+    readonly purchasePrice: FieldRef<"PurchaseItem", 'Float'>
   }
     
 
@@ -26714,6 +28084,1078 @@ export namespace Prisma {
 
 
   /**
+   * Model InventoryBatch
+   */
+
+  export type AggregateInventoryBatch = {
+    _count: InventoryBatchCountAggregateOutputType | null
+    _avg: InventoryBatchAvgAggregateOutputType | null
+    _sum: InventoryBatchSumAggregateOutputType | null
+    _min: InventoryBatchMinAggregateOutputType | null
+    _max: InventoryBatchMaxAggregateOutputType | null
+  }
+
+  export type InventoryBatchAvgAggregateOutputType = {
+    id: number | null
+    storeId: number | null
+    branchId: number | null
+    productId: number | null
+    quantity: number | null
+    purchasePrice: number | null
+  }
+
+  export type InventoryBatchSumAggregateOutputType = {
+    id: number | null
+    storeId: number | null
+    branchId: number | null
+    productId: number | null
+    quantity: number | null
+    purchasePrice: number | null
+  }
+
+  export type InventoryBatchMinAggregateOutputType = {
+    id: number | null
+    storeId: number | null
+    branchId: number | null
+    productId: number | null
+    batchNo: string | null
+    expiryDate: Date | null
+    quantity: number | null
+    purchasePrice: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InventoryBatchMaxAggregateOutputType = {
+    id: number | null
+    storeId: number | null
+    branchId: number | null
+    productId: number | null
+    batchNo: string | null
+    expiryDate: Date | null
+    quantity: number | null
+    purchasePrice: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InventoryBatchCountAggregateOutputType = {
+    id: number
+    storeId: number
+    branchId: number
+    productId: number
+    batchNo: number
+    expiryDate: number
+    quantity: number
+    purchasePrice: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InventoryBatchAvgAggregateInputType = {
+    id?: true
+    storeId?: true
+    branchId?: true
+    productId?: true
+    quantity?: true
+    purchasePrice?: true
+  }
+
+  export type InventoryBatchSumAggregateInputType = {
+    id?: true
+    storeId?: true
+    branchId?: true
+    productId?: true
+    quantity?: true
+    purchasePrice?: true
+  }
+
+  export type InventoryBatchMinAggregateInputType = {
+    id?: true
+    storeId?: true
+    branchId?: true
+    productId?: true
+    batchNo?: true
+    expiryDate?: true
+    quantity?: true
+    purchasePrice?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InventoryBatchMaxAggregateInputType = {
+    id?: true
+    storeId?: true
+    branchId?: true
+    productId?: true
+    batchNo?: true
+    expiryDate?: true
+    quantity?: true
+    purchasePrice?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InventoryBatchCountAggregateInputType = {
+    id?: true
+    storeId?: true
+    branchId?: true
+    productId?: true
+    batchNo?: true
+    expiryDate?: true
+    quantity?: true
+    purchasePrice?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InventoryBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryBatch to aggregate.
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryBatches to fetch.
+     */
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InventoryBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InventoryBatches
+    **/
+    _count?: true | InventoryBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InventoryBatchAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InventoryBatchSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InventoryBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InventoryBatchMaxAggregateInputType
+  }
+
+  export type GetInventoryBatchAggregateType<T extends InventoryBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateInventoryBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInventoryBatch[P]>
+      : GetScalarType<T[P], AggregateInventoryBatch[P]>
+  }
+
+
+
+
+  export type InventoryBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryBatchWhereInput
+    orderBy?: InventoryBatchOrderByWithAggregationInput | InventoryBatchOrderByWithAggregationInput[]
+    by: InventoryBatchScalarFieldEnum[] | InventoryBatchScalarFieldEnum
+    having?: InventoryBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InventoryBatchCountAggregateInputType | true
+    _avg?: InventoryBatchAvgAggregateInputType
+    _sum?: InventoryBatchSumAggregateInputType
+    _min?: InventoryBatchMinAggregateInputType
+    _max?: InventoryBatchMaxAggregateInputType
+  }
+
+  export type InventoryBatchGroupByOutputType = {
+    id: number
+    storeId: number
+    branchId: number
+    productId: number
+    batchNo: string
+    expiryDate: Date | null
+    quantity: number
+    purchasePrice: number
+    createdAt: Date
+    updatedAt: Date
+    _count: InventoryBatchCountAggregateOutputType | null
+    _avg: InventoryBatchAvgAggregateOutputType | null
+    _sum: InventoryBatchSumAggregateOutputType | null
+    _min: InventoryBatchMinAggregateOutputType | null
+    _max: InventoryBatchMaxAggregateOutputType | null
+  }
+
+  type GetInventoryBatchGroupByPayload<T extends InventoryBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InventoryBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InventoryBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InventoryBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], InventoryBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InventoryBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storeId?: boolean
+    branchId?: boolean
+    productId?: boolean
+    batchNo?: boolean
+    expiryDate?: boolean
+    quantity?: boolean
+    purchasePrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+    orderItemBatches?: boolean | InventoryBatch$orderItemBatchesArgs<ExtArgs>
+    _count?: boolean | InventoryBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryBatch"]>
+
+
+
+  export type InventoryBatchSelectScalar = {
+    id?: boolean
+    storeId?: boolean
+    branchId?: boolean
+    productId?: boolean
+    batchNo?: boolean
+    expiryDate?: boolean
+    quantity?: boolean
+    purchasePrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InventoryBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storeId" | "branchId" | "productId" | "batchNo" | "expiryDate" | "quantity" | "purchasePrice" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryBatch"]>
+  export type InventoryBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    branch?: boolean | BranchDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+    orderItemBatches?: boolean | InventoryBatch$orderItemBatchesArgs<ExtArgs>
+    _count?: boolean | InventoryBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $InventoryBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InventoryBatch"
+    objects: {
+      branch: Prisma.$BranchPayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+      orderItemBatches: Prisma.$OrderItemBatchPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      storeId: number
+      branchId: number
+      productId: number
+      batchNo: string
+      expiryDate: Date | null
+      quantity: number
+      purchasePrice: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["inventoryBatch"]>
+    composites: {}
+  }
+
+  type InventoryBatchGetPayload<S extends boolean | null | undefined | InventoryBatchDefaultArgs> = $Result.GetResult<Prisma.$InventoryBatchPayload, S>
+
+  type InventoryBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InventoryBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InventoryBatchCountAggregateInputType | true
+    }
+
+  export interface InventoryBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InventoryBatch'], meta: { name: 'InventoryBatch' } }
+    /**
+     * Find zero or one InventoryBatch that matches the filter.
+     * @param {InventoryBatchFindUniqueArgs} args - Arguments to find a InventoryBatch
+     * @example
+     * // Get one InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InventoryBatchFindUniqueArgs>(args: SelectSubset<T, InventoryBatchFindUniqueArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InventoryBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InventoryBatchFindUniqueOrThrowArgs} args - Arguments to find a InventoryBatch
+     * @example
+     * // Get one InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InventoryBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, InventoryBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchFindFirstArgs} args - Arguments to find a InventoryBatch
+     * @example
+     * // Get one InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InventoryBatchFindFirstArgs>(args?: SelectSubset<T, InventoryBatchFindFirstArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchFindFirstOrThrowArgs} args - Arguments to find a InventoryBatch
+     * @example
+     * // Get one InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InventoryBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, InventoryBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InventoryBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InventoryBatches
+     * const inventoryBatches = await prisma.inventoryBatch.findMany()
+     * 
+     * // Get first 10 InventoryBatches
+     * const inventoryBatches = await prisma.inventoryBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inventoryBatchWithIdOnly = await prisma.inventoryBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InventoryBatchFindManyArgs>(args?: SelectSubset<T, InventoryBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InventoryBatch.
+     * @param {InventoryBatchCreateArgs} args - Arguments to create a InventoryBatch.
+     * @example
+     * // Create one InventoryBatch
+     * const InventoryBatch = await prisma.inventoryBatch.create({
+     *   data: {
+     *     // ... data to create a InventoryBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends InventoryBatchCreateArgs>(args: SelectSubset<T, InventoryBatchCreateArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InventoryBatches.
+     * @param {InventoryBatchCreateManyArgs} args - Arguments to create many InventoryBatches.
+     * @example
+     * // Create many InventoryBatches
+     * const inventoryBatch = await prisma.inventoryBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InventoryBatchCreateManyArgs>(args?: SelectSubset<T, InventoryBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a InventoryBatch.
+     * @param {InventoryBatchDeleteArgs} args - Arguments to delete one InventoryBatch.
+     * @example
+     * // Delete one InventoryBatch
+     * const InventoryBatch = await prisma.inventoryBatch.delete({
+     *   where: {
+     *     // ... filter to delete one InventoryBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InventoryBatchDeleteArgs>(args: SelectSubset<T, InventoryBatchDeleteArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InventoryBatch.
+     * @param {InventoryBatchUpdateArgs} args - Arguments to update one InventoryBatch.
+     * @example
+     * // Update one InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InventoryBatchUpdateArgs>(args: SelectSubset<T, InventoryBatchUpdateArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InventoryBatches.
+     * @param {InventoryBatchDeleteManyArgs} args - Arguments to filter InventoryBatches to delete.
+     * @example
+     * // Delete a few InventoryBatches
+     * const { count } = await prisma.inventoryBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InventoryBatchDeleteManyArgs>(args?: SelectSubset<T, InventoryBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InventoryBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InventoryBatches
+     * const inventoryBatch = await prisma.inventoryBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InventoryBatchUpdateManyArgs>(args: SelectSubset<T, InventoryBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InventoryBatch.
+     * @param {InventoryBatchUpsertArgs} args - Arguments to update or create a InventoryBatch.
+     * @example
+     * // Update or create a InventoryBatch
+     * const inventoryBatch = await prisma.inventoryBatch.upsert({
+     *   create: {
+     *     // ... data to create a InventoryBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InventoryBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InventoryBatchUpsertArgs>(args: SelectSubset<T, InventoryBatchUpsertArgs<ExtArgs>>): Prisma__InventoryBatchClient<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InventoryBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchCountArgs} args - Arguments to filter InventoryBatches to count.
+     * @example
+     * // Count the number of InventoryBatches
+     * const count = await prisma.inventoryBatch.count({
+     *   where: {
+     *     // ... the filter for the InventoryBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends InventoryBatchCountArgs>(
+      args?: Subset<T, InventoryBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InventoryBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InventoryBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InventoryBatchAggregateArgs>(args: Subset<T, InventoryBatchAggregateArgs>): Prisma.PrismaPromise<GetInventoryBatchAggregateType<T>>
+
+    /**
+     * Group by InventoryBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InventoryBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InventoryBatchGroupByArgs['orderBy'] }
+        : { orderBy?: InventoryBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InventoryBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInventoryBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InventoryBatch model
+   */
+  readonly fields: InventoryBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InventoryBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InventoryBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    branch<T extends BranchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BranchDefaultArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    orderItemBatches<T extends InventoryBatch$orderItemBatchesArgs<ExtArgs> = {}>(args?: Subset<T, InventoryBatch$orderItemBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InventoryBatch model
+   */
+  interface InventoryBatchFieldRefs {
+    readonly id: FieldRef<"InventoryBatch", 'Int'>
+    readonly storeId: FieldRef<"InventoryBatch", 'Int'>
+    readonly branchId: FieldRef<"InventoryBatch", 'Int'>
+    readonly productId: FieldRef<"InventoryBatch", 'Int'>
+    readonly batchNo: FieldRef<"InventoryBatch", 'String'>
+    readonly expiryDate: FieldRef<"InventoryBatch", 'DateTime'>
+    readonly quantity: FieldRef<"InventoryBatch", 'Int'>
+    readonly purchasePrice: FieldRef<"InventoryBatch", 'Float'>
+    readonly createdAt: FieldRef<"InventoryBatch", 'DateTime'>
+    readonly updatedAt: FieldRef<"InventoryBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InventoryBatch findUnique
+   */
+  export type InventoryBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryBatch to fetch.
+     */
+    where: InventoryBatchWhereUniqueInput
+  }
+
+  /**
+   * InventoryBatch findUniqueOrThrow
+   */
+  export type InventoryBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryBatch to fetch.
+     */
+    where: InventoryBatchWhereUniqueInput
+  }
+
+  /**
+   * InventoryBatch findFirst
+   */
+  export type InventoryBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryBatch to fetch.
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryBatches to fetch.
+     */
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryBatches.
+     */
+    cursor?: InventoryBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryBatches.
+     */
+    distinct?: InventoryBatchScalarFieldEnum | InventoryBatchScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryBatch findFirstOrThrow
+   */
+  export type InventoryBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryBatch to fetch.
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryBatches to fetch.
+     */
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryBatches.
+     */
+    cursor?: InventoryBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryBatches.
+     */
+    distinct?: InventoryBatchScalarFieldEnum | InventoryBatchScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryBatch findMany
+   */
+  export type InventoryBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryBatches to fetch.
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryBatches to fetch.
+     */
+    orderBy?: InventoryBatchOrderByWithRelationInput | InventoryBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InventoryBatches.
+     */
+    cursor?: InventoryBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryBatches.
+     */
+    skip?: number
+    distinct?: InventoryBatchScalarFieldEnum | InventoryBatchScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryBatch create
+   */
+  export type InventoryBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InventoryBatch.
+     */
+    data: XOR<InventoryBatchCreateInput, InventoryBatchUncheckedCreateInput>
+  }
+
+  /**
+   * InventoryBatch createMany
+   */
+  export type InventoryBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InventoryBatches.
+     */
+    data: InventoryBatchCreateManyInput | InventoryBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InventoryBatch update
+   */
+  export type InventoryBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InventoryBatch.
+     */
+    data: XOR<InventoryBatchUpdateInput, InventoryBatchUncheckedUpdateInput>
+    /**
+     * Choose, which InventoryBatch to update.
+     */
+    where: InventoryBatchWhereUniqueInput
+  }
+
+  /**
+   * InventoryBatch updateMany
+   */
+  export type InventoryBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InventoryBatches.
+     */
+    data: XOR<InventoryBatchUpdateManyMutationInput, InventoryBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which InventoryBatches to update
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * Limit how many InventoryBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryBatch upsert
+   */
+  export type InventoryBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InventoryBatch to update in case it exists.
+     */
+    where: InventoryBatchWhereUniqueInput
+    /**
+     * In case the InventoryBatch found by the `where` argument doesn't exist, create a new InventoryBatch with this data.
+     */
+    create: XOR<InventoryBatchCreateInput, InventoryBatchUncheckedCreateInput>
+    /**
+     * In case the InventoryBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InventoryBatchUpdateInput, InventoryBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * InventoryBatch delete
+   */
+  export type InventoryBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+    /**
+     * Filter which InventoryBatch to delete.
+     */
+    where: InventoryBatchWhereUniqueInput
+  }
+
+  /**
+   * InventoryBatch deleteMany
+   */
+  export type InventoryBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryBatches to delete
+     */
+    where?: InventoryBatchWhereInput
+    /**
+     * Limit how many InventoryBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryBatch.orderItemBatches
+   */
+  export type InventoryBatch$orderItemBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItemBatch
+     */
+    select?: OrderItemBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItemBatch
+     */
+    omit?: OrderItemBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemBatchInclude<ExtArgs> | null
+    where?: OrderItemBatchWhereInput
+    orderBy?: OrderItemBatchOrderByWithRelationInput | OrderItemBatchOrderByWithRelationInput[]
+    cursor?: OrderItemBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderItemBatchScalarFieldEnum | OrderItemBatchScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryBatch without action
+   */
+  export type InventoryBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryBatch
+     */
+    select?: InventoryBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryBatch
+     */
+    omit?: InventoryBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26819,7 +29261,9 @@ export namespace Prisma {
     categoryId: 'categoryId',
     storeId: 'storeId',
     image: 'image',
-    description: 'description'
+    description: 'description',
+    trackBatchNumber: 'trackBatchNumber',
+    trackExpiryDate: 'trackExpiryDate'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -26877,10 +29321,21 @@ export namespace Prisma {
     gstAmount: 'gstAmount',
     taxableAmount: 'taxableAmount',
     subtotal: 'subtotal',
-    orderId: 'orderId'
+    orderId: 'orderId',
+    batchNo: 'batchNo'
   };
 
   export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
+
+
+  export const OrderItemBatchScalarFieldEnum: {
+    id: 'id',
+    orderItemId: 'orderItemId',
+    batchId: 'batchId',
+    quantity: 'quantity'
+  };
+
+  export type OrderItemBatchScalarFieldEnum = (typeof OrderItemBatchScalarFieldEnum)[keyof typeof OrderItemBatchScalarFieldEnum]
 
 
   export const CustomerScalarFieldEnum: {
@@ -27046,10 +29501,29 @@ export namespace Prisma {
     productId: 'productId',
     quantity: 'quantity',
     unitPrice: 'unitPrice',
-    subtotal: 'subtotal'
+    subtotal: 'subtotal',
+    batchNo: 'batchNo',
+    expiryDate: 'expiryDate',
+    purchasePrice: 'purchasePrice'
   };
 
   export type PurchaseItemScalarFieldEnum = (typeof PurchaseItemScalarFieldEnum)[keyof typeof PurchaseItemScalarFieldEnum]
+
+
+  export const InventoryBatchScalarFieldEnum: {
+    id: 'id',
+    storeId: 'storeId',
+    branchId: 'branchId',
+    productId: 'productId',
+    batchNo: 'batchNo',
+    expiryDate: 'expiryDate',
+    quantity: 'quantity',
+    purchasePrice: 'purchasePrice',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InventoryBatchScalarFieldEnum = (typeof InventoryBatchScalarFieldEnum)[keyof typeof InventoryBatchScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -27170,6 +29644,13 @@ export namespace Prisma {
   export type OrderOrderByRelevanceFieldEnum = (typeof OrderOrderByRelevanceFieldEnum)[keyof typeof OrderOrderByRelevanceFieldEnum]
 
 
+  export const OrderItemOrderByRelevanceFieldEnum: {
+    batchNo: 'batchNo'
+  };
+
+  export type OrderItemOrderByRelevanceFieldEnum = (typeof OrderItemOrderByRelevanceFieldEnum)[keyof typeof OrderItemOrderByRelevanceFieldEnum]
+
+
   export const CustomerOrderByRelevanceFieldEnum: {
     name: 'name',
     email: 'email',
@@ -27249,6 +29730,20 @@ export namespace Prisma {
   export type PurchaseOrderByRelevanceFieldEnum = (typeof PurchaseOrderByRelevanceFieldEnum)[keyof typeof PurchaseOrderByRelevanceFieldEnum]
 
 
+  export const PurchaseItemOrderByRelevanceFieldEnum: {
+    batchNo: 'batchNo'
+  };
+
+  export type PurchaseItemOrderByRelevanceFieldEnum = (typeof PurchaseItemOrderByRelevanceFieldEnum)[keyof typeof PurchaseItemOrderByRelevanceFieldEnum]
+
+
+  export const InventoryBatchOrderByRelevanceFieldEnum: {
+    batchNo: 'batchNo'
+  };
+
+  export type InventoryBatchOrderByRelevanceFieldEnum = (typeof InventoryBatchOrderByRelevanceFieldEnum)[keyof typeof InventoryBatchOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -27311,6 +29806,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'PaymentType'
    */
   export type EnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType'>
@@ -27328,13 +29830,6 @@ export namespace Prisma {
    * Reference to a field of type 'BillingCycle'
    */
   export type EnumBillingCycleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingCycle'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -27683,6 +30178,7 @@ export namespace Prisma {
     refunds?: RefundListRelationFilter
     expenses?: ExpenseListRelationFilter
     purchases?: PurchaseListRelationFilter
+    inventoryBatches?: InventoryBatchListRelationFilter
   }
 
   export type BranchOrderByWithRelationInput = {
@@ -27711,6 +30207,7 @@ export namespace Prisma {
     refunds?: RefundOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
     purchases?: PurchaseOrderByRelationAggregateInput
+    inventoryBatches?: InventoryBatchOrderByRelationAggregateInput
     _relevance?: BranchOrderByRelevanceInput
   }
 
@@ -27743,6 +30240,7 @@ export namespace Prisma {
     refunds?: RefundListRelationFilter
     expenses?: ExpenseListRelationFilter
     purchases?: PurchaseListRelationFilter
+    inventoryBatches?: InventoryBatchListRelationFilter
   }, "id" | "managerId">
 
   export type BranchOrderByWithAggregationInput = {
@@ -27879,9 +30377,12 @@ export namespace Prisma {
     storeId?: IntFilter<"Product"> | number
     image?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
+    trackBatchNumber?: BoolFilter<"Product"> | boolean
+    trackExpiryDate?: BoolFilter<"Product"> | boolean
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
     inventories?: InventoryListRelationFilter
+    batches?: InventoryBatchListRelationFilter
     orderItems?: OrderItemListRelationFilter
     purchaseItems?: PurchaseItemListRelationFilter
   }
@@ -27898,9 +30399,12 @@ export namespace Prisma {
     storeId?: SortOrder
     image?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    trackBatchNumber?: SortOrder
+    trackExpiryDate?: SortOrder
     category?: CategoryOrderByWithRelationInput
     store?: StoreOrderByWithRelationInput
     inventories?: InventoryOrderByRelationAggregateInput
+    batches?: InventoryBatchOrderByRelationAggregateInput
     orderItems?: OrderItemOrderByRelationAggregateInput
     purchaseItems?: PurchaseItemOrderByRelationAggregateInput
     _relevance?: ProductOrderByRelevanceInput
@@ -27921,9 +30425,12 @@ export namespace Prisma {
     storeId?: IntFilter<"Product"> | number
     image?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
+    trackBatchNumber?: BoolFilter<"Product"> | boolean
+    trackExpiryDate?: BoolFilter<"Product"> | boolean
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
     inventories?: InventoryListRelationFilter
+    batches?: InventoryBatchListRelationFilter
     orderItems?: OrderItemListRelationFilter
     purchaseItems?: PurchaseItemListRelationFilter
   }, "id" | "sku">
@@ -27940,6 +30447,8 @@ export namespace Prisma {
     storeId?: SortOrder
     image?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    trackBatchNumber?: SortOrder
+    trackExpiryDate?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -27962,6 +30471,8 @@ export namespace Prisma {
     storeId?: IntWithAggregatesFilter<"Product"> | number
     image?: StringNullableWithAggregatesFilter<"Product"> | string | null
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    trackBatchNumber?: BoolWithAggregatesFilter<"Product"> | boolean
+    trackExpiryDate?: BoolWithAggregatesFilter<"Product"> | boolean
   }
 
   export type CategoryWhereInput = {
@@ -28207,8 +30718,10 @@ export namespace Prisma {
     taxableAmount?: FloatFilter<"OrderItem"> | number
     subtotal?: FloatFilter<"OrderItem"> | number
     orderId?: IntFilter<"OrderItem"> | number
+    batchNo?: StringNullableFilter<"OrderItem"> | string | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    batches?: OrderItemBatchListRelationFilter
   }
 
   export type OrderItemOrderByWithRelationInput = {
@@ -28224,8 +30737,11 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+    batchNo?: SortOrderInput | SortOrder
     product?: ProductOrderByWithRelationInput
     order?: OrderOrderByWithRelationInput
+    batches?: OrderItemBatchOrderByRelationAggregateInput
+    _relevance?: OrderItemOrderByRelevanceInput
   }
 
   export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
@@ -28244,8 +30760,10 @@ export namespace Prisma {
     taxableAmount?: FloatFilter<"OrderItem"> | number
     subtotal?: FloatFilter<"OrderItem"> | number
     orderId?: IntFilter<"OrderItem"> | number
+    batchNo?: StringNullableFilter<"OrderItem"> | string | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    batches?: OrderItemBatchListRelationFilter
   }, "id">
 
   export type OrderItemOrderByWithAggregationInput = {
@@ -28261,6 +30779,7 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+    batchNo?: SortOrderInput | SortOrder
     _count?: OrderItemCountOrderByAggregateInput
     _avg?: OrderItemAvgOrderByAggregateInput
     _max?: OrderItemMaxOrderByAggregateInput
@@ -28284,6 +30803,62 @@ export namespace Prisma {
     taxableAmount?: FloatWithAggregatesFilter<"OrderItem"> | number
     subtotal?: FloatWithAggregatesFilter<"OrderItem"> | number
     orderId?: IntWithAggregatesFilter<"OrderItem"> | number
+    batchNo?: StringNullableWithAggregatesFilter<"OrderItem"> | string | null
+  }
+
+  export type OrderItemBatchWhereInput = {
+    AND?: OrderItemBatchWhereInput | OrderItemBatchWhereInput[]
+    OR?: OrderItemBatchWhereInput[]
+    NOT?: OrderItemBatchWhereInput | OrderItemBatchWhereInput[]
+    id?: IntFilter<"OrderItemBatch"> | number
+    orderItemId?: IntFilter<"OrderItemBatch"> | number
+    batchId?: IntFilter<"OrderItemBatch"> | number
+    quantity?: IntFilter<"OrderItemBatch"> | number
+    orderItem?: XOR<OrderItemScalarRelationFilter, OrderItemWhereInput>
+    batch?: XOR<InventoryBatchScalarRelationFilter, InventoryBatchWhereInput>
+  }
+
+  export type OrderItemBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+    orderItem?: OrderItemOrderByWithRelationInput
+    batch?: InventoryBatchOrderByWithRelationInput
+  }
+
+  export type OrderItemBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: OrderItemBatchWhereInput | OrderItemBatchWhereInput[]
+    OR?: OrderItemBatchWhereInput[]
+    NOT?: OrderItemBatchWhereInput | OrderItemBatchWhereInput[]
+    orderItemId?: IntFilter<"OrderItemBatch"> | number
+    batchId?: IntFilter<"OrderItemBatch"> | number
+    quantity?: IntFilter<"OrderItemBatch"> | number
+    orderItem?: XOR<OrderItemScalarRelationFilter, OrderItemWhereInput>
+    batch?: XOR<InventoryBatchScalarRelationFilter, InventoryBatchWhereInput>
+  }, "id">
+
+  export type OrderItemBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+    _count?: OrderItemBatchCountOrderByAggregateInput
+    _avg?: OrderItemBatchAvgOrderByAggregateInput
+    _max?: OrderItemBatchMaxOrderByAggregateInput
+    _min?: OrderItemBatchMinOrderByAggregateInput
+    _sum?: OrderItemBatchSumOrderByAggregateInput
+  }
+
+  export type OrderItemBatchScalarWhereWithAggregatesInput = {
+    AND?: OrderItemBatchScalarWhereWithAggregatesInput | OrderItemBatchScalarWhereWithAggregatesInput[]
+    OR?: OrderItemBatchScalarWhereWithAggregatesInput[]
+    NOT?: OrderItemBatchScalarWhereWithAggregatesInput | OrderItemBatchScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"OrderItemBatch"> | number
+    orderItemId?: IntWithAggregatesFilter<"OrderItemBatch"> | number
+    batchId?: IntWithAggregatesFilter<"OrderItemBatch"> | number
+    quantity?: IntWithAggregatesFilter<"OrderItemBatch"> | number
   }
 
   export type CustomerWhereInput = {
@@ -29139,6 +31714,9 @@ export namespace Prisma {
     quantity?: IntFilter<"PurchaseItem"> | number
     unitPrice?: FloatFilter<"PurchaseItem"> | number
     subtotal?: FloatFilter<"PurchaseItem"> | number
+    batchNo?: StringNullableFilter<"PurchaseItem"> | string | null
+    expiryDate?: DateTimeNullableFilter<"PurchaseItem"> | Date | string | null
+    purchasePrice?: FloatNullableFilter<"PurchaseItem"> | number | null
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }
@@ -29150,8 +31728,12 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    batchNo?: SortOrderInput | SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    purchasePrice?: SortOrderInput | SortOrder
     purchase?: PurchaseOrderByWithRelationInput
     product?: ProductOrderByWithRelationInput
+    _relevance?: PurchaseItemOrderByRelevanceInput
   }
 
   export type PurchaseItemWhereUniqueInput = Prisma.AtLeast<{
@@ -29164,6 +31746,9 @@ export namespace Prisma {
     quantity?: IntFilter<"PurchaseItem"> | number
     unitPrice?: FloatFilter<"PurchaseItem"> | number
     subtotal?: FloatFilter<"PurchaseItem"> | number
+    batchNo?: StringNullableFilter<"PurchaseItem"> | string | null
+    expiryDate?: DateTimeNullableFilter<"PurchaseItem"> | Date | string | null
+    purchasePrice?: FloatNullableFilter<"PurchaseItem"> | number | null
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }, "id">
@@ -29175,6 +31760,9 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    batchNo?: SortOrderInput | SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    purchasePrice?: SortOrderInput | SortOrder
     _count?: PurchaseItemCountOrderByAggregateInput
     _avg?: PurchaseItemAvgOrderByAggregateInput
     _max?: PurchaseItemMaxOrderByAggregateInput
@@ -29192,6 +31780,99 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"PurchaseItem"> | number
     unitPrice?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     subtotal?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    batchNo?: StringNullableWithAggregatesFilter<"PurchaseItem"> | string | null
+    expiryDate?: DateTimeNullableWithAggregatesFilter<"PurchaseItem"> | Date | string | null
+    purchasePrice?: FloatNullableWithAggregatesFilter<"PurchaseItem"> | number | null
+  }
+
+  export type InventoryBatchWhereInput = {
+    AND?: InventoryBatchWhereInput | InventoryBatchWhereInput[]
+    OR?: InventoryBatchWhereInput[]
+    NOT?: InventoryBatchWhereInput | InventoryBatchWhereInput[]
+    id?: IntFilter<"InventoryBatch"> | number
+    storeId?: IntFilter<"InventoryBatch"> | number
+    branchId?: IntFilter<"InventoryBatch"> | number
+    productId?: IntFilter<"InventoryBatch"> | number
+    batchNo?: StringFilter<"InventoryBatch"> | string
+    expiryDate?: DateTimeNullableFilter<"InventoryBatch"> | Date | string | null
+    quantity?: IntFilter<"InventoryBatch"> | number
+    purchasePrice?: FloatFilter<"InventoryBatch"> | number
+    createdAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+    branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    orderItemBatches?: OrderItemBatchListRelationFilter
+  }
+
+  export type InventoryBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    branch?: BranchOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+    orderItemBatches?: OrderItemBatchOrderByRelationAggregateInput
+    _relevance?: InventoryBatchOrderByRelevanceInput
+  }
+
+  export type InventoryBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    branchId_productId_batchNo?: InventoryBatchBranchIdProductIdBatchNoCompoundUniqueInput
+    AND?: InventoryBatchWhereInput | InventoryBatchWhereInput[]
+    OR?: InventoryBatchWhereInput[]
+    NOT?: InventoryBatchWhereInput | InventoryBatchWhereInput[]
+    storeId?: IntFilter<"InventoryBatch"> | number
+    branchId?: IntFilter<"InventoryBatch"> | number
+    productId?: IntFilter<"InventoryBatch"> | number
+    batchNo?: StringFilter<"InventoryBatch"> | string
+    expiryDate?: DateTimeNullableFilter<"InventoryBatch"> | Date | string | null
+    quantity?: IntFilter<"InventoryBatch"> | number
+    purchasePrice?: FloatFilter<"InventoryBatch"> | number
+    createdAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+    branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    orderItemBatches?: OrderItemBatchListRelationFilter
+  }, "id" | "branchId_productId_batchNo">
+
+  export type InventoryBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InventoryBatchCountOrderByAggregateInput
+    _avg?: InventoryBatchAvgOrderByAggregateInput
+    _max?: InventoryBatchMaxOrderByAggregateInput
+    _min?: InventoryBatchMinOrderByAggregateInput
+    _sum?: InventoryBatchSumOrderByAggregateInput
+  }
+
+  export type InventoryBatchScalarWhereWithAggregatesInput = {
+    AND?: InventoryBatchScalarWhereWithAggregatesInput | InventoryBatchScalarWhereWithAggregatesInput[]
+    OR?: InventoryBatchScalarWhereWithAggregatesInput[]
+    NOT?: InventoryBatchScalarWhereWithAggregatesInput | InventoryBatchScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InventoryBatch"> | number
+    storeId?: IntWithAggregatesFilter<"InventoryBatch"> | number
+    branchId?: IntWithAggregatesFilter<"InventoryBatch"> | number
+    productId?: IntWithAggregatesFilter<"InventoryBatch"> | number
+    batchNo?: StringWithAggregatesFilter<"InventoryBatch"> | string
+    expiryDate?: DateTimeNullableWithAggregatesFilter<"InventoryBatch"> | Date | string | null
+    quantity?: IntWithAggregatesFilter<"InventoryBatch"> | number
+    purchasePrice?: FloatWithAggregatesFilter<"InventoryBatch"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InventoryBatch"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InventoryBatch"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -29520,6 +32201,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateInput = {
@@ -29546,6 +32228,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUpdateInput = {
@@ -29571,6 +32254,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateInput = {
@@ -29597,6 +32281,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchCreateManyInput = {
@@ -29735,9 +32420,12 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: CategoryCreateNestedOneWithoutProductsInput
     store: StoreCreateNestedOneWithoutProductsInput
     inventories?: InventoryCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
   }
@@ -29754,7 +32442,10 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -29768,9 +32459,12 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneWithoutProductsNestedInput
     store?: StoreUpdateOneRequiredWithoutProductsNestedInput
     inventories?: InventoryUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
   }
@@ -29787,7 +32481,10 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -29804,6 +32501,8 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -29815,6 +32514,8 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -29829,6 +32530,8 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryCreateInput = {
@@ -30055,8 +32758,10 @@ export namespace Prisma {
     gstAmount?: number
     taxableAmount?: number
     subtotal: number
+    batchNo?: string | null
     product: ProductCreateNestedOneWithoutOrderItemsInput
     order: OrderCreateNestedOneWithoutOrderItemsInput
+    batches?: OrderItemBatchCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemUncheckedCreateInput = {
@@ -30072,6 +32777,8 @@ export namespace Prisma {
     taxableAmount?: number
     subtotal: number
     orderId: number
+    batchNo?: string | null
+    batches?: OrderItemBatchUncheckedCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemUpdateInput = {
@@ -30084,8 +32791,10 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
     product?: ProductUpdateOneRequiredWithoutOrderItemsNestedInput
     order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
+    batches?: OrderItemBatchUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemUncheckedUpdateInput = {
@@ -30101,6 +32810,8 @@ export namespace Prisma {
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
     orderId?: IntFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    batches?: OrderItemBatchUncheckedUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemCreateManyInput = {
@@ -30116,6 +32827,7 @@ export namespace Prisma {
     taxableAmount?: number
     subtotal: number
     orderId: number
+    batchNo?: string | null
   }
 
   export type OrderItemUpdateManyMutationInput = {
@@ -30128,6 +32840,7 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemUncheckedUpdateManyInput = {
@@ -30143,6 +32856,51 @@ export namespace Prisma {
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
     orderId?: IntFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OrderItemBatchCreateInput = {
+    quantity: number
+    orderItem: OrderItemCreateNestedOneWithoutBatchesInput
+    batch: InventoryBatchCreateNestedOneWithoutOrderItemBatchesInput
+  }
+
+  export type OrderItemBatchUncheckedCreateInput = {
+    id?: number
+    orderItemId: number
+    batchId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchUpdateInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    orderItem?: OrderItemUpdateOneRequiredWithoutBatchesNestedInput
+    batch?: InventoryBatchUpdateOneRequiredWithoutOrderItemBatchesNestedInput
+  }
+
+  export type OrderItemBatchUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    orderItemId?: IntFieldUpdateOperationsInput | number
+    batchId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OrderItemBatchCreateManyInput = {
+    id?: number
+    orderItemId: number
+    batchId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchUpdateManyMutationInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OrderItemBatchUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    orderItemId?: IntFieldUpdateOperationsInput | number
+    batchId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type CustomerCreateInput = {
@@ -30989,6 +33747,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
     purchase: PurchaseCreateNestedOneWithoutPurchaseItemsInput
     product: ProductCreateNestedOneWithoutPurchaseItemsInput
   }
@@ -31000,12 +33761,18 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type PurchaseItemUpdateInput = {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     purchase?: PurchaseUpdateOneRequiredWithoutPurchaseItemsNestedInput
     product?: ProductUpdateOneRequiredWithoutPurchaseItemsNestedInput
   }
@@ -31017,6 +33784,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PurchaseItemCreateManyInput = {
@@ -31026,12 +33796,18 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type PurchaseItemUpdateManyMutationInput = {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PurchaseItemUncheckedUpdateManyInput = {
@@ -31041,6 +33817,99 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type InventoryBatchCreateInput = {
+    storeId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branch: BranchCreateNestedOneWithoutInventoryBatchesInput
+    product: ProductCreateNestedOneWithoutBatchesInput
+    orderItemBatches?: OrderItemBatchCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchUncheckedCreateInput = {
+    id?: number
+    storeId: number
+    branchId: number
+    productId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderItemBatches?: OrderItemBatchUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchUpdateInput = {
+    storeId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneRequiredWithoutInventoryBatchesNestedInput
+    product?: ProductUpdateOneRequiredWithoutBatchesNestedInput
+    orderItemBatches?: OrderItemBatchUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItemBatches?: OrderItemBatchUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchCreateManyInput = {
+    id?: number
+    storeId: number
+    branchId: number
+    productId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InventoryBatchUpdateManyMutationInput = {
+    storeId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryBatchUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -31580,11 +34449,21 @@ export namespace Prisma {
     none?: ExpenseWhereInput
   }
 
+  export type InventoryBatchListRelationFilter = {
+    every?: InventoryBatchWhereInput
+    some?: InventoryBatchWhereInput
+    none?: InventoryBatchWhereInput
+  }
+
   export type InventoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ExpenseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InventoryBatchOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31762,6 +34641,11 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type CategoryNullableScalarRelationFilter = {
     is?: CategoryWhereInput | null
     isNot?: CategoryWhereInput | null
@@ -31805,6 +34689,8 @@ export namespace Prisma {
     storeId?: SortOrder
     image?: SortOrder
     description?: SortOrder
+    trackBatchNumber?: SortOrder
+    trackExpiryDate?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
@@ -31829,6 +34715,8 @@ export namespace Prisma {
     storeId?: SortOrder
     image?: SortOrder
     description?: SortOrder
+    trackBatchNumber?: SortOrder
+    trackExpiryDate?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -31843,6 +34731,8 @@ export namespace Prisma {
     storeId?: SortOrder
     image?: SortOrder
     description?: SortOrder
+    trackBatchNumber?: SortOrder
+    trackExpiryDate?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
@@ -31853,6 +34743,14 @@ export namespace Prisma {
     gst?: SortOrder
     categoryId?: SortOrder
     storeId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CategoryOrderByRelevanceInput = {
@@ -32064,6 +34962,22 @@ export namespace Prisma {
     isNot?: OrderWhereInput
   }
 
+  export type OrderItemBatchListRelationFilter = {
+    every?: OrderItemBatchWhereInput
+    some?: OrderItemBatchWhereInput
+    none?: OrderItemBatchWhereInput
+  }
+
+  export type OrderItemBatchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrderItemOrderByRelevanceInput = {
+    fields: OrderItemOrderByRelevanceFieldEnum | OrderItemOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
   export type OrderItemCountOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
@@ -32077,6 +34991,7 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+    batchNo?: SortOrder
   }
 
   export type OrderItemAvgOrderByAggregateInput = {
@@ -32107,6 +35022,7 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+    batchNo?: SortOrder
   }
 
   export type OrderItemMinOrderByAggregateInput = {
@@ -32122,6 +35038,7 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+    batchNo?: SortOrder
   }
 
   export type OrderItemSumOrderByAggregateInput = {
@@ -32137,6 +35054,51 @@ export namespace Prisma {
     taxableAmount?: SortOrder
     subtotal?: SortOrder
     orderId?: SortOrder
+  }
+
+  export type OrderItemScalarRelationFilter = {
+    is?: OrderItemWhereInput
+    isNot?: OrderItemWhereInput
+  }
+
+  export type InventoryBatchScalarRelationFilter = {
+    is?: InventoryBatchWhereInput
+    isNot?: InventoryBatchWhereInput
+  }
+
+  export type OrderItemBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type OrderItemBatchAvgOrderByAggregateInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type OrderItemBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type OrderItemBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type OrderItemBatchSumOrderByAggregateInput = {
+    id?: SortOrder
+    orderItemId?: SortOrder
+    batchId?: SortOrder
+    quantity?: SortOrder
   }
 
   export type CustomerOrderByRelevanceInput = {
@@ -32382,11 +35344,6 @@ export namespace Prisma {
     not?: NestedEnumBillingCycleFilter<$PrismaModel> | $Enums.BillingCycle
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type SubscriptionPlanOrderByRelevanceInput = {
     fields: SubscriptionPlanOrderByRelevanceFieldEnum | SubscriptionPlanOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -32456,14 +35413,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBillingCycleFilter<$PrismaModel>
     _max?: NestedEnumBillingCycleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
@@ -32887,6 +35836,12 @@ export namespace Prisma {
     isNot?: PurchaseWhereInput
   }
 
+  export type PurchaseItemOrderByRelevanceInput = {
+    fields: PurchaseItemOrderByRelevanceFieldEnum | PurchaseItemOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
   export type PurchaseItemCountOrderByAggregateInput = {
     id?: SortOrder
     purchaseId?: SortOrder
@@ -32894,6 +35849,9 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    purchasePrice?: SortOrder
   }
 
   export type PurchaseItemAvgOrderByAggregateInput = {
@@ -32903,6 +35861,7 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    purchasePrice?: SortOrder
   }
 
   export type PurchaseItemMaxOrderByAggregateInput = {
@@ -32912,6 +35871,9 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    purchasePrice?: SortOrder
   }
 
   export type PurchaseItemMinOrderByAggregateInput = {
@@ -32921,6 +35883,9 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    purchasePrice?: SortOrder
   }
 
   export type PurchaseItemSumOrderByAggregateInput = {
@@ -32930,6 +35895,76 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     subtotal?: SortOrder
+    purchasePrice?: SortOrder
+  }
+
+  export type InventoryBatchOrderByRelevanceInput = {
+    fields: InventoryBatchOrderByRelevanceFieldEnum | InventoryBatchOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type InventoryBatchBranchIdProductIdBatchNoCompoundUniqueInput = {
+    branchId: number
+    productId: number
+    batchNo: string
+  }
+
+  export type InventoryBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InventoryBatchAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+  }
+
+  export type InventoryBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InventoryBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    batchNo?: SortOrder
+    expiryDate?: SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InventoryBatchSumOrderByAggregateInput = {
+    id?: SortOrder
+    storeId?: SortOrder
+    branchId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+    purchasePrice?: SortOrder
   }
 
   export type StoreCreateNestedOneWithoutEmployeesInput = {
@@ -33733,6 +36768,13 @@ export namespace Prisma {
     connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
   }
 
+  export type InventoryBatchCreateNestedManyWithoutBranchInput = {
+    create?: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput> | InventoryBatchCreateWithoutBranchInput[] | InventoryBatchUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutBranchInput | InventoryBatchCreateOrConnectWithoutBranchInput[]
+    createMany?: InventoryBatchCreateManyBranchInputEnvelope
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutBranchInput = {
     create?: XOR<UserCreateWithoutBranchInput, UserUncheckedCreateWithoutBranchInput> | UserCreateWithoutBranchInput[] | UserUncheckedCreateWithoutBranchInput[]
     connectOrCreate?: UserCreateOrConnectWithoutBranchInput | UserCreateOrConnectWithoutBranchInput[]
@@ -33780,6 +36822,13 @@ export namespace Prisma {
     connectOrCreate?: PurchaseCreateOrConnectWithoutBranchInput | PurchaseCreateOrConnectWithoutBranchInput[]
     createMany?: PurchaseCreateManyBranchInputEnvelope
     connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+  }
+
+  export type InventoryBatchUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput> | InventoryBatchCreateWithoutBranchInput[] | InventoryBatchUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutBranchInput | InventoryBatchCreateOrConnectWithoutBranchInput[]
+    createMany?: InventoryBatchCreateManyBranchInputEnvelope
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
   }
 
   export type StoreUpdateOneRequiredWithoutBranchesNestedInput = {
@@ -33898,6 +36947,20 @@ export namespace Prisma {
     deleteMany?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
   }
 
+  export type InventoryBatchUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput> | InventoryBatchCreateWithoutBranchInput[] | InventoryBatchUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutBranchInput | InventoryBatchCreateOrConnectWithoutBranchInput[]
+    upsert?: InventoryBatchUpsertWithWhereUniqueWithoutBranchInput | InventoryBatchUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: InventoryBatchCreateManyBranchInputEnvelope
+    set?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    disconnect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    delete?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    update?: InventoryBatchUpdateWithWhereUniqueWithoutBranchInput | InventoryBatchUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: InventoryBatchUpdateManyWithWhereWithoutBranchInput | InventoryBatchUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutBranchNestedInput = {
     create?: XOR<UserCreateWithoutBranchInput, UserUncheckedCreateWithoutBranchInput> | UserCreateWithoutBranchInput[] | UserUncheckedCreateWithoutBranchInput[]
     connectOrCreate?: UserCreateOrConnectWithoutBranchInput | UserCreateOrConnectWithoutBranchInput[]
@@ -33996,6 +37059,20 @@ export namespace Prisma {
     deleteMany?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
   }
 
+  export type InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput> | InventoryBatchCreateWithoutBranchInput[] | InventoryBatchUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutBranchInput | InventoryBatchCreateOrConnectWithoutBranchInput[]
+    upsert?: InventoryBatchUpsertWithWhereUniqueWithoutBranchInput | InventoryBatchUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: InventoryBatchCreateManyBranchInputEnvelope
+    set?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    disconnect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    delete?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    update?: InventoryBatchUpdateWithWhereUniqueWithoutBranchInput | InventoryBatchUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: InventoryBatchUpdateManyWithWhereWithoutBranchInput | InventoryBatchUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
+  }
+
   export type BranchCreateNestedOneWithoutExpensesInput = {
     create?: XOR<BranchCreateWithoutExpensesInput, BranchUncheckedCreateWithoutExpensesInput>
     connectOrCreate?: BranchCreateOrConnectWithoutExpensesInput
@@ -34037,6 +37114,13 @@ export namespace Prisma {
     connect?: InventoryWhereUniqueInput | InventoryWhereUniqueInput[]
   }
 
+  export type InventoryBatchCreateNestedManyWithoutProductInput = {
+    create?: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput> | InventoryBatchCreateWithoutProductInput[] | InventoryBatchUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutProductInput | InventoryBatchCreateOrConnectWithoutProductInput[]
+    createMany?: InventoryBatchCreateManyProductInputEnvelope
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+  }
+
   export type OrderItemCreateNestedManyWithoutProductInput = {
     create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
@@ -34058,6 +37142,13 @@ export namespace Prisma {
     connect?: InventoryWhereUniqueInput | InventoryWhereUniqueInput[]
   }
 
+  export type InventoryBatchUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput> | InventoryBatchCreateWithoutProductInput[] | InventoryBatchUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutProductInput | InventoryBatchCreateOrConnectWithoutProductInput[]
+    createMany?: InventoryBatchCreateManyProductInputEnvelope
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+  }
+
   export type OrderItemUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
@@ -34070,6 +37161,10 @@ export namespace Prisma {
     connectOrCreate?: PurchaseItemCreateOrConnectWithoutProductInput | PurchaseItemCreateOrConnectWithoutProductInput[]
     createMany?: PurchaseItemCreateManyProductInputEnvelope
     connect?: PurchaseItemWhereUniqueInput | PurchaseItemWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type CategoryUpdateOneWithoutProductsNestedInput = {
@@ -34102,6 +37197,20 @@ export namespace Prisma {
     update?: InventoryUpdateWithWhereUniqueWithoutProductInput | InventoryUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: InventoryUpdateManyWithWhereWithoutProductInput | InventoryUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: InventoryScalarWhereInput | InventoryScalarWhereInput[]
+  }
+
+  export type InventoryBatchUpdateManyWithoutProductNestedInput = {
+    create?: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput> | InventoryBatchCreateWithoutProductInput[] | InventoryBatchUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutProductInput | InventoryBatchCreateOrConnectWithoutProductInput[]
+    upsert?: InventoryBatchUpsertWithWhereUniqueWithoutProductInput | InventoryBatchUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: InventoryBatchCreateManyProductInputEnvelope
+    set?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    disconnect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    delete?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    update?: InventoryBatchUpdateWithWhereUniqueWithoutProductInput | InventoryBatchUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: InventoryBatchUpdateManyWithWhereWithoutProductInput | InventoryBatchUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
   }
 
   export type OrderItemUpdateManyWithoutProductNestedInput = {
@@ -34144,6 +37253,20 @@ export namespace Prisma {
     update?: InventoryUpdateWithWhereUniqueWithoutProductInput | InventoryUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: InventoryUpdateManyWithWhereWithoutProductInput | InventoryUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: InventoryScalarWhereInput | InventoryScalarWhereInput[]
+  }
+
+  export type InventoryBatchUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput> | InventoryBatchCreateWithoutProductInput[] | InventoryBatchUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutProductInput | InventoryBatchCreateOrConnectWithoutProductInput[]
+    upsert?: InventoryBatchUpsertWithWhereUniqueWithoutProductInput | InventoryBatchUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: InventoryBatchCreateManyProductInputEnvelope
+    set?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    disconnect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    delete?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    connect?: InventoryBatchWhereUniqueInput | InventoryBatchWhereUniqueInput[]
+    update?: InventoryBatchUpdateWithWhereUniqueWithoutProductInput | InventoryBatchUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: InventoryBatchUpdateManyWithWhereWithoutProductInput | InventoryBatchUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
   }
 
   export type OrderItemUncheckedUpdateManyWithoutProductNestedInput = {
@@ -34406,6 +37529,20 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput
   }
 
+  export type OrderItemBatchCreateNestedManyWithoutOrderItemInput = {
+    create?: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput> | OrderItemBatchCreateWithoutOrderItemInput[] | OrderItemBatchUncheckedCreateWithoutOrderItemInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutOrderItemInput | OrderItemBatchCreateOrConnectWithoutOrderItemInput[]
+    createMany?: OrderItemBatchCreateManyOrderItemInputEnvelope
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+  }
+
+  export type OrderItemBatchUncheckedCreateNestedManyWithoutOrderItemInput = {
+    create?: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput> | OrderItemBatchCreateWithoutOrderItemInput[] | OrderItemBatchUncheckedCreateWithoutOrderItemInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutOrderItemInput | OrderItemBatchCreateOrConnectWithoutOrderItemInput[]
+    createMany?: OrderItemBatchCreateManyOrderItemInputEnvelope
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+  }
+
   export type ProductUpdateOneRequiredWithoutOrderItemsNestedInput = {
     create?: XOR<ProductCreateWithoutOrderItemsInput, ProductUncheckedCreateWithoutOrderItemsInput>
     connectOrCreate?: ProductCreateOrConnectWithoutOrderItemsInput
@@ -34420,6 +37557,62 @@ export namespace Prisma {
     upsert?: OrderUpsertWithoutOrderItemsInput
     connect?: OrderWhereUniqueInput
     update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutOrderItemsInput, OrderUpdateWithoutOrderItemsInput>, OrderUncheckedUpdateWithoutOrderItemsInput>
+  }
+
+  export type OrderItemBatchUpdateManyWithoutOrderItemNestedInput = {
+    create?: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput> | OrderItemBatchCreateWithoutOrderItemInput[] | OrderItemBatchUncheckedCreateWithoutOrderItemInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutOrderItemInput | OrderItemBatchCreateOrConnectWithoutOrderItemInput[]
+    upsert?: OrderItemBatchUpsertWithWhereUniqueWithoutOrderItemInput | OrderItemBatchUpsertWithWhereUniqueWithoutOrderItemInput[]
+    createMany?: OrderItemBatchCreateManyOrderItemInputEnvelope
+    set?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    disconnect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    delete?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    update?: OrderItemBatchUpdateWithWhereUniqueWithoutOrderItemInput | OrderItemBatchUpdateWithWhereUniqueWithoutOrderItemInput[]
+    updateMany?: OrderItemBatchUpdateManyWithWhereWithoutOrderItemInput | OrderItemBatchUpdateManyWithWhereWithoutOrderItemInput[]
+    deleteMany?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+  }
+
+  export type OrderItemBatchUncheckedUpdateManyWithoutOrderItemNestedInput = {
+    create?: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput> | OrderItemBatchCreateWithoutOrderItemInput[] | OrderItemBatchUncheckedCreateWithoutOrderItemInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutOrderItemInput | OrderItemBatchCreateOrConnectWithoutOrderItemInput[]
+    upsert?: OrderItemBatchUpsertWithWhereUniqueWithoutOrderItemInput | OrderItemBatchUpsertWithWhereUniqueWithoutOrderItemInput[]
+    createMany?: OrderItemBatchCreateManyOrderItemInputEnvelope
+    set?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    disconnect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    delete?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    update?: OrderItemBatchUpdateWithWhereUniqueWithoutOrderItemInput | OrderItemBatchUpdateWithWhereUniqueWithoutOrderItemInput[]
+    updateMany?: OrderItemBatchUpdateManyWithWhereWithoutOrderItemInput | OrderItemBatchUpdateManyWithWhereWithoutOrderItemInput[]
+    deleteMany?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+  }
+
+  export type OrderItemCreateNestedOneWithoutBatchesInput = {
+    create?: XOR<OrderItemCreateWithoutBatchesInput, OrderItemUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBatchesInput
+    connect?: OrderItemWhereUniqueInput
+  }
+
+  export type InventoryBatchCreateNestedOneWithoutOrderItemBatchesInput = {
+    create?: XOR<InventoryBatchCreateWithoutOrderItemBatchesInput, InventoryBatchUncheckedCreateWithoutOrderItemBatchesInput>
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutOrderItemBatchesInput
+    connect?: InventoryBatchWhereUniqueInput
+  }
+
+  export type OrderItemUpdateOneRequiredWithoutBatchesNestedInput = {
+    create?: XOR<OrderItemCreateWithoutBatchesInput, OrderItemUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBatchesInput
+    upsert?: OrderItemUpsertWithoutBatchesInput
+    connect?: OrderItemWhereUniqueInput
+    update?: XOR<XOR<OrderItemUpdateToOneWithWhereWithoutBatchesInput, OrderItemUpdateWithoutBatchesInput>, OrderItemUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type InventoryBatchUpdateOneRequiredWithoutOrderItemBatchesNestedInput = {
+    create?: XOR<InventoryBatchCreateWithoutOrderItemBatchesInput, InventoryBatchUncheckedCreateWithoutOrderItemBatchesInput>
+    connectOrCreate?: InventoryBatchCreateOrConnectWithoutOrderItemBatchesInput
+    upsert?: InventoryBatchUpsertWithoutOrderItemBatchesInput
+    connect?: InventoryBatchWhereUniqueInput
+    update?: XOR<XOR<InventoryBatchUpdateToOneWithWhereWithoutOrderItemBatchesInput, InventoryBatchUpdateWithoutOrderItemBatchesInput>, InventoryBatchUncheckedUpdateWithoutOrderItemBatchesInput>
   }
 
   export type UserCreateNestedOneWithoutCustomersCreatedInput = {
@@ -34636,10 +37829,6 @@ export namespace Prisma {
 
   export type EnumBillingCycleFieldUpdateOperationsInput = {
     set?: $Enums.BillingCycle
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type SubscriptionUpdateManyWithoutPlanNestedInput = {
@@ -34912,6 +38101,76 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutPurchaseItemsInput, ProductUpdateWithoutPurchaseItemsInput>, ProductUncheckedUpdateWithoutPurchaseItemsInput>
   }
 
+  export type BranchCreateNestedOneWithoutInventoryBatchesInput = {
+    create?: XOR<BranchCreateWithoutInventoryBatchesInput, BranchUncheckedCreateWithoutInventoryBatchesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutInventoryBatchesInput
+    connect?: BranchWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutBatchesInput = {
+    create?: XOR<ProductCreateWithoutBatchesInput, ProductUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBatchesInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type OrderItemBatchCreateNestedManyWithoutBatchInput = {
+    create?: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput> | OrderItemBatchCreateWithoutBatchInput[] | OrderItemBatchUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutBatchInput | OrderItemBatchCreateOrConnectWithoutBatchInput[]
+    createMany?: OrderItemBatchCreateManyBatchInputEnvelope
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+  }
+
+  export type OrderItemBatchUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput> | OrderItemBatchCreateWithoutBatchInput[] | OrderItemBatchUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutBatchInput | OrderItemBatchCreateOrConnectWithoutBatchInput[]
+    createMany?: OrderItemBatchCreateManyBatchInputEnvelope
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+  }
+
+  export type BranchUpdateOneRequiredWithoutInventoryBatchesNestedInput = {
+    create?: XOR<BranchCreateWithoutInventoryBatchesInput, BranchUncheckedCreateWithoutInventoryBatchesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutInventoryBatchesInput
+    upsert?: BranchUpsertWithoutInventoryBatchesInput
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutInventoryBatchesInput, BranchUpdateWithoutInventoryBatchesInput>, BranchUncheckedUpdateWithoutInventoryBatchesInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutBatchesNestedInput = {
+    create?: XOR<ProductCreateWithoutBatchesInput, ProductUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBatchesInput
+    upsert?: ProductUpsertWithoutBatchesInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutBatchesInput, ProductUpdateWithoutBatchesInput>, ProductUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type OrderItemBatchUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput> | OrderItemBatchCreateWithoutBatchInput[] | OrderItemBatchUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutBatchInput | OrderItemBatchCreateOrConnectWithoutBatchInput[]
+    upsert?: OrderItemBatchUpsertWithWhereUniqueWithoutBatchInput | OrderItemBatchUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: OrderItemBatchCreateManyBatchInputEnvelope
+    set?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    disconnect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    delete?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    update?: OrderItemBatchUpdateWithWhereUniqueWithoutBatchInput | OrderItemBatchUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: OrderItemBatchUpdateManyWithWhereWithoutBatchInput | OrderItemBatchUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+  }
+
+  export type OrderItemBatchUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput> | OrderItemBatchCreateWithoutBatchInput[] | OrderItemBatchUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: OrderItemBatchCreateOrConnectWithoutBatchInput | OrderItemBatchCreateOrConnectWithoutBatchInput[]
+    upsert?: OrderItemBatchUpsertWithWhereUniqueWithoutBatchInput | OrderItemBatchUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: OrderItemBatchCreateManyBatchInputEnvelope
+    set?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    disconnect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    delete?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    connect?: OrderItemBatchWhereUniqueInput | OrderItemBatchWhereUniqueInput[]
+    update?: OrderItemBatchUpdateWithWhereUniqueWithoutBatchInput | OrderItemBatchUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: OrderItemBatchUpdateManyWithWhereWithoutBatchInput | OrderItemBatchUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -35152,6 +38411,19 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentType | EnumPaymentTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentType[]
@@ -35234,11 +38506,6 @@ export namespace Prisma {
     not?: NestedEnumBillingCycleFilter<$PrismaModel> | $Enums.BillingCycle
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedEnumBillingCycleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BillingCycle | EnumBillingCycleFieldRefInput<$PrismaModel>
     in?: $Enums.BillingCycle[]
@@ -35247,14 +38514,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBillingCycleFilter<$PrismaModel>
     _max?: NestedEnumBillingCycleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
@@ -35393,6 +38652,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutEmployeesInput = {
@@ -35418,6 +38678,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutEmployeesInput = {
@@ -35493,6 +38754,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutManagerInput = {
@@ -35518,6 +38780,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutManagerInput = {
@@ -35859,6 +39122,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutEmployeesInput = {
@@ -35884,6 +39148,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type StoreUpsertWithoutStoreAdminInput = {
@@ -35971,6 +39236,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutManagerInput = {
@@ -35996,6 +39262,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type PasswordResetTokenUpsertWithoutUserInput = {
@@ -36412,6 +39679,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutStoreInput = {
@@ -36437,6 +39705,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutStoreInput = {
@@ -36511,8 +39780,11 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: CategoryCreateNestedOneWithoutProductsInput
     inventories?: InventoryCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
   }
@@ -36528,7 +39800,10 @@ export namespace Prisma {
     categoryId?: number | null
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -36779,6 +40054,8 @@ export namespace Prisma {
     storeId?: IntFilter<"Product"> | number
     image?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
+    trackBatchNumber?: BoolFilter<"Product"> | boolean
+    trackExpiryDate?: BoolFilter<"Product"> | boolean
   }
 
   export type CategoryUpsertWithWhereUniqueWithoutStoreInput = {
@@ -37217,6 +40494,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InventoryBatchCreateWithoutBranchInput = {
+    storeId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutBatchesInput
+    orderItemBatches?: OrderItemBatchCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchUncheckedCreateWithoutBranchInput = {
+    id?: number
+    storeId: number
+    productId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderItemBatches?: OrderItemBatchUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchCreateOrConnectWithoutBranchInput = {
+    where: InventoryBatchWhereUniqueInput
+    create: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput>
+  }
+
+  export type InventoryBatchCreateManyBranchInputEnvelope = {
+    data: InventoryBatchCreateManyBranchInput | InventoryBatchCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StoreUpsertWithoutBranchesInput = {
     update: XOR<StoreUpdateWithoutBranchesInput, StoreUncheckedUpdateWithoutBranchesInput>
     create: XOR<StoreCreateWithoutBranchesInput, StoreUncheckedCreateWithoutBranchesInput>
@@ -37461,6 +40773,38 @@ export namespace Prisma {
     data: XOR<PurchaseUpdateManyMutationInput, PurchaseUncheckedUpdateManyWithoutBranchInput>
   }
 
+  export type InventoryBatchUpsertWithWhereUniqueWithoutBranchInput = {
+    where: InventoryBatchWhereUniqueInput
+    update: XOR<InventoryBatchUpdateWithoutBranchInput, InventoryBatchUncheckedUpdateWithoutBranchInput>
+    create: XOR<InventoryBatchCreateWithoutBranchInput, InventoryBatchUncheckedCreateWithoutBranchInput>
+  }
+
+  export type InventoryBatchUpdateWithWhereUniqueWithoutBranchInput = {
+    where: InventoryBatchWhereUniqueInput
+    data: XOR<InventoryBatchUpdateWithoutBranchInput, InventoryBatchUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type InventoryBatchUpdateManyWithWhereWithoutBranchInput = {
+    where: InventoryBatchScalarWhereInput
+    data: XOR<InventoryBatchUpdateManyMutationInput, InventoryBatchUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type InventoryBatchScalarWhereInput = {
+    AND?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
+    OR?: InventoryBatchScalarWhereInput[]
+    NOT?: InventoryBatchScalarWhereInput | InventoryBatchScalarWhereInput[]
+    id?: IntFilter<"InventoryBatch"> | number
+    storeId?: IntFilter<"InventoryBatch"> | number
+    branchId?: IntFilter<"InventoryBatch"> | number
+    productId?: IntFilter<"InventoryBatch"> | number
+    batchNo?: StringFilter<"InventoryBatch"> | string
+    expiryDate?: DateTimeNullableFilter<"InventoryBatch"> | Date | string | null
+    quantity?: IntFilter<"InventoryBatch"> | number
+    purchasePrice?: FloatFilter<"InventoryBatch"> | number
+    createdAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"InventoryBatch"> | Date | string
+  }
+
   export type BranchCreateWithoutExpensesInput = {
     name: string
     address?: string | null
@@ -37483,6 +40827,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportCreateNestedManyWithoutBranchInput
     refunds?: RefundCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutExpensesInput = {
@@ -37508,6 +40853,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedCreateNestedManyWithoutBranchInput
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutExpensesInput = {
@@ -37548,6 +40894,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUpdateManyWithoutBranchNestedInput
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutExpensesInput = {
@@ -37573,6 +40920,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedUpdateManyWithoutBranchNestedInput
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type CategoryCreateWithoutProductsInput = {
@@ -37662,6 +41010,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InventoryBatchCreateWithoutProductInput = {
+    storeId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branch: BranchCreateNestedOneWithoutInventoryBatchesInput
+    orderItemBatches?: OrderItemBatchCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchUncheckedCreateWithoutProductInput = {
+    id?: number
+    storeId: number
+    branchId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderItemBatches?: OrderItemBatchUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type InventoryBatchCreateOrConnectWithoutProductInput = {
+    where: InventoryBatchWhereUniqueInput
+    create: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput>
+  }
+
+  export type InventoryBatchCreateManyProductInputEnvelope = {
+    data: InventoryBatchCreateManyProductInput | InventoryBatchCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrderItemCreateWithoutProductInput = {
     quantity: number
     unitPrice: number
@@ -37672,7 +41055,9 @@ export namespace Prisma {
     gstAmount?: number
     taxableAmount?: number
     subtotal: number
+    batchNo?: string | null
     order: OrderCreateNestedOneWithoutOrderItemsInput
+    batches?: OrderItemBatchCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemUncheckedCreateWithoutProductInput = {
@@ -37687,6 +41072,8 @@ export namespace Prisma {
     taxableAmount?: number
     subtotal: number
     orderId: number
+    batchNo?: string | null
+    batches?: OrderItemBatchUncheckedCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemCreateOrConnectWithoutProductInput = {
@@ -37703,6 +41090,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
     purchase: PurchaseCreateNestedOneWithoutPurchaseItemsInput
   }
 
@@ -37712,6 +41102,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type PurchaseItemCreateOrConnectWithoutProductInput = {
@@ -37814,6 +41207,22 @@ export namespace Prisma {
     data: XOR<InventoryUpdateManyMutationInput, InventoryUncheckedUpdateManyWithoutProductInput>
   }
 
+  export type InventoryBatchUpsertWithWhereUniqueWithoutProductInput = {
+    where: InventoryBatchWhereUniqueInput
+    update: XOR<InventoryBatchUpdateWithoutProductInput, InventoryBatchUncheckedUpdateWithoutProductInput>
+    create: XOR<InventoryBatchCreateWithoutProductInput, InventoryBatchUncheckedCreateWithoutProductInput>
+  }
+
+  export type InventoryBatchUpdateWithWhereUniqueWithoutProductInput = {
+    where: InventoryBatchWhereUniqueInput
+    data: XOR<InventoryBatchUpdateWithoutProductInput, InventoryBatchUncheckedUpdateWithoutProductInput>
+  }
+
+  export type InventoryBatchUpdateManyWithWhereWithoutProductInput = {
+    where: InventoryBatchScalarWhereInput
+    data: XOR<InventoryBatchUpdateManyMutationInput, InventoryBatchUncheckedUpdateManyWithoutProductInput>
+  }
+
   export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
     where: OrderItemWhereUniqueInput
     update: XOR<OrderItemUpdateWithoutProductInput, OrderItemUncheckedUpdateWithoutProductInput>
@@ -37846,6 +41255,7 @@ export namespace Prisma {
     taxableAmount?: FloatFilter<"OrderItem"> | number
     subtotal?: FloatFilter<"OrderItem"> | number
     orderId?: IntFilter<"OrderItem"> | number
+    batchNo?: StringNullableFilter<"OrderItem"> | string | null
   }
 
   export type PurchaseItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -37874,6 +41284,9 @@ export namespace Prisma {
     quantity?: IntFilter<"PurchaseItem"> | number
     unitPrice?: FloatFilter<"PurchaseItem"> | number
     subtotal?: FloatFilter<"PurchaseItem"> | number
+    batchNo?: StringNullableFilter<"PurchaseItem"> | string | null
+    expiryDate?: DateTimeNullableFilter<"PurchaseItem"> | Date | string | null
+    purchasePrice?: FloatNullableFilter<"PurchaseItem"> | number | null
   }
 
   export type StoreCreateWithoutCategoriesInput = {
@@ -37931,8 +41344,11 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     store: StoreCreateNestedOneWithoutProductsInput
     inventories?: InventoryCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
   }
@@ -37948,7 +41364,10 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -38040,8 +41459,11 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: CategoryCreateNestedOneWithoutProductsInput
     store: StoreCreateNestedOneWithoutProductsInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
   }
@@ -38058,6 +41480,9 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -38089,6 +41514,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutInventoriesInput = {
@@ -38114,6 +41540,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutInventoriesInput = {
@@ -38141,8 +41568,11 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneWithoutProductsNestedInput
     store?: StoreUpdateOneRequiredWithoutProductsNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
   }
@@ -38159,6 +41589,9 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -38196,6 +41629,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutInventoriesInput = {
@@ -38221,6 +41655,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchCreateWithoutOrdersInput = {
@@ -38245,6 +41680,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutOrdersInput = {
@@ -38270,6 +41706,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutOrdersInput = {
@@ -38357,7 +41794,9 @@ export namespace Prisma {
     gstAmount?: number
     taxableAmount?: number
     subtotal: number
+    batchNo?: string | null
     product: ProductCreateNestedOneWithoutOrderItemsInput
+    batches?: OrderItemBatchCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemUncheckedCreateWithoutOrderInput = {
@@ -38372,6 +41811,8 @@ export namespace Prisma {
     gstAmount?: number
     taxableAmount?: number
     subtotal: number
+    batchNo?: string | null
+    batches?: OrderItemBatchUncheckedCreateNestedManyWithoutOrderItemInput
   }
 
   export type OrderItemCreateOrConnectWithoutOrderInput = {
@@ -38446,6 +41887,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutOrdersInput = {
@@ -38471,6 +41913,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type UserUpsertWithoutOrdersCashieredInput = {
@@ -38596,9 +42039,12 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: CategoryCreateNestedOneWithoutProductsInput
     store: StoreCreateNestedOneWithoutProductsInput
     inventories?: InventoryCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
   }
 
@@ -38614,7 +42060,10 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
   }
 
@@ -38661,6 +42110,27 @@ export namespace Prisma {
     create: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
   }
 
+  export type OrderItemBatchCreateWithoutOrderItemInput = {
+    quantity: number
+    batch: InventoryBatchCreateNestedOneWithoutOrderItemBatchesInput
+  }
+
+  export type OrderItemBatchUncheckedCreateWithoutOrderItemInput = {
+    id?: number
+    batchId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchCreateOrConnectWithoutOrderItemInput = {
+    where: OrderItemBatchWhereUniqueInput
+    create: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput>
+  }
+
+  export type OrderItemBatchCreateManyOrderItemInputEnvelope = {
+    data: OrderItemBatchCreateManyOrderItemInput | OrderItemBatchCreateManyOrderItemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductUpsertWithoutOrderItemsInput = {
     update: XOR<ProductUpdateWithoutOrderItemsInput, ProductUncheckedUpdateWithoutOrderItemsInput>
     create: XOR<ProductCreateWithoutOrderItemsInput, ProductUncheckedCreateWithoutOrderItemsInput>
@@ -38681,9 +42151,12 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneWithoutProductsNestedInput
     store?: StoreUpdateOneRequiredWithoutProductsNestedInput
     inventories?: InventoryUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
   }
 
@@ -38699,7 +42172,10 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
@@ -38745,6 +42221,176 @@ export namespace Prisma {
     cashierId?: IntFieldUpdateOperationsInput | number
     customerId?: NullableIntFieldUpdateOperationsInput | number | null
     refunds?: RefundUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderItemBatchUpsertWithWhereUniqueWithoutOrderItemInput = {
+    where: OrderItemBatchWhereUniqueInput
+    update: XOR<OrderItemBatchUpdateWithoutOrderItemInput, OrderItemBatchUncheckedUpdateWithoutOrderItemInput>
+    create: XOR<OrderItemBatchCreateWithoutOrderItemInput, OrderItemBatchUncheckedCreateWithoutOrderItemInput>
+  }
+
+  export type OrderItemBatchUpdateWithWhereUniqueWithoutOrderItemInput = {
+    where: OrderItemBatchWhereUniqueInput
+    data: XOR<OrderItemBatchUpdateWithoutOrderItemInput, OrderItemBatchUncheckedUpdateWithoutOrderItemInput>
+  }
+
+  export type OrderItemBatchUpdateManyWithWhereWithoutOrderItemInput = {
+    where: OrderItemBatchScalarWhereInput
+    data: XOR<OrderItemBatchUpdateManyMutationInput, OrderItemBatchUncheckedUpdateManyWithoutOrderItemInput>
+  }
+
+  export type OrderItemBatchScalarWhereInput = {
+    AND?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+    OR?: OrderItemBatchScalarWhereInput[]
+    NOT?: OrderItemBatchScalarWhereInput | OrderItemBatchScalarWhereInput[]
+    id?: IntFilter<"OrderItemBatch"> | number
+    orderItemId?: IntFilter<"OrderItemBatch"> | number
+    batchId?: IntFilter<"OrderItemBatch"> | number
+    quantity?: IntFilter<"OrderItemBatch"> | number
+  }
+
+  export type OrderItemCreateWithoutBatchesInput = {
+    quantity: number
+    unitPrice: number
+    mrp?: number
+    costPriceSnapshot?: number
+    discount?: number
+    gstRate?: number
+    gstAmount?: number
+    taxableAmount?: number
+    subtotal: number
+    batchNo?: string | null
+    product: ProductCreateNestedOneWithoutOrderItemsInput
+    order: OrderCreateNestedOneWithoutOrderItemsInput
+  }
+
+  export type OrderItemUncheckedCreateWithoutBatchesInput = {
+    id?: number
+    productId: number
+    quantity: number
+    unitPrice: number
+    mrp?: number
+    costPriceSnapshot?: number
+    discount?: number
+    gstRate?: number
+    gstAmount?: number
+    taxableAmount?: number
+    subtotal: number
+    orderId: number
+    batchNo?: string | null
+  }
+
+  export type OrderItemCreateOrConnectWithoutBatchesInput = {
+    where: OrderItemWhereUniqueInput
+    create: XOR<OrderItemCreateWithoutBatchesInput, OrderItemUncheckedCreateWithoutBatchesInput>
+  }
+
+  export type InventoryBatchCreateWithoutOrderItemBatchesInput = {
+    storeId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branch: BranchCreateNestedOneWithoutInventoryBatchesInput
+    product: ProductCreateNestedOneWithoutBatchesInput
+  }
+
+  export type InventoryBatchUncheckedCreateWithoutOrderItemBatchesInput = {
+    id?: number
+    storeId: number
+    branchId: number
+    productId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InventoryBatchCreateOrConnectWithoutOrderItemBatchesInput = {
+    where: InventoryBatchWhereUniqueInput
+    create: XOR<InventoryBatchCreateWithoutOrderItemBatchesInput, InventoryBatchUncheckedCreateWithoutOrderItemBatchesInput>
+  }
+
+  export type OrderItemUpsertWithoutBatchesInput = {
+    update: XOR<OrderItemUpdateWithoutBatchesInput, OrderItemUncheckedUpdateWithoutBatchesInput>
+    create: XOR<OrderItemCreateWithoutBatchesInput, OrderItemUncheckedCreateWithoutBatchesInput>
+    where?: OrderItemWhereInput
+  }
+
+  export type OrderItemUpdateToOneWithWhereWithoutBatchesInput = {
+    where?: OrderItemWhereInput
+    data: XOR<OrderItemUpdateWithoutBatchesInput, OrderItemUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type OrderItemUpdateWithoutBatchesInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    mrp?: FloatFieldUpdateOperationsInput | number
+    costPriceSnapshot?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    gstAmount?: FloatFieldUpdateOperationsInput | number
+    taxableAmount?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    product?: ProductUpdateOneRequiredWithoutOrderItemsNestedInput
+    order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
+  }
+
+  export type OrderItemUncheckedUpdateWithoutBatchesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    mrp?: FloatFieldUpdateOperationsInput | number
+    costPriceSnapshot?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
+    gstRate?: FloatFieldUpdateOperationsInput | number
+    gstAmount?: FloatFieldUpdateOperationsInput | number
+    taxableAmount?: FloatFieldUpdateOperationsInput | number
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    orderId?: IntFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InventoryBatchUpsertWithoutOrderItemBatchesInput = {
+    update: XOR<InventoryBatchUpdateWithoutOrderItemBatchesInput, InventoryBatchUncheckedUpdateWithoutOrderItemBatchesInput>
+    create: XOR<InventoryBatchCreateWithoutOrderItemBatchesInput, InventoryBatchUncheckedCreateWithoutOrderItemBatchesInput>
+    where?: InventoryBatchWhereInput
+  }
+
+  export type InventoryBatchUpdateToOneWithWhereWithoutOrderItemBatchesInput = {
+    where?: InventoryBatchWhereInput
+    data: XOR<InventoryBatchUpdateWithoutOrderItemBatchesInput, InventoryBatchUncheckedUpdateWithoutOrderItemBatchesInput>
+  }
+
+  export type InventoryBatchUpdateWithoutOrderItemBatchesInput = {
+    storeId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneRequiredWithoutInventoryBatchesNestedInput
+    product?: ProductUpdateOneRequiredWithoutBatchesNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateWithoutOrderItemBatchesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutCustomersCreatedInput = {
@@ -38978,6 +42624,7 @@ export namespace Prisma {
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutShiftReportsInput = {
@@ -39003,6 +42650,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutShiftReportsInput = {
@@ -39126,6 +42774,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutShiftReportsInput = {
@@ -39151,6 +42800,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type RefundUpsertWithWhereUniqueWithoutShiftReportInput = {
@@ -39277,6 +42927,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
     purchases?: PurchaseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutRefundsInput = {
@@ -39302,6 +42953,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
     purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutRefundsInput = {
@@ -39478,6 +43130,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutRefundsInput = {
@@ -39503,6 +43156,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type ShiftReportUpsertWithoutRefundsInput = {
@@ -40159,6 +43813,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportCreateNestedManyWithoutBranchInput
     refunds?: RefundCreateNestedManyWithoutBranchInput
     expenses?: ExpenseCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutBranchInput
   }
 
   export type BranchUncheckedCreateWithoutPurchasesInput = {
@@ -40184,6 +43839,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedCreateNestedManyWithoutBranchInput
     refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
     expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutBranchInput
   }
 
   export type BranchCreateOrConnectWithoutPurchasesInput = {
@@ -40243,6 +43899,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
     product: ProductCreateNestedOneWithoutPurchaseItemsInput
   }
 
@@ -40252,6 +43911,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type PurchaseItemCreateOrConnectWithoutPurchaseInput = {
@@ -40331,6 +43993,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUpdateManyWithoutBranchNestedInput
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutPurchasesInput = {
@@ -40356,6 +44019,7 @@ export namespace Prisma {
     shiftReports?: ShiftReportUncheckedUpdateManyWithoutBranchNestedInput
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type UserUpsertWithoutPurchasesCreatedInput = {
@@ -40467,9 +44131,12 @@ export namespace Prisma {
     gst?: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     category?: CategoryCreateNestedOneWithoutProductsInput
     store: StoreCreateNestedOneWithoutProductsInput
     inventories?: InventoryCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
@@ -40485,7 +44152,10 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
     inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    batches?: InventoryBatchUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
@@ -40550,9 +44220,12 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneWithoutProductsNestedInput
     store?: StoreUpdateOneRequiredWithoutProductsNestedInput
     inventories?: InventoryUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
@@ -40568,8 +44241,256 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
+    inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type BranchCreateWithoutInventoryBatchesInput = {
+    name: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logoUrl?: string | null
+    location?: string | null
+    openingTime?: string | null
+    closingTime?: string | null
+    workingDays?: NullableJsonNullValueInput | InputJsonValue
+    printerSettings?: NullableJsonNullValueInput | InputJsonValue
+    taxSettings?: NullableJsonNullValueInput | InputJsonValue
+    paymentSettings?: NullableJsonNullValueInput | InputJsonValue
+    discountSettings?: NullableJsonNullValueInput | InputJsonValue
+    store: StoreCreateNestedOneWithoutBranchesInput
+    manager?: UserCreateNestedOneWithoutManagedBranchInput
+    employees?: UserCreateNestedManyWithoutBranchInput
+    inventories?: InventoryCreateNestedManyWithoutBranchInput
+    orders?: OrderCreateNestedManyWithoutBranchInput
+    shiftReports?: ShiftReportCreateNestedManyWithoutBranchInput
+    refunds?: RefundCreateNestedManyWithoutBranchInput
+    expenses?: ExpenseCreateNestedManyWithoutBranchInput
+    purchases?: PurchaseCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutInventoryBatchesInput = {
+    id?: number
+    name: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    logoUrl?: string | null
+    location?: string | null
+    storeId: number
+    managerId?: number | null
+    openingTime?: string | null
+    closingTime?: string | null
+    workingDays?: NullableJsonNullValueInput | InputJsonValue
+    printerSettings?: NullableJsonNullValueInput | InputJsonValue
+    taxSettings?: NullableJsonNullValueInput | InputJsonValue
+    paymentSettings?: NullableJsonNullValueInput | InputJsonValue
+    discountSettings?: NullableJsonNullValueInput | InputJsonValue
+    employees?: UserUncheckedCreateNestedManyWithoutBranchInput
+    inventories?: InventoryUncheckedCreateNestedManyWithoutBranchInput
+    orders?: OrderUncheckedCreateNestedManyWithoutBranchInput
+    shiftReports?: ShiftReportUncheckedCreateNestedManyWithoutBranchInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutBranchInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutBranchInput
+    purchases?: PurchaseUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutInventoryBatchesInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutInventoryBatchesInput, BranchUncheckedCreateWithoutInventoryBatchesInput>
+  }
+
+  export type ProductCreateWithoutBatchesInput = {
+    name: string
+    sku: string
+    sellingPrice: number
+    mrp?: number
+    costPrice?: number
+    gst?: number
+    image?: string | null
+    description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
+    category?: CategoryCreateNestedOneWithoutProductsInput
+    store: StoreCreateNestedOneWithoutProductsInput
+    inventories?: InventoryCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
+    purchaseItems?: PurchaseItemCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutBatchesInput = {
+    id?: number
+    name: string
+    sku: string
+    sellingPrice: number
+    mrp?: number
+    costPrice?: number
+    gst?: number
+    categoryId?: number | null
+    storeId: number
+    image?: string | null
+    description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
+    inventories?: InventoryUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    purchaseItems?: PurchaseItemUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutBatchesInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutBatchesInput, ProductUncheckedCreateWithoutBatchesInput>
+  }
+
+  export type OrderItemBatchCreateWithoutBatchInput = {
+    quantity: number
+    orderItem: OrderItemCreateNestedOneWithoutBatchesInput
+  }
+
+  export type OrderItemBatchUncheckedCreateWithoutBatchInput = {
+    id?: number
+    orderItemId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchCreateOrConnectWithoutBatchInput = {
+    where: OrderItemBatchWhereUniqueInput
+    create: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput>
+  }
+
+  export type OrderItemBatchCreateManyBatchInputEnvelope = {
+    data: OrderItemBatchCreateManyBatchInput | OrderItemBatchCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BranchUpsertWithoutInventoryBatchesInput = {
+    update: XOR<BranchUpdateWithoutInventoryBatchesInput, BranchUncheckedUpdateWithoutInventoryBatchesInput>
+    create: XOR<BranchCreateWithoutInventoryBatchesInput, BranchUncheckedCreateWithoutInventoryBatchesInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutInventoryBatchesInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutInventoryBatchesInput, BranchUncheckedUpdateWithoutInventoryBatchesInput>
+  }
+
+  export type BranchUpdateWithoutInventoryBatchesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    openingTime?: NullableStringFieldUpdateOperationsInput | string | null
+    closingTime?: NullableStringFieldUpdateOperationsInput | string | null
+    workingDays?: NullableJsonNullValueInput | InputJsonValue
+    printerSettings?: NullableJsonNullValueInput | InputJsonValue
+    taxSettings?: NullableJsonNullValueInput | InputJsonValue
+    paymentSettings?: NullableJsonNullValueInput | InputJsonValue
+    discountSettings?: NullableJsonNullValueInput | InputJsonValue
+    store?: StoreUpdateOneRequiredWithoutBranchesNestedInput
+    manager?: UserUpdateOneWithoutManagedBranchNestedInput
+    employees?: UserUpdateManyWithoutBranchNestedInput
+    inventories?: InventoryUpdateManyWithoutBranchNestedInput
+    orders?: OrderUpdateManyWithoutBranchNestedInput
+    shiftReports?: ShiftReportUpdateManyWithoutBranchNestedInput
+    refunds?: RefundUpdateManyWithoutBranchNestedInput
+    expenses?: ExpenseUpdateManyWithoutBranchNestedInput
+    purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutInventoryBatchesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    storeId?: IntFieldUpdateOperationsInput | number
+    managerId?: NullableIntFieldUpdateOperationsInput | number | null
+    openingTime?: NullableStringFieldUpdateOperationsInput | string | null
+    closingTime?: NullableStringFieldUpdateOperationsInput | string | null
+    workingDays?: NullableJsonNullValueInput | InputJsonValue
+    printerSettings?: NullableJsonNullValueInput | InputJsonValue
+    taxSettings?: NullableJsonNullValueInput | InputJsonValue
+    paymentSettings?: NullableJsonNullValueInput | InputJsonValue
+    discountSettings?: NullableJsonNullValueInput | InputJsonValue
+    employees?: UserUncheckedUpdateManyWithoutBranchNestedInput
+    inventories?: InventoryUncheckedUpdateManyWithoutBranchNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutBranchNestedInput
+    shiftReports?: ShiftReportUncheckedUpdateManyWithoutBranchNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
+    purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type ProductUpsertWithoutBatchesInput = {
+    update: XOR<ProductUpdateWithoutBatchesInput, ProductUncheckedUpdateWithoutBatchesInput>
+    create: XOR<ProductCreateWithoutBatchesInput, ProductUncheckedCreateWithoutBatchesInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutBatchesInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutBatchesInput, ProductUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type ProductUpdateWithoutBatchesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    sellingPrice?: FloatFieldUpdateOperationsInput | number
+    mrp?: FloatFieldUpdateOperationsInput | number
+    costPrice?: FloatFieldUpdateOperationsInput | number
+    gst?: FloatFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
+    category?: CategoryUpdateOneWithoutProductsNestedInput
+    store?: StoreUpdateOneRequiredWithoutProductsNestedInput
+    inventories?: InventoryUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
+    purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutBatchesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    sellingPrice?: FloatFieldUpdateOperationsInput | number
+    mrp?: FloatFieldUpdateOperationsInput | number
+    costPrice?: FloatFieldUpdateOperationsInput | number
+    gst?: FloatFieldUpdateOperationsInput | number
+    categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    storeId?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type OrderItemBatchUpsertWithWhereUniqueWithoutBatchInput = {
+    where: OrderItemBatchWhereUniqueInput
+    update: XOR<OrderItemBatchUpdateWithoutBatchInput, OrderItemBatchUncheckedUpdateWithoutBatchInput>
+    create: XOR<OrderItemBatchCreateWithoutBatchInput, OrderItemBatchUncheckedCreateWithoutBatchInput>
+  }
+
+  export type OrderItemBatchUpdateWithWhereUniqueWithoutBatchInput = {
+    where: OrderItemBatchWhereUniqueInput
+    data: XOR<OrderItemBatchUpdateWithoutBatchInput, OrderItemBatchUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type OrderItemBatchUpdateManyWithWhereWithoutBatchInput = {
+    where: OrderItemBatchScalarWhereInput
+    data: XOR<OrderItemBatchUpdateManyMutationInput, OrderItemBatchUncheckedUpdateManyWithoutBatchInput>
   }
 
   export type OrderCreateManyCashierInput = {
@@ -40936,6 +44857,8 @@ export namespace Prisma {
     categoryId?: number | null
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
   }
 
   export type CategoryCreateManyStoreInput = {
@@ -40985,6 +44908,7 @@ export namespace Prisma {
     refunds?: RefundUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateWithoutStoreInput = {
@@ -41010,6 +44934,7 @@ export namespace Prisma {
     refunds?: RefundUncheckedUpdateManyWithoutBranchNestedInput
     expenses?: ExpenseUncheckedUpdateManyWithoutBranchNestedInput
     purchases?: PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutBranchNestedInput
   }
 
   export type BranchUncheckedUpdateManyWithoutStoreInput = {
@@ -41094,8 +45019,11 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneWithoutProductsNestedInput
     inventories?: InventoryUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
   }
@@ -41111,7 +45039,10 @@ export namespace Prisma {
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -41127,6 +45058,8 @@ export namespace Prisma {
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryUpdateWithoutStoreInput = {
@@ -41284,6 +45217,18 @@ export namespace Prisma {
     status?: $Enums.PurchaseStatus
     supplierId: number
     userId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InventoryBatchCreateManyBranchInput = {
+    id?: number
+    storeId: number
+    productId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -41558,12 +45503,61 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InventoryBatchUpdateWithoutBranchInput = {
+    storeId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutBatchesNestedInput
+    orderItemBatches?: OrderItemBatchUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateWithoutBranchInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItemBatches?: OrderItemBatchUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateManyWithoutBranchInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InventoryCreateManyProductInput = {
     id?: number
     branchId: number
     quantity?: number
     minimumStockLevel?: number
     lastRestockedAt?: Date | string
+  }
+
+  export type InventoryBatchCreateManyProductInput = {
+    id?: number
+    storeId: number
+    branchId: number
+    batchNo: string
+    expiryDate?: Date | string | null
+    quantity?: number
+    purchasePrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OrderItemCreateManyProductInput = {
@@ -41578,6 +45572,7 @@ export namespace Prisma {
     taxableAmount?: number
     subtotal: number
     orderId: number
+    batchNo?: string | null
   }
 
   export type PurchaseItemCreateManyProductInput = {
@@ -41586,6 +45581,9 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type InventoryUpdateWithoutProductInput = {
@@ -41611,6 +45609,43 @@ export namespace Prisma {
     lastRestockedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InventoryBatchUpdateWithoutProductInput = {
+    storeId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneRequiredWithoutInventoryBatchesNestedInput
+    orderItemBatches?: OrderItemBatchUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateWithoutProductInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItemBatches?: OrderItemBatchUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type InventoryBatchUncheckedUpdateManyWithoutProductInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storeId?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    batchNo?: StringFieldUpdateOperationsInput | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    purchasePrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderItemUpdateWithoutProductInput = {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
@@ -41621,7 +45656,9 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
     order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
+    batches?: OrderItemBatchUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemUncheckedUpdateWithoutProductInput = {
@@ -41636,6 +45673,8 @@ export namespace Prisma {
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
     orderId?: IntFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    batches?: OrderItemBatchUncheckedUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemUncheckedUpdateManyWithoutProductInput = {
@@ -41650,12 +45689,16 @@ export namespace Prisma {
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
     orderId?: IntFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PurchaseItemUpdateWithoutProductInput = {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     purchase?: PurchaseUpdateOneRequiredWithoutPurchaseItemsNestedInput
   }
 
@@ -41665,6 +45708,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PurchaseItemUncheckedUpdateManyWithoutProductInput = {
@@ -41673,6 +45719,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type ProductCreateManyCategoryInput = {
@@ -41686,6 +45735,8 @@ export namespace Prisma {
     storeId: number
     image?: string | null
     description?: string | null
+    trackBatchNumber?: boolean
+    trackExpiryDate?: boolean
   }
 
   export type ProductUpdateWithoutCategoryInput = {
@@ -41697,8 +45748,11 @@ export namespace Prisma {
     gst?: FloatFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     store?: StoreUpdateOneRequiredWithoutProductsNestedInput
     inventories?: InventoryUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUpdateManyWithoutProductNestedInput
   }
@@ -41714,7 +45768,10 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
     inventories?: InventoryUncheckedUpdateManyWithoutProductNestedInput
+    batches?: InventoryBatchUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     purchaseItems?: PurchaseItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -41730,6 +45787,8 @@ export namespace Prisma {
     storeId?: IntFieldUpdateOperationsInput | number
     image?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    trackBatchNumber?: BoolFieldUpdateOperationsInput | boolean
+    trackExpiryDate?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OrderItemCreateManyOrderInput = {
@@ -41744,6 +45803,7 @@ export namespace Prisma {
     gstAmount?: number
     taxableAmount?: number
     subtotal: number
+    batchNo?: string | null
   }
 
   export type RefundCreateManyOrderInput = {
@@ -41766,7 +45826,9 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
     product?: ProductUpdateOneRequiredWithoutOrderItemsNestedInput
+    batches?: OrderItemBatchUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemUncheckedUpdateWithoutOrderInput = {
@@ -41781,6 +45843,8 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    batches?: OrderItemBatchUncheckedUpdateManyWithoutOrderItemNestedInput
   }
 
   export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
@@ -41795,6 +45859,7 @@ export namespace Prisma {
     gstAmount?: FloatFieldUpdateOperationsInput | number
     taxableAmount?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefundUpdateWithoutOrderInput = {
@@ -41824,6 +45889,29 @@ export namespace Prisma {
     cashierId?: IntFieldUpdateOperationsInput | number
     branchId?: IntFieldUpdateOperationsInput | number
     shiftReportId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OrderItemBatchCreateManyOrderItemInput = {
+    id?: number
+    batchId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchUpdateWithoutOrderItemInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    batch?: InventoryBatchUpdateOneRequiredWithoutOrderItemBatchesNestedInput
+  }
+
+  export type OrderItemBatchUncheckedUpdateWithoutOrderItemInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    batchId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OrderItemBatchUncheckedUpdateManyWithoutOrderItemInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    batchId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderCreateManyCustomerInput = {
@@ -42018,12 +46106,18 @@ export namespace Prisma {
     quantity: number
     unitPrice: number
     subtotal: number
+    batchNo?: string | null
+    expiryDate?: Date | string | null
+    purchasePrice?: number | null
   }
 
   export type PurchaseItemUpdateWithoutPurchaseInput = {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     product?: ProductUpdateOneRequiredWithoutPurchaseItemsNestedInput
   }
 
@@ -42033,6 +46127,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PurchaseItemUncheckedUpdateManyWithoutPurchaseInput = {
@@ -42041,6 +46138,32 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
     subtotal?: FloatFieldUpdateOperationsInput | number
+    batchNo?: NullableStringFieldUpdateOperationsInput | string | null
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchasePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type OrderItemBatchCreateManyBatchInput = {
+    id?: number
+    orderItemId: number
+    quantity: number
+  }
+
+  export type OrderItemBatchUpdateWithoutBatchInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    orderItem?: OrderItemUpdateOneRequiredWithoutBatchesNestedInput
+  }
+
+  export type OrderItemBatchUncheckedUpdateWithoutBatchInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    orderItemId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OrderItemBatchUncheckedUpdateManyWithoutBatchInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    orderItemId?: IntFieldUpdateOperationsInput | number
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
 
