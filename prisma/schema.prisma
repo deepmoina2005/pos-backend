@@ -1,0 +1,459 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  STORE_ADMIN
+  STORE_MANAGER
+  BRANCH_MANAGER
+  BRANCH_CASHIER
+  CUSTOMER
+}
+
+enum StoreStatus {
+  ACTIVE
+  PENDING
+  BLOCKED
+}
+
+enum OrderStatus {
+  COMPLETED
+  PENDING
+  REFUNDED
+  CANCELLED
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentType {
+  CARD
+  UPI
+  CASH
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}
+
+enum PaymentMethod {
+  RAZORPAY
+  STRIPE
+}
+
+enum PaymentOrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  fullName  String
+  phoneNumber String?  @unique
+  role      UserRole
+
+  storeId   Int?
+  store     Store?   @relation("StoreEmployees", fields: [storeId], references: [id], onDelete: SetNull)
+
+  branchId  Int?
+  branch    Branch?  @relation("BranchEmployees", fields: [branchId], references: [id], onDelete: SetNull)
+
+  managedStore   Store?  @relation("StoreAdmin")
+  managedBranch  Branch? @relation("BranchManager")
+
+  passwordResetToken PasswordResetToken?
+  ordersCashiered    Order[]             @relation("CashierOrders")
+  shiftReports       ShiftReport[]
+  refundsProcessed   Refund[]
+  paymentOrders      PaymentOrder[]
+  purchasesCreated   Purchase[]          @relation("UserPurchases")
+  notifications      Notification[]
+  customersCreated   Customer[]          @relation("CashierCustomers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  token      String
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+  expiryDate DateTime
+}
+
+model Store {
+  id             Int         @id @default(autoincrement())
+  name           String
+  
+  storeAdminId   Int?        @unique
+  storeAdmin     User?       @relation("StoreAdmin", fields: [storeAdminId], references: [id])
+  
+  contactEmail   String?
+  contactPhone   String?
+  contactAddress String?
+  
+  status         StoreStatus @default(PENDING)
+  
+  storeType      String?
+  gstNumber      String?
+  panNumber      String?
+  
+  branches       Branch[]
+  employees      User[]      @relation("StoreEmployees")
+  products       Product[]
+  categories     Category[]
+  subscriptions  Subscription[]
+  suppliers      Supplier[]
+
+  currency       String      @default("INR")
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Branch {
+  id          Int         @id @default(autoincrement())
+  name        String
+  address     String?
+  phone       String?
+  email       String?
+  logoUrl     String?
+  location    String?
+  
+  storeId     Int
+  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  managerId   Int?        @unique
+  manager     User?       @relation("BranchManager", fields: [managerId], references: [id])
+  
+  employees   User[]      @relation("BranchEmployees")
+  inventories Inventory[]
+  orders      Order[]
+  shiftReports ShiftReport[]
+  refunds     Refund[]
+  expenses    Expense[]
+  purchases   Purchase[]
+
+  // Branch Settings
+  openingTime      String?
+  closingTime      String?
+  workingDays      Json?
+  printerSettings  Json?
+  taxSettings      Json?
+  paymentSettings  Json?
+  discountSettings Json?
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  description String
+  amount      Float
+  category    String   // e.g., Rent, Utilities, Salary, Others
+  date        DateTime @default(now())
+  
+  branchId    Int
+  branch      Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  sku         String     @unique
+  sellingPrice Float
+  mrp         Float      @default(0)
+  costPrice   Float      @default(0)
+  gst         Float      @default(0)
+  
+  categoryId  Int?
+  category    Category?  @relation(fields: [categoryId], references: [id])
+  
+  storeId     Int
+  store       Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  image       String?
+  description String?    @db.Text
+  
+  inventories Inventory[]
+  orderItems  OrderItem[]
+  purchaseItems PurchaseItem[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  
+  storeId  Int
+  store    Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  products Product[]
+}
+
+model Inventory {
+  id                Int      @id @default(autoincrement())
+  productId         Int
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  branchId          Int
+  branch            Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  quantity          Int      @default(0)
+  minimumStockLevel Int      @default(0)
+  lastRestockedAt   DateTime @default(now())
+
+  @@unique([branchId, productId])
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNumber String      @unique
+  orderDate   DateTime    @default(now())
+  
+  totalAmount Float
+  discount    Float       @default(0)
+  totalTax    Float       @default(0)
+  totalDiscount Float     @default(0)
+  finalAmount Float
+  
+  paymentType PaymentType
+  status      OrderStatus @default(PENDING)
+  
+  branchId    Int
+  branch      Branch      @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  cashierId   Int
+  cashier     User        @relation("CashierOrders", fields: [cashierId], references: [id])
+  
+  customerId  Int?
+  customer    Customer?   @relation(fields: [customerId], references: [id])
+  
+  orderItems  OrderItem[]
+  refunds     Refund[]
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  quantity  Int
+  unitPrice Float
+  mrp       Float     @default(0)
+  costPriceSnapshot Float @default(0)
+  discount  Float     @default(0)
+  gstRate   Float     @default(0)
+  gstAmount Float     @default(0)
+  taxableAmount Float @default(0)
+  subtotal  Float
+  
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id      Int     @id @default(autoincrement())
+  name    String
+  email   String?
+  phone   String?
+  address String? @db.Text
+  
+  cashierId Int?
+  cashier   User?   @relation("CashierCustomers", fields: [cashierId], references: [id])
+  
+  orders  Order[]
+}
+
+model ShiftReport {
+  id             Int       @id @default(autoincrement())
+  shiftDate      DateTime  @db.Date
+  startTime      DateTime
+  endTime        DateTime?
+  
+  cashierId      Int
+  cashier        User      @relation(fields: [cashierId], references: [id])
+  
+  branchId       Int
+  branch         Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  openingBalance Float
+  closingBalance Float?
+  
+  totalSales     Float     @default(0)
+  totalRefunds   Float     @default(0)
+  
+  cashSales      Float     @default(0)
+  cardSales      Float     @default(0)
+  upiSales       Float     @default(0)
+  orderCount     Int       @default(0)
+  
+  refunds        Refund[]
+}
+
+model Refund {
+  id            Int         @id @default(autoincrement())
+  refundDate    DateTime    @default(now())
+  amount        Float
+  reason        String?     @db.Text
+  
+  orderId       Int
+  order         Order       @relation(fields: [orderId], references: [id])
+  
+  cashierId     Int
+  cashier       User        @relation(fields: [cashierId], references: [id])
+  
+  branchId      Int
+  branch        Branch      @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  shiftReportId Int?
+  shiftReport   ShiftReport? @relation(fields: [shiftReportId], references: [id])
+}
+
+model SubscriptionPlan {
+  id            Int          @id @default(autoincrement())
+  name          String
+  description   String?      @db.Text
+  price         Float
+  billingCycle  BillingCycle
+  maxBranches   Int
+  maxEmployees  Int
+  maxProducts   Int?
+  features      String       @db.Text
+  active        Boolean      @default(true)
+  
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id        Int                @id @default(autoincrement())
+  storeId   Int                @unique
+  store     Store              @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  planId    Int
+  plan      SubscriptionPlan   @relation(fields: [planId], references: [id])
+  
+  status    SubscriptionStatus @default(TRIAL)
+  startDate DateTime           @db.Date
+  endDate   DateTime           @db.Date
+  autoRenew Boolean            @default(false)
+}
+
+model PaymentOrder {
+  id                 Int                @id @default(autoincrement())
+  orderIdGateway     String             @unique
+  amount             Float
+  paymentMethod      PaymentMethod
+  status             PaymentOrderStatus @default(PENDING)
+  
+  userId             Int
+  user               User               @relation(fields: [userId], references: [id])
+  
+  subscriptionPlanId Int?
+  
+  createdAt          DateTime           @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  title     String
+  message   String   @db.Text
+  type      String   @default("info") // info, success, warning, error
+  userId    Int?     // Target user (if null, it's for all super-admins or system-wide)
+  user      User?    @relation(fields: [userId], references: [id])
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model EmailVerification {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  otp        String
+  expiryDate DateTime
+}
+
+model DeletedStore {
+  id              Int      @id @default(autoincrement())
+  storeId         Int
+  name            String
+  reason          String   @db.Text
+  deletedAt       DateTime @default(now())
+  
+  contactEmail    String?
+  contactPhone    String?
+  storeType       String?
+}
+
+model Supplier {
+  id            Int      @id @default(autoincrement())
+  name          String
+  contactPerson String?
+  email         String?
+  phone         String?
+  address       String?  @db.Text
+  
+  storeId       Int
+  store         Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  purchases     Purchase[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Purchase {
+  id             Int            @id @default(autoincrement())
+  purchaseNumber String         @unique
+  date           DateTime       @default(now())
+  totalAmount    Float
+  status         PurchaseStatus @default(COMPLETED)
+  
+  supplierId     Int
+  supplier       Supplier       @relation(fields: [supplierId], references: [id])
+  
+  branchId       Int
+  branch         Branch         @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  userId         Int
+  user           User           @relation("UserPurchases", fields: [userId], references: [id])
+  
+  purchaseItems  PurchaseItem[]
+  
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model PurchaseItem {
+  id         Int      @id @default(autoincrement())
+  purchaseId Int
+  purchase   Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  quantity   Int
+  unitPrice  Float
+  subtotal   Float
+}

@@ -1,0 +1,18 @@
+import { Router } from "express";
+import { SuperAdminController } from "../controllers/super-admin.controller.js";
+import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware.js";
+
+const router = Router();
+
+router.use(authenticateToken);
+router.use(authorizeRoles("SUPER_ADMIN"));
+
+router.get("/dashboard/summary", SuperAdminController.getSummary);
+router.get("/dashboard/store-registrations", SuperAdminController.getRegistrationStats);
+router.get("/dashboard/store-status-distribution", SuperAdminController.getStatusDistribution);
+router.get("/subscription-plans", SuperAdminController.getSubscriptionPlans);
+router.post("/subscription-plans", SuperAdminController.createSubscriptionPlan);
+router.put("/subscription-plans/:id", SuperAdminController.updateSubscriptionPlan);
+router.delete("/subscription-plans/:id", SuperAdminController.deleteSubscriptionPlan);
+
+export default router;

@@ -1,0 +1,17 @@
+import { Router } from "express";
+import { InventoryController } from "../controllers/inventory.controller.js";
+import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware.js";
+
+import multer from "multer";
+
+const router = Router();
+const upload = multer();
+
+router.use(authenticateToken);
+
+router.post("/", authorizeRoles("ADMIN", "STORE_ADMIN", "STORE_MANAGER", "BRANCH_MANAGER"), InventoryController.updateStock);
+router.post("/import", authorizeRoles("ADMIN", "STORE_ADMIN", "STORE_MANAGER", "BRANCH_MANAGER"), upload.single("file"), InventoryController.bulkImportInventory);
+router.get("/branch/:branchId", InventoryController.getBranchInventory);
+router.get("/product/:productId", InventoryController.getProductInventory);
+
+export default router;

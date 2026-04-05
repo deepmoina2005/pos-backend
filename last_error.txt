@@ -1,0 +1,12 @@
+DriverAdapterError: pool timeout: failed to retrieve a connection from pool after 30011ms
+    (pool connections: active=0 idle=0 limit=10)
+    at PrismaMariaDbAdapter.onError (file:///V:/saas_pos/server/node_modules/@prisma/adapter-mariadb/dist/index.mjs:318:11)
+    at file:///V:/saas_pos/server/node_modules/@prisma/adapter-mariadb/dist/index.mjs:381:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async PrismaMariaDbAdapter.startTransaction (file:///V:/saas_pos/server/node_modules/@prisma/adapter-mariadb/dist/index.mjs:381:18)
+    at async #r (V:\saas_pos\server\src\generated\client\runtime\client.js:15:53227)
+    at async Vt.startInternalTransaction (V:\saas_pos\server\src\generated\client\runtime\client.js:15:52190)
+    at async e.interpretNode (V:\saas_pos\server\src\generated\client\runtime\client.js:15:45968)
+    at async e.run (V:\saas_pos\server\src\generated\client\runtime\client.js:15:43287)
+    at async e.execute (V:\saas_pos\server\src\generated\client\runtime\client.js:61:815)
+    at async jt.request (V:\saas_pos\server\src\generated\client\runtime\client.js:62:2327)
