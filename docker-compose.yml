@@ -1,0 +1,9 @@
+services:
+  pos-server:
+    build: .
+    container_name: pos-server
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    restart: unless-stopped
