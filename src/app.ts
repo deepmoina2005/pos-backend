@@ -34,7 +34,7 @@ app.use(
       if (!origin) return callback(null, true);
 
       const rawOrigins = [
-        process.env.FRONTEND_URL,
+        process.env.FRONTEND_URL || "https://pos-web-rosy.vercel.app",
       ]
         .filter(Boolean)
         .flatMap((value) => String(value).split(","))
