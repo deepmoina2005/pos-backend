@@ -200,7 +200,8 @@ model Product {
   image       String?
   description String? @db.Text
 
-  trackBatchExpiry Boolean @default(false)
+  trackBatchNumber Boolean @default(false)
+  trackExpiryDate  Boolean @default(false)
 
   inventories   Inventory[]
   batches       InventoryBatch[]
@@ -258,6 +259,9 @@ model Order {
 
   orderItems OrderItem[]
   refunds    Refund[]
+
+  @@index([branchId])
+  @@index([orderDate])
 }
 
 model OrderItem {
@@ -404,6 +408,9 @@ model Notification {
   user      User?    @relation(fields: [userId], references: [id])
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model EmailVerification {

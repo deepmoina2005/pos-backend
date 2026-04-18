@@ -1,15 +1,17 @@
 import { Router } from "express";
 import * as PurchaseController from "../controllers/purchase.controller.js";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware.js";
+import { requireActiveAssignment } from "../middlewares/assignment.middleware.js";
 import { validateRequest } from "../middlewares/validate.middleware.js";
 import { createPurchaseSchema } from "../schemas/purchase.schema.js";
 
 const router = Router();
 
 router.use(authenticateToken);
+router.use(requireActiveAssignment);
 
 router.post("/", 
-  authorizeRoles("ADMIN", "STORE_ADMIN", "BRANCH_MANAGER", "BRANCH_CASHIER"), 
+  authorizeRoles("STORE_ADMIN", "BRANCH_MANAGER", "CASHIER"), 
   validateRequest(createPurchaseSchema),
   PurchaseController.createPurchase
 );

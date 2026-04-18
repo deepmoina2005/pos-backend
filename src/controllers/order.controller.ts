@@ -31,10 +31,10 @@ export class OrderController {
   static async getBranchOrders(req: Request, res: Response, next: NextFunction) {
     try {
       const { cashierId: queryCashierId, paymentType, status } = req.query;
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       
       // If user is a cashier, they can ONLY see their own orders
-      const enforcedCashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : (queryCashierId ? Number(queryCashierId) : undefined);
+      const enforcedCashierId = userRole === "CASHIER" ? req.user?.userId : (queryCashierId ? Number(queryCashierId) : undefined);
 
       const filters = {
         cashierId: enforcedCashierId,
@@ -51,10 +51,10 @@ export class OrderController {
 
   static async getTodayBranchOrders(req: Request, res: Response, next: NextFunction) {
     try {
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       const branchId = Number(req.params.branchId);
 
-      if (userRole === "BRANCH_CASHIER" && req.user?.userId) {
+      if (userRole === "CASHIER" && req.user?.userId) {
         // Restricted to cashier's own orders for today
         const orders = await OrderService.getOrdersByCashier(req.user.userId);
         // Filter by today's date if necessary, or let client handle if service handles it
@@ -75,11 +75,11 @@ export class OrderController {
 
   static async getCashierOrders(req: Request, res: Response, next: NextFunction) {
     try {
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       const requestedId = Number(req.params.cashierId);
 
       // Security Check: Cashier can only request their own ID
-      if (userRole === "BRANCH_CASHIER" && requestedId !== req.user?.userId) {
+      if (userRole === "CASHIER" && requestedId !== req.user?.userId) {
         return res.status(403).json({ message: "You can only view your own order history" });
       }
 
@@ -102,10 +102,10 @@ export class OrderController {
   static async getRecentOrders(req: Request, res: Response, next: NextFunction) {
     try {
       const branchId = Number(req.params.branchId);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       
       const filters = {
-        cashierId: userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined
+        cashierId: userRole === "CASHIER" ? req.user?.userId : undefined
       };
 
       const orders = await OrderService.getOrdersByBranch(branchId, 5, filters);

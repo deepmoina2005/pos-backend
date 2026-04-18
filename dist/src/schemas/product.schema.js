@@ -15,6 +15,8 @@ export const createProductSchema = z.object({
     storeId: z.number().int(),
     image: z.string().url().optional().nullable().or(z.literal("")),
     description: z.string().optional(),
+    trackBatchNumber: z.boolean().optional().default(false),
+    trackExpiryDate: z.boolean().optional().default(false),
 });
 export const updateProductSchema = createProductSchema.partial();
 export const updateInventorySchema = z.object({

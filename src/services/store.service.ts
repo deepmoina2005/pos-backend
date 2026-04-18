@@ -3,28 +3,43 @@ import { createStoreSchema, updateStoreSchema } from "../schemas/store.schema.js
 import { ResourceNotFoundError } from "../exceptions/AppError.js";
 import { z } from "zod";
 import { NotificationService } from "./notification.service.js";
+import { normalizeRole } from "../utils/role.util.js";
 
 type CreateStoreInput = z.infer<typeof createStoreSchema>;
 type UpdateStoreInput = z.infer<typeof updateStoreSchema>;
 
 export class StoreService {
   static async createStore(data: CreateStoreInput) {
-    const store = await prisma.store.create({
-      data: {
-        name: data.name,
-        contactEmail: data.contactEmail,
-        contactPhone: data.contactPhone,
-        contactAddress: data.contactAddress,
-        storeAdminId: data.storeAdminId,
-        storeType: data.storeType,
-        gstNumber: data.gstNumber,
-        panNumber: data.panNumber,
-      },
-      include: {
-        storeAdmin: {
-          select: { id: true, email: true, fullName: true }
+    const store = await prisma.$transaction(async (tx) => {
+      const createdStore = await tx.store.create({
+        data: {
+          name: data.name,
+          contactEmail: data.contactEmail,
+          contactPhone: data.contactPhone,
+          contactAddress: data.contactAddress,
+          storeAdminId: data.storeAdminId,
+          storeType: data.storeType,
+          gstNumber: data.gstNumber,
+          panNumber: data.panNumber,
+        },
+        include: {
+          storeAdmin: {
+            select: { id: true, email: true, fullName: true, role: true }
+          }
+        }
+      });
+
+      if (createdStore.storeAdminId) {
+        const ownerRole = normalizeRole(createdStore.storeAdmin?.role);
+        if (ownerRole && ownerRole !== "SUPER_ADMIN") {
+          await tx.user.update({
+            where: { id: createdStore.storeAdminId },
+            data: { storeId: createdStore.id },
+          });
         }
       }
+
+      return createdStore;
     });
 
     await NotificationService.createNotification({
@@ -76,23 +91,39 @@ export class StoreService {
     const store = await prisma.store.findUnique({ where: { id } });
     if (!store) throw new ResourceNotFoundError("Store", id);
 
-    // Create a record of the deleted store
-    await prisma.deletedStore.create({
-      data: {
-        storeId: store.id,
-        name: store.name,
-        reason: reason || "No reason provided",
-        contactEmail: store.contactEmail,
-        contactPhone: store.contactPhone,
-        storeType: store.storeType
-      }
-    });
+    const deletionReason = reason?.trim() || "No reason provided";
 
-    await prisma.store.delete({ where: { id } });
+    await prisma.$transaction(async (tx) => {
+      // Preserve audit trail for deleted stores.
+      await tx.deletedStore.create({
+        data: {
+          storeId: store.id,
+          name: store.name,
+          reason: deletionReason,
+          contactEmail: store.contactEmail,
+          contactPhone: store.contactPhone,
+          storeType: store.storeType
+        }
+      });
+
+      // Prevent FK violation on InventoryBatch -> OrderItemBatch(batchId).
+      // Orders are removed via cascades, but this explicit cleanup keeps delete order deterministic.
+      await tx.orderItemBatch.deleteMany({
+        where: {
+          batch: {
+            branch: {
+              storeId: id,
+            },
+          },
+        },
+      });
+
+      await tx.store.delete({ where: { id } });
+    });
     
     await NotificationService.createNotification({
       title: "Store Deleted",
-      message: `The store "${store.name}" has been deleted by SuperAdmin. Reason: ${reason}`,
+      message: `The store "${store.name}" has been deleted by SuperAdmin. Reason: ${deletionReason}`,
       type: "warning"
     });
 
@@ -103,10 +134,24 @@ export class StoreService {
     const store = await prisma.store.findUnique({ where: { id } });
     if (!store) throw new ResourceNotFoundError("Store", id);
 
-    const updatedStore = await prisma.store.update({
-      where: { id },
-      data: { status },
-      include: { storeAdmin: { select: { id: true, email: true } } }
+    const updatedStore = await prisma.$transaction(async (tx) => {
+      const updated = await tx.store.update({
+        where: { id },
+        data: { status },
+        include: { storeAdmin: { select: { id: true, email: true, role: true } } }
+      });
+
+      if (updated.storeAdminId) {
+        const ownerRole = normalizeRole(updated.storeAdmin?.role);
+        if (ownerRole && ownerRole !== "SUPER_ADMIN") {
+          await tx.user.update({
+            where: { id: updated.storeAdminId },
+            data: { storeId: updated.id },
+          });
+        }
+      }
+
+      return updated;
     });
 
     await NotificationService.createNotification({

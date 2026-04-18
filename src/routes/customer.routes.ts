@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { CustomerController } from "../controllers/customer.controller.js";
 import { authenticateToken } from "../middlewares/auth.middleware.js";
+import { requireActiveAssignment } from "../middlewares/assignment.middleware.js";
 
 const router = Router();
 
 router.use(authenticateToken);
+router.use(requireActiveAssignment);
 
 router.post("/", CustomerController.createCustomer);
 router.get("/", CustomerController.listCustomers);

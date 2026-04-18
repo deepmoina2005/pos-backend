@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { SuperAdminController } from "../controllers/super-admin.controller.js";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware.js";
 
@@ -16,3 +16,4 @@ router.put("/subscription-plans/:id", SuperAdminController.updateSubscriptionPla
 router.delete("/subscription-plans/:id", SuperAdminController.deleteSubscriptionPlan);
 
 export default router;
+

@@ -43,6 +43,13 @@ export const errorHandler = (
       });
       return;
     }
+    if (prismaError.code === "P2003") {
+      res.status(409).json({
+        message: "Data integrity violation: Related records must be removed first",
+        status: 409,
+      });
+      return;
+    }
   }
 
   // Fallback generic error

@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { NotificationController } from "../controllers/notification.controller.js";
 import { authenticateToken } from "../middlewares/auth.middleware.js";
+import { requireActiveAssignment } from "../middlewares/assignment.middleware.js";
 const router = Router();
 router.use(authenticateToken);
+router.use(requireActiveAssignment);
 router.get("/", NotificationController.getNotifications);
 router.put("/mark-all-read", NotificationController.markAllAsRead);
 router.put("/:id/read", NotificationController.markAsRead);

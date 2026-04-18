@@ -1,59 +1,87 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
+import { buildDbRoleFilter } from "../utils/role.util.js";
 export class AnalyticsService {
+    static storeCache = new Map();
+    static CACHE_TTL = 60000; // 60 seconds
+    static async getStoreMetadata(storeAdminId) {
+        const now = Date.now();
+        const cached = this.storeCache.get(storeAdminId);
+        if (cached && cached.expiry > now) {
+            return cached.data;
+        }
+        console.log(`Fetching store metadata for storeAdminId: ${storeAdminId}...`);
+        const data = await withDbRetry(async () => {
+            const store = await prisma.store.findFirst({ where: { storeAdminId } });
+            if (!store)
+                return null;
+            const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
+            const branchIds = branches.map(b => b.id);
+            return { store, branches, branchIds };
+        });
+        if (data) {
+            this.storeCache.set(storeAdminId, { data, expiry: now + this.CACHE_TTL });
+        }
+        return data;
+    }
     // --- Branch Analytics ---
     static async getBranchOverview(branchId, cashierId) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const orders = await prisma.order.findMany({
-            where: {
-                branchId,
-                cashierId: cashierId || undefined,
-                orderDate: { gte: today }
-            }
-        });
-        const totalSales = orders.reduce((sum, o) => sum + o.finalAmount, 0);
-        const orderCount = orders.length;
-        // Get active cashiers today (if restricted to one cashier, this is always 1 or 0)
-        const activeCashiers = cashierId ? (orders.length > 0 ? 1 : 0) : new Set(orders.map(o => o.cashierId)).size;
-        // Get low stock items for this branch's store (Shared data, typically visible to all)
-        const branch = await prisma.branch.findUnique({
-            where: { id: branchId },
-            select: { storeId: true }
-        });
-        const lowStockItems = await prisma.inventory.count({
-            where: {
-                branchId,
-                quantity: { lte: 10 }
-            }
-        });
-        // Get branch-specific lifetime stats
-        const totalEmployees = await prisma.user.count({ where: { branchId } });
-        // Total products and categories are store-wide
-        const totalProducts = branch?.storeId ? await prisma.product.count({ where: { storeId: branch.storeId } }) : 0;
-        const totalCategories = branch?.storeId ? await prisma.category.count({ where: { storeId: branch.storeId } }) : 0;
-        // Total customers (unique customers who ordered at this branch [optionally by this cashier])
-        const totalCustomers = await prisma.order.groupBy({
-            by: ['customerId'],
-            where: {
-                branchId,
-                cashierId: cashierId || undefined
-            },
-        }).then(groups => groups.length);
-        // Get top products
-        const topProducts = await prisma.orderItem.groupBy({
-            by: ['productId'],
-            where: {
-                order: {
+        // Parallelize all branch-level lookup queries
+        const [orders, branch, lowStockItems, totalEmployees, totalCustomersGroups, topProductsRaw] = await Promise.all([
+            prisma.order.findMany({
+                where: {
+                    branchId,
+                    cashierId: cashierId || undefined,
+                    orderDate: { gte: today }
+                }
+            }),
+            prisma.branch.findUnique({
+                where: { id: branchId },
+                select: { storeId: true }
+            }),
+            prisma.inventory.count({
+                where: {
+                    branchId,
+                    quantity: { lte: 10 }
+                }
+            }),
+            prisma.user.count({ where: { branchId } }),
+            prisma.order.groupBy({
+                by: ['customerId'],
+                where: {
                     branchId,
                     cashierId: cashierId || undefined
-                }
-            },
-            _sum: { quantity: true, subtotal: true },
-            orderBy: { _sum: { quantity: 'desc' } },
-            take: 5
-        });
-        // Populate product names
-        const populatedProducts = await Promise.all(topProducts.map(async (p) => {
+                },
+            }),
+            prisma.orderItem.groupBy({
+                by: ['productId'],
+                where: {
+                    order: {
+                        branchId,
+                        cashierId: cashierId || undefined
+                    }
+                },
+                _sum: { quantity: true, subtotal: true },
+                orderBy: { _sum: { quantity: 'desc' } },
+                take: 5
+            })
+        ]);
+        const totalSales = orders.reduce((sum, o) => sum + o.finalAmount, 0);
+        const orderCount = orders.length;
+        // Get active cashiers today
+        const activeCashiers = cashierId ? (orders.length > 0 ? 1 : 0) : new Set(orders.map(o => o.cashierId)).size;
+        // Nested paralell lookup for counts that depend on branch.storeId
+        const [totalProducts, totalCategories] = branch?.storeId
+            ? await Promise.all([
+                prisma.product.count({ where: { storeId: branch.storeId } }),
+                prisma.category.count({ where: { storeId: branch.storeId } })
+            ])
+            : [0, 0];
+        const totalCustomers = totalCustomersGroups.length;
+        // Populate product names for top products
+        const populatedProducts = await Promise.all(topProductsRaw.map(async (p) => {
             const product = await prisma.product.findUnique({ where: { id: p.productId } });
             return {
                 productName: product?.name || 'Unknown',
@@ -165,11 +193,10 @@ export class AnalyticsService {
     }
     // --- Store Analytics ---
     static async getStoreOverview(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return null;
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        const branchIds = branches.map(b => b.id);
+        const { store, branches, branchIds } = metadata;
         const now = new Date();
         const today = new Date(now);
         today.setHours(0, 0, 0, 0);
@@ -177,59 +204,61 @@ export class AnalyticsService {
         yesterday.setDate(yesterday.getDate() - 1);
         const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
         const sixtyDaysAgo = new Date(now.getTime() - (60 * 24 * 60 * 60 * 1000));
-        // Stats for Today
-        const todayOrdersData = await prisma.order.aggregate({
-            where: {
-                branchId: { in: branchIds },
-                orderDate: { gte: today }
-            },
-            _count: { id: true },
-            _sum: { finalAmount: true }
-        });
-        // Stats for Yesterday
-        const yesterdayOrdersData = await prisma.order.aggregate({
-            where: {
-                branchId: { in: branchIds },
-                orderDate: { gte: yesterday, lt: today }
-            },
-            _count: { id: true }
-        });
-        // Active Cashiers Today
-        const activeCashiersToday = await prisma.order.groupBy({
-            by: ['cashierId'],
-            where: {
-                branchId: { in: branchIds },
-                orderDate: { gte: today }
-            }
-        });
-        // Total Sales and Orders (All Time)
-        const totalStats = await prisma.order.aggregate({
-            where: { branchId: { in: branchIds } },
-            _sum: { finalAmount: true },
-            _count: { id: true }
-        });
-        // Previous Period Sales and Orders (Last 30-60 days)
-        const previousPeriodStats = await prisma.order.aggregate({
-            where: {
-                branchId: { in: branchIds },
-                orderDate: { gte: sixtyDaysAgo, lt: thirtyDaysAgo }
-            },
-            _sum: { finalAmount: true },
-            _count: { id: true }
-        });
+        // Parallelize all queries for performance and to reduce connection hold time
+        // Batch 1: Primary Order Statistics
+        const [todayOrdersData, yesterdayOrdersData, activeCashiersToday, totalStats, previousPeriodStats] = await withDbRetry(() => Promise.all([
+            prisma.order.aggregate({
+                where: {
+                    branchId: { in: branchIds },
+                    orderDate: { gte: today }
+                },
+                _count: { id: true },
+                _sum: { finalAmount: true }
+            }),
+            prisma.order.aggregate({
+                where: {
+                    branchId: { in: branchIds },
+                    orderDate: { gte: yesterday, lt: today }
+                },
+                _count: { id: true }
+            }),
+            prisma.order.groupBy({
+                by: ['cashierId'],
+                where: {
+                    branchId: { in: branchIds },
+                    orderDate: { gte: today }
+                }
+            }),
+            prisma.order.aggregate({
+                where: { branchId: { in: branchIds } },
+                _sum: { finalAmount: true },
+                _count: { id: true }
+            }),
+            prisma.order.aggregate({
+                where: {
+                    branchId: { in: branchIds },
+                    orderDate: { gte: sixtyDaysAgo, lt: thirtyDaysAgo }
+                },
+                _sum: { finalAmount: true },
+                _count: { id: true }
+            })
+        ]));
+        // Batch 2: General Store Counts
+        const [totalProducts, totalEmployees] = await withDbRetry(() => Promise.all([
+            prisma.product.count({ where: { storeId: store.id } }),
+            prisma.user.count({
+                where: {
+                    role: { in: ['BRANCH_MANAGER', ...(buildDbRoleFilter("CASHIER") || [])] },
+                    branchId: { in: branchIds }
+                }
+            })
+        ]));
         const totalSales = totalStats._sum.finalAmount || 0;
         const totalOrders = totalStats._count.id || 0;
         const averageOrderValue = totalOrders > 0 ? totalSales / totalOrders : 0;
         const previousPeriodSales = previousPeriodStats._sum.finalAmount || 0;
         const previousPeriodOrders = previousPeriodStats._count.id || 0;
         const previousPeriodAverageOrderValue = previousPeriodOrders > 0 ? previousPeriodSales / previousPeriodOrders : 0;
-        const totalProducts = await prisma.product.count({ where: { storeId: store.id } });
-        const totalEmployees = await prisma.user.count({
-            where: {
-                role: { in: ['BRANCH_MANAGER', 'BRANCH_CASHIER'] },
-                branchId: { in: branchIds }
-            }
-        });
         return {
             totalSales,
             totalBranches: branches.length,
@@ -247,39 +276,65 @@ export class AnalyticsService {
         };
     }
     static async getStoreRecentSales(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
-            return [];
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        const branchIds = branches.map(b => b.id);
-        const recentOrders = await prisma.order.findMany({
-            where: { branchId: { in: branchIds } },
-            include: {
-                branch: { select: { name: true } },
-                customer: { select: { name: true } }
-            },
-            orderBy: { orderDate: 'desc' },
-            take: 10
-        });
-        return recentOrders.map(order => ({
-            id: order.id,
-            orderNumber: order.orderNumber,
-            branchName: order.branch.name,
-            customerName: order.customer?.name || "Walk-in Customer",
-            amount: order.finalAmount,
-            date: order.orderDate,
-            status: order.status
-        }));
+        try {
+            console.log(`Getting recent sales for storeAdminId: ${storeAdminId}`);
+            const metadata = await this.getStoreMetadata(storeAdminId);
+            if (!metadata) {
+                console.warn(`No metadata found for storeAdminId: ${storeAdminId}`);
+                return [];
+            }
+            const { branchIds } = metadata;
+            if (branchIds.length === 0) {
+                console.log(`StoreAdminId: ${storeAdminId} has no branches.`);
+                return [];
+            }
+            const recentOrders = await withDbRetry(() => prisma.order.findMany({
+                where: { branchId: { in: branchIds } },
+                include: {
+                    branch: { select: { name: true } },
+                    customer: { select: { name: true } }
+                },
+                orderBy: { orderDate: 'desc' },
+                take: 10
+            }));
+            console.log(`Found ${recentOrders.length} recent orders for storeAdminId: ${storeAdminId}`);
+            return recentOrders.map(order => ({
+                id: order.id,
+                orderNumber: order.orderNumber,
+                branchName: order.branch.name,
+                customerName: order.customer?.name || "Walk-in Customer",
+                amount: order.finalAmount,
+                date: order.orderDate,
+                status: order.status
+            }));
+        }
+        catch (error) {
+            console.error(`Error in getStoreRecentSales for storeAdminId: ${storeAdminId}:`, error);
+            throw error; // Rethrow to be caught by controller
+        }
     }
     static async getStoreSalesTrends(storeAdminId, period = 'daily') {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return [];
-        const sales = await prisma.order.findMany({
-            where: { branch: { storeId: store.id } },
+        const { store } = metadata;
+        // Optimize: Filter trends by a reasonable date range to prevent massive data fetch
+        const now = new Date();
+        let startDate = new Date();
+        if (period === 'monthly') {
+            startDate.setFullYear(now.getFullYear() - 1); // Last 12 months
+        }
+        else {
+            startDate.setDate(now.getDate() - 30); // Last 30 days
+        }
+        const sales = await withDbRetry(() => prisma.order.findMany({
+            where: {
+                branch: { storeId: store.id },
+                orderDate: { gte: startDate }
+            },
             select: { orderDate: true, finalAmount: true },
             orderBy: { orderDate: 'asc' }
-        });
+        }));
         const trends = {};
         sales.forEach(sale => {
             let dateKey;
@@ -297,12 +352,14 @@ export class AnalyticsService {
         return this.getStoreSalesTrends(storeAdminId, interval);
     }
     static async getStoreSalesByCategory(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return [];
+        const { store } = metadata;
         const orderItems = await prisma.orderItem.findMany({
             where: { order: { branch: { storeId: store.id } } },
-            include: { product: { include: { category: true } } }
+            include: { product: { include: { category: true } } },
+            take: 2000 // Safety limit for large stores
         });
         const categoryStats = {};
         orderItems.forEach(item => {
@@ -312,12 +369,14 @@ export class AnalyticsService {
         return Object.entries(categoryStats).map(([name, value]) => ({ name, value }));
     }
     static async getStoreSalesByPaymentMethod(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return [];
+        const { store } = metadata;
         const orders = await prisma.order.findMany({
             where: { branch: { storeId: store.id } },
             select: { paymentType: true, finalAmount: true },
+            take: 5000 // Safety limit
         });
         const breakdown = {};
         orders.forEach(o => {
@@ -326,9 +385,10 @@ export class AnalyticsService {
         return Object.entries(breakdown).map(([name, value]) => ({ name, value }));
     }
     static async getStoreSalesByBranch(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return [];
+        const { store } = metadata;
         const branchSales = await prisma.order.groupBy({
             by: ['branchId'],
             where: { branch: { storeId: store.id } },
@@ -346,20 +406,22 @@ export class AnalyticsService {
         return this.getStoreSalesByPaymentMethod(storeAdminId);
     }
     static async getStoreBranchPerformance(storeAdminId) {
-        const store = await prisma.store.findFirst({ where: { storeAdminId } });
-        if (!store)
+        const metadata = await this.getStoreMetadata(storeAdminId);
+        if (!metadata)
             return [];
-        const branches = await prisma.branch.findMany({ where: { storeId: store.id } });
-        return Promise.all(branches.map(async (b) => {
-            const sales = await prisma.order.aggregate({
-                where: { branchId: b.id },
-                _sum: { finalAmount: true },
-                _count: { id: true }
-            });
+        const { store } = metadata;
+        const performance = await prisma.order.groupBy({
+            by: ['branchId'],
+            where: { branch: { storeId: store.id } },
+            _sum: { finalAmount: true },
+            _count: { id: true }
+        });
+        return Promise.all(performance.map(async (p) => {
+            const branch = await prisma.branch.findUnique({ where: { id: p.branchId } });
             return {
-                branchName: b.name,
-                totalSales: sales._sum.finalAmount || 0,
-                orderCount: sales._count.id
+                branchName: branch?.name || 'Unknown',
+                totalSales: p._sum.finalAmount || 0,
+                orderCount: p._count.id
             };
         }));
     }

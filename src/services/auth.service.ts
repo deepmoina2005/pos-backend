@@ -17,6 +17,7 @@ import { UserException, ResourceNotFoundError } from "../exceptions/AppError.js"
 import { EmailService } from "./email.service.js";
 import { UserRole } from "../generated/client/index.js";
 import crypto from "crypto";
+import { normalizeRole, normalizeRoleForStorage } from "../utils/role.util.js";
 
 export class AuthService {            
   private static maskEmail(email: string): string {
@@ -57,13 +58,14 @@ export class AuthService {
 
     const hashedPassword = await hashPassword(data.password);
 
+    const roleForStorage = normalizeRoleForStorage(data.role);
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         fullName: data.fullName,
         phoneNumber,
-        role: data.role,
+        role: roleForStorage as any,
       },
       select: {
         id: true,
@@ -73,12 +75,13 @@ export class AuthService {
         createdAt: true,
       },
     });
-    const jwt = generateToken(user.email, user.role, user.id);
+    const normalizedRole = normalizeRole(user.role) || "STORE_ADMIN";
+    const jwt = generateToken(user.email, normalizedRole as UserRole, user.id);
 
     return {
       jwt,
       message: "Signup successful",
-      role: user.role,
+      role: normalizedRole,
       user
     };
   }
@@ -102,12 +105,13 @@ export class AuthService {
       throw new UserException("Invalid email or password");
     }
 
-    const jwt = generateToken(user.email, user.role, user.id);
+    const normalizedRole = normalizeRole(user.role) || "STORE_ADMIN";
+    const jwt = generateToken(user.email, normalizedRole as UserRole, user.id);
 
     return {
       jwt,
       message: "Login success",
-      role: user.role,
+      role: normalizedRole,
     };
   }
 

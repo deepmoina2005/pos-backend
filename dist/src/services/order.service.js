@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
 import { ResourceNotFoundError, UserException } from "../exceptions/AppError.js";
 import { OrderStatus } from "../generated/client/index.js";
 export class OrderService {
@@ -23,17 +24,52 @@ export class OrderService {
         let totalTax = 0;
         let totalItemDiscount = 0; // Sum of ((MRP - unitPrice) * quantity)
         const itemsToCreate = [];
+        const batchDeductions = [];
+        const now = new Date();
         for (const item of data.orderItems) {
             const product = await prisma.product.findUnique({ where: { id: item.productId } });
             if (!product)
                 throw new ResourceNotFoundError("Product", item.productId);
-            // Simple stock check
-            const inventory = await prisma.inventory.findUnique({
-                where: { branchId_productId: { branchId, productId: item.productId } }
-            });
-            if (!inventory || inventory.quantity < item.quantity) {
-                console.error(`Stock check failed: branchId=${branchId}, productId=${item.productId}, requested=${item.quantity}, available=${inventory?.quantity || 0}`);
-                throw new UserException(`Insufficient stock for product: ${product.name}`);
+            // 3.1 Stock Check and Batch Selection
+            if (product.trackBatchNumber || product.trackExpiryDate) {
+                // Fetch valid batches (not expired, sorted by expiry date)
+                const availableBatches = await prisma.inventoryBatch.findMany({
+                    where: {
+                        branchId,
+                        productId: item.productId,
+                        quantity: { gt: 0 },
+                        OR: [
+                            { expiryDate: { gt: now } },
+                            { expiryDate: null }
+                        ]
+                    },
+                    orderBy: { expiryDate: 'asc' } // FIFO: Earliest expiry first
+                });
+                const totalBatchStock = availableBatches.reduce((sum, b) => sum + b.quantity, 0);
+                if (totalBatchStock < item.quantity) {
+                    throw new UserException(`Insufficient unexpired stock for product: ${product.name}. Available: ${totalBatchStock}`);
+                }
+                // Determine which batches to use
+                let remainingToDeduct = item.quantity;
+                const usedBatches = [];
+                for (const batch of availableBatches) {
+                    if (remainingToDeduct <= 0)
+                        break;
+                    const take = Math.min(batch.quantity, remainingToDeduct);
+                    usedBatches.push({ batchId: batch.id, quantity: take });
+                    remainingToDeduct -= take;
+                }
+                batchDeductions.push({ productId: item.productId, quantity: item.quantity, batches: usedBatches });
+            }
+            else {
+                // Simple stock check for non-batch products
+                const inventory = await prisma.inventory.findUnique({
+                    where: { branchId_productId: { branchId, productId: item.productId } }
+                });
+                if (!inventory || inventory.quantity < item.quantity) {
+                    throw new UserException(`Insufficient stock for product: ${product.name}`);
+                }
+                batchDeductions.push({ productId: item.productId, quantity: item.quantity, batches: [] });
             }
             const quantity = item.quantity;
             const unitPrice = item.unitPrice; // Selling price (taxable)
@@ -57,7 +93,8 @@ export class OrderService {
                 gstRate,
                 gstAmount,
                 taxableAmount,
-                subtotal
+                subtotal,
+                isBatchProduct: product.trackBatchNumber || product.trackExpiryDate // Temp flag for internal use
             });
         }
         const orderLevelDiscount = data.discount || 0;
@@ -81,7 +118,10 @@ export class OrderService {
                     cashierId,
                     customerId: data.customerId,
                     orderItems: {
-                        create: itemsToCreate
+                        create: itemsToCreate.map(item => {
+                            const { isBatchProduct, ...cleanItem } = item;
+                            return cleanItem;
+                        })
                     }
                 },
                 include: {
@@ -89,23 +129,44 @@ export class OrderService {
                     customer: true
                 }
             });
-            // Update inventory stock levels
-            for (const item of itemsToCreate) {
+            // Update inventory stock levels and batches
+            for (let i = 0; i < itemsToCreate.length; i++) {
+                const item = itemsToCreate[i];
+                const deduction = batchDeductions[i];
+                const orderItem = order.orderItems.find((oi) => oi.productId === item.productId);
+                // Update total inventory
                 await tx.inventory.update({
                     where: { branchId_productId: { branchId, productId: item.productId } },
                     data: {
                         quantity: { decrement: item.quantity }
                     }
                 });
+                // Update specific batches if tracked
+                if (item.isBatchProduct && orderItem) {
+                    for (const usedBatch of deduction.batches) {
+                        await tx.inventoryBatch.update({
+                            where: { id: usedBatch.batchId },
+                            data: { quantity: { decrement: usedBatch.quantity } }
+                        });
+                        // Track batch usage in OrderItemBatch
+                        await tx.orderItemBatch.create({
+                            data: {
+                                orderItemId: orderItem.id,
+                                batchId: usedBatch.batchId,
+                                quantity: usedBatch.quantity
+                            }
+                        });
+                    }
+                }
             }
             return order;
         }, {
-            timeout: 15000 // Increase timeout to 15 seconds to prevent expired transactions
+            timeout: 20000 // Increased timeout for batch processing
         });
         return result;
     }
     static async getOrderById(id) {
-        const order = await prisma.order.findUnique({
+        const order = await withDbRetry(() => prisma.order.findUnique({
             where: { id },
             include: {
                 orderItems: { include: { product: true } },
@@ -113,7 +174,7 @@ export class OrderService {
                 customer: true,
                 branch: true,
             }
-        });
+        }));
         if (!order)
             throw new ResourceNotFoundError("Order", id);
         return order;
@@ -126,7 +187,7 @@ export class OrderService {
             whereClause.paymentType = filters.paymentType;
         if (filters?.status)
             whereClause.status = filters.status;
-        return await prisma.order.findMany({
+        return await withDbRetry(() => prisma.order.findMany({
             where: whereClause,
             orderBy: { orderDate: 'desc' },
             take: limit,
@@ -135,12 +196,12 @@ export class OrderService {
                 customer: true,
                 cashier: { select: { id: true, fullName: true } }
             }
-        });
+        }));
     }
     static async getTodayOrdersByBranch(branchId) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        return await prisma.order.findMany({
+        return await withDbRetry(() => prisma.order.findMany({
             where: {
                 branchId,
                 orderDate: { gte: today }
@@ -151,20 +212,20 @@ export class OrderService {
                 customer: true,
                 cashier: { select: { id: true, fullName: true } }
             }
-        });
+        }));
     }
     static async getOrdersByCashier(cashierId) {
-        return await prisma.order.findMany({
+        return await withDbRetry(() => prisma.order.findMany({
             where: { cashierId },
             orderBy: { orderDate: 'desc' },
             include: { orderItems: { include: { product: true } }, customer: true }
-        });
+        }));
     }
     static async getOrdersByCustomer(customerId) {
-        return await prisma.order.findMany({
+        return await withDbRetry(() => prisma.order.findMany({
             where: { customerId },
             orderBy: { orderDate: 'desc' },
             include: { orderItems: { include: { product: true } } }
-        });
+        }));
     }
 }

@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { withDbRetry } from "../utils/db-utils.js";
 import { ResourceNotFoundError } from "../exceptions/AppError.js";
 export class InventoryService {
     static async updateStock(branchId, productId, data) {
@@ -21,27 +22,27 @@ export class InventoryService {
         return inventory;
     }
     static async getInventoryByBranch(branchId) {
-        return await prisma.inventory.findMany({
+        return await withDbRetry(() => prisma.inventory.findMany({
             where: { branchId },
             include: {
                 product: {
                     select: { id: true, name: true, sku: true, sellingPrice: true, mrp: true, gst: true }
                 }
             }
-        });
+        }));
     }
     static async getInventoryByProduct(productId) {
-        return await prisma.inventory.findMany({
+        return await withDbRetry(() => prisma.inventory.findMany({
             where: { productId },
             include: {
                 branch: { select: { id: true, name: true } }
             }
-        });
+        }));
     }
     static async getLowStockAlertsByBranch(branchId) {
         // Prisma doesn't support comparing two columns directly in findMany easily without raw. We can filter in JS for now or use raw.
         // For small data JS is fine, for large data we'd use raw.
-        const all = await prisma.inventory.findMany({ where: { branchId }, include: { product: true } });
+        const all = await withDbRetry(() => prisma.inventory.findMany({ where: { branchId }, include: { product: true } }));
         return all.filter((item) => item.quantity < item.minimumStockLevel);
     }
     static async bulkImportInventory(branchId, buffer) {
@@ -117,5 +118,41 @@ export class InventoryService {
             }
         }
         return results;
+    }
+    static async getInventoryBatchesByBranch(branchId) {
+        return await withDbRetry(() => prisma.inventoryBatch.findMany({
+            where: { branchId },
+            include: {
+                product: { select: { id: true, name: true, sku: true, trackBatchNumber: true, trackExpiryDate: true } }
+            },
+            orderBy: { expiryDate: 'asc' }
+        }));
+    }
+    static async getInventoryBatchesByProduct(branchId, productId) {
+        return await withDbRetry(() => prisma.inventoryBatch.findMany({
+            where: { branchId, productId },
+            orderBy: { expiryDate: 'asc' }
+        }));
+    }
+    static async getExpiryAlertsByBranch(branchId) {
+        const now = new Date();
+        const thirtyDaysFromNow = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000));
+        const expired = await withDbRetry(() => prisma.inventoryBatch.findMany({
+            where: {
+                branchId,
+                quantity: { gt: 0 },
+                expiryDate: { lte: now }
+            },
+            include: { product: { select: { name: true, sku: true } } }
+        }));
+        const nearExpiry = await withDbRetry(() => prisma.inventoryBatch.findMany({
+            where: {
+                branchId,
+                quantity: { gt: 0 },
+                expiryDate: { gt: now, lte: thirtyDaysFromNow }
+            },
+            include: { product: { select: { name: true, sku: true } } }
+        }));
+        return { expired, nearExpiry };
     }
 }

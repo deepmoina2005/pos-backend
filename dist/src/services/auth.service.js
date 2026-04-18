@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import { hashPassword, comparePassword, generateToken } from "../utils/security.util.js";
 import { UserException, ResourceNotFoundError } from "../exceptions/AppError.js";
 import { EmailService } from "./email.service.js";
+import { normalizeRole, normalizeRoleForStorage } from "../utils/role.util.js";
 export class AuthService {
     static maskEmail(email) {
         const [local, domain] = email.split("@");
@@ -35,13 +36,14 @@ export class AuthService {
             throw new UserException("Phone number already in use");
         }
         const hashedPassword = await hashPassword(data.password);
+        const roleForStorage = normalizeRoleForStorage(data.role);
         const user = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
                 fullName: data.fullName,
                 phoneNumber,
-                role: data.role,
+                role: roleForStorage,
             },
             select: {
                 id: true,
@@ -51,11 +53,12 @@ export class AuthService {
                 createdAt: true,
             },
         });
-        const jwt = generateToken(user.email, user.role, user.id);
+        const normalizedRole = normalizeRole(user.role) || "STORE_ADMIN";
+        const jwt = generateToken(user.email, normalizedRole, user.id);
         return {
             jwt,
             message: "Signup successful",
-            role: user.role,
+            role: normalizedRole,
             user
         };
     }
@@ -73,11 +76,12 @@ export class AuthService {
             console.log("[AuthService] Invalid password for:", email);
             throw new UserException("Invalid email or password");
         }
-        const jwt = generateToken(user.email, user.role, user.id);
+        const normalizedRole = normalizeRole(user.role) || "STORE_ADMIN";
+        const jwt = generateToken(user.email, normalizedRole, user.id);
         return {
             jwt,
             message: "Login success",
-            role: user.role,
+            role: normalizedRole,
         };
     }
     static async forgotPassword(data) {

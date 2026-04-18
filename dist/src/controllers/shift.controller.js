@@ -58,9 +58,9 @@ export class ShiftReportController {
     }
     static async getBranchShifts(req, res, next) {
         try {
-            const userRole = req.user?.authorities?.replace("ROLE_", "");
+            const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
             const branchId = Number(req.params.branchId);
-            if (userRole === "BRANCH_CASHIER" && req.user?.userId) {
+            if (userRole === "CASHIER" && req.user?.userId) {
                 // Enforce isolation for cashiers
                 const reports = await ShiftReportService.getCashierShifts(req.user.userId);
                 return res.status(200).json(reports);
@@ -74,8 +74,8 @@ export class ShiftReportController {
     }
     static async listAllShifts(req, res, next) {
         try {
-            const userRole = req.user?.authorities?.replace("ROLE_", "");
-            if (userRole === "BRANCH_CASHIER" && req.user?.userId) {
+            const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+            if (userRole === "CASHIER" && req.user?.userId) {
                 const reports = await ShiftReportService.getCashierShifts(req.user.userId);
                 return res.status(200).json(reports);
             }

@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { BranchAnalyticsController, StoreAnalyticsController } from "../controllers/analytics.controller.js";
 import { authenticateToken } from "../middlewares/auth.middleware.js";
+import { requireActiveAssignment } from "../middlewares/assignment.middleware.js";
 const router = Router();
 router.use(authenticateToken);
+router.use(requireActiveAssignment);
 // Branch Analytics (Standardized to match frontend thunks)
 router.get("/today-overview", BranchAnalyticsController.getOverview);
 router.get("/category-sales", BranchAnalyticsController.getCategorySales);

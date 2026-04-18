@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserRole } from "../generated/client/index.js";
+import { normalizeRole } from "../utils/role.util.js";
 const normalizedEmailSchema = z.string().trim().toLowerCase().email();
 const optionalPhoneSchema = z
     .string()
@@ -10,7 +10,10 @@ export const signupSchema = z.object({
     email: normalizedEmailSchema,
     password: z.string().trim().min(6),
     fullName: z.string().trim().min(2),
-    role: z.nativeEnum(UserRole),
+    role: z
+        .string()
+        .transform((value) => normalizeRole(value) || value)
+        .pipe(z.enum(["SUPER_ADMIN", "STORE_ADMIN", "BRANCH_MANAGER", "CASHIER", "CUSTOMER"])),
     phoneNumber: optionalPhoneSchema,
 });
 export const loginSchema = z.object({

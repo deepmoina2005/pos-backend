@@ -26,8 +26,9 @@ const checkTcpConnectivity = (host, port, timeoutMs = 5000) => new Promise((reso
     socket.once("error", (err) => finish(err));
     socket.connect(port, host);
 });
-// Only run the server listener if not in a serverless environment like Vercel
-if (process.env.NODE_ENV !== "production") {
+// Skip listener only in true serverless environments (e.g. Vercel).
+const isServerless = process.env.VERCEL === "1";
+if (!isServerless) {
     const startServer = async () => {
         for (let attempt = 1; attempt <= DB_STARTUP_RETRIES; attempt++) {
             try {

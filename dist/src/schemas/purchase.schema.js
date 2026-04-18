@@ -8,6 +8,9 @@ export const createPurchaseSchema = z.object({
             productId: z.coerce.number().int().positive(),
             quantity: z.coerce.number().int().positive(),
             unitPrice: z.coerce.number().nonnegative(),
+            batchNo: z.string().optional(),
+            expiryDate: z.coerce.string().optional().nullable(),
+            purchasePrice: z.coerce.number().nonnegative().optional(),
         })).min(1, "At least one item is required"),
     }),
 });

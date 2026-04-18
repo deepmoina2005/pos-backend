@@ -21,10 +21,10 @@ export class RefundController {
 
   static async getBranchRefunds(req: Request, res: Response, next: NextFunction) {
     try {
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       const branchId = Number(req.params.branchId);
 
-      if (userRole === "BRANCH_CASHIER" && req.user?.userId) {
+      if (userRole === "CASHIER" && req.user?.userId) {
         const refunds = await RefundService.getRefundsByCashier(req.user.userId);
         return res.status(200).json(refunds);
       }
@@ -38,10 +38,10 @@ export class RefundController {
 
   static async getCashierRefunds(req: Request, res: Response, next: NextFunction) {
     try {
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
       const requestedId = Number(req.params.cashierId);
 
-      if (userRole === "BRANCH_CASHIER" && requestedId !== req.user?.userId) {
+      if (userRole === "CASHIER" && requestedId !== req.user?.userId) {
         return res.status(403).json({ message: "You can only view your own refunds" });
       }
 

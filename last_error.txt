@@ -1,0 +1,15 @@
+PrismaClientKnownRequestError: 
+Invalid `prisma.store.delete()` invocation in
+V:\saas_pos\server\src\services\store.service.ts:91:24
+
+  88   }
+  89 });
+  90 
+→ 91 await prisma.store.delete(
+Foreign key constraint violated on the fields: (`batchId`)
+    at ei.handleRequestError (V:\saas_pos\server\src\generated\client\runtime\library.js:125:7268)
+    at ei.handleAndLogRequestError (V:\saas_pos\server\src\generated\client\runtime\library.js:125:6593)
+    at ei.request (V:\saas_pos\server\src\generated\client\runtime\library.js:125:6300)
+    at async a (V:\saas_pos\server\src\generated\client\runtime\library.js:134:9551)
+    at async Function.deleteStore (V:\saas_pos\server\src\services\store.service.ts:91:5)
+    at async deleteStore (V:\saas_pos\server\src\controllers\store.controller.ts:42:7)

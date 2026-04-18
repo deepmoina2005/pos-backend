@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/user.service.js";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
+import { normalizeRole } from "../utils/role.util.js";
 
 export class UserController {
   static async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const data = createUserSchema.parse(req.body);
-      const requesterRole = (req as any).user.role;
+      const requesterRole = normalizeRole((req as any).user.role || (req as any).user.authorities?.replace("ROLE_", ""));
 
-      // Restrict Branch Manager: Can only create BRANCH_CASHIER in their own branch
+      // Restrict Branch Manager: Can only create CASHIER in their own branch
       if (requesterRole === "BRANCH_MANAGER") {
-        if (data.role !== "BRANCH_CASHIER") {
+        if (normalizeRole(data.role) !== "CASHIER") {
           return res.status(403).json({ message: "Branch Managers can only create Cashiers" });
         }
         if (data.branchId !== (req as any).user.branchId) {
@@ -46,19 +47,19 @@ export class UserController {
   static async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const data = updateUserSchema.parse(req.body);
-      const requesterRole = (req as any).user.role;
+      const requesterRole = normalizeRole((req as any).user.role || (req as any).user.authorities?.replace("ROLE_", ""));
 
-      // Restrict Branch Manager: Can only update BRANCH_CASHIER in their own branch
+      // Restrict Branch Manager: Can only update CASHIER in their own branch
       if (requesterRole === "BRANCH_MANAGER") {
         const branchId = (req as any).user.branchId;
         
-        if (data.role && data.role !== "BRANCH_CASHIER") {
+        if (data.role && normalizeRole(data.role) !== "CASHIER") {
           return res.status(403).json({ message: "Branch Managers can only update to Cashier role" });
         }
         
         // Also ensure they aren't trying to update a user from another branch or a non-cashier
         const targetUser = await UserService.getUserById(Number(req.params.id));
-        if (targetUser.role !== "BRANCH_CASHIER" || targetUser.branchId !== branchId) {
+        if (normalizeRole(targetUser.role) !== "CASHIER" || targetUser.branchId !== branchId) {
            return res.status(403).json({ message: "Branch Managers can only manage Cashiers in their own branch" });
         }
         
@@ -77,13 +78,13 @@ export class UserController {
 
   static async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const requesterRole = (req as any).user.role;
+      const requesterRole = normalizeRole((req as any).user.role || (req as any).user.authorities?.replace("ROLE_", ""));
 
       if (requesterRole === "BRANCH_MANAGER") {
         const branchId = (req as any).user.branchId;
         const targetUser = await UserService.getUserById(Number(req.params.id));
         
-        if (targetUser.role !== "BRANCH_CASHIER" || targetUser.branchId !== branchId) {
+        if (normalizeRole(targetUser.role) !== "CASHIER" || targetUser.branchId !== branchId) {
           return res.status(403).json({ message: "Branch Managers can only delete Cashiers in their own branch" });
         }
       }
@@ -98,7 +99,7 @@ export class UserController {
   static async listUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const { storeId, branchId, role } = req.query;
-      const requesterRole = (req as any).user.role;
+      const requesterRole = normalizeRole((req as any).user.role || (req as any).user.authorities?.replace("ROLE_", ""));
       
       let effectiveStoreId = storeId ? Number(storeId) : undefined;
       let effectiveBranchId = branchId ? Number(branchId) : undefined;

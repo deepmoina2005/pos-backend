@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import { withDbRetry } from "../utils/db-utils.js";
+import { buildDbRoleFilter } from "../utils/role.util.js";
 
 export class AnalyticsService {
   private static storeCache = new Map<number, { data: { store: any, branches: any[], branchIds: number[] }, expiry: number }>();
@@ -295,7 +296,7 @@ export class AnalyticsService {
       prisma.product.count({ where: { storeId: store.id } }),
       prisma.user.count({
         where: {
-          role: { in: ['BRANCH_MANAGER', 'BRANCH_CASHIER'] },
+          role: { in: ['BRANCH_MANAGER', ...(buildDbRoleFilter("CASHIER") || [])] as any[] },
           branchId: { in: branchIds }
         }
       })

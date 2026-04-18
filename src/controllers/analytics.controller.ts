@@ -6,8 +6,8 @@ export class BranchAnalyticsController {
   static async getOverview(req: Request, res: Response, next: NextFunction) {
     try {
       const branchId = Number(req.query.branchId || req.params.branchId);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
-      const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+      const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
 
       const stats = await AnalyticsService.getBranchOverview(branchId, cashierId);
       res.status(200).json(stats);
@@ -19,8 +19,8 @@ export class BranchAnalyticsController {
   static async getCategorySales(req: Request, res: Response, next: NextFunction) {
     try {
       const branchId = Number(req.query.branchId || req.params.branchId);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
-      const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+      const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
 
       const stats = await AnalyticsService.getCategorySales(branchId, cashierId);
       res.status(200).json(stats);
@@ -33,8 +33,8 @@ export class BranchAnalyticsController {
     try {
       const branchId = Number(req.query.branchId);
       const days = Number(req.query.days || 7);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
-      const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+      const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
 
       const stats = await AnalyticsService.getDailySalesChart(branchId, days, cashierId);
       res.status(200).json(stats);
@@ -46,8 +46,8 @@ export class BranchAnalyticsController {
   static async getTopProducts(req: Request, res: Response, next: NextFunction) {
     try {
       const branchId = Number(req.query.branchId);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
-      const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+      const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
 
       const { topProducts } = await AnalyticsService.getBranchOverview(branchId, cashierId);
       res.status(200).json(topProducts);
@@ -59,10 +59,10 @@ export class BranchAnalyticsController {
   static async getTopCashiers(req: Request, res: Response, next: NextFunction) {
     try {
       const branchId = Number(req.query.branchId);
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
 
       // Cashiers shouldn't see top cashiers list (competitive/private data)
-      if (userRole === "BRANCH_CASHIER") {
+      if (userRole === "CASHIER") {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -77,8 +77,8 @@ export class BranchAnalyticsController {
     try {
       const branchId = Number(req.query.branchId);
       const date = req.query.date ? new Date(req.query.date as string) : undefined;
-      const userRole = req.user?.authorities?.replace("ROLE_", "");
-      const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+      const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+      const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
 
       const stats = await AnalyticsService.getPaymentBreakdown(branchId, date, cashierId);
       res.status(200).json(stats);

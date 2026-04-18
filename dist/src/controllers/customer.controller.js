@@ -24,8 +24,8 @@ export class CustomerController {
     static async listCustomers(req, res, next) {
         try {
             const { q } = req.query;
-            const userRole = req.user?.authorities?.replace("ROLE_", "");
-            const cashierId = userRole === "BRANCH_CASHIER" ? req.user?.userId : undefined;
+            const userRole = req.user?.role || req.user?.authorities?.replace("ROLE_", "");
+            const cashierId = userRole === "CASHIER" ? req.user?.userId : undefined;
             const customers = await CustomerService.listCustomers(q, cashierId);
             res.status(200).json(customers);
         }
